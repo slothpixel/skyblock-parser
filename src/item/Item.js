@@ -54,8 +54,8 @@ class Item {
         this.attributes[key] = value;
       }
     });
-    const { hot_potato_count } = this.attributes;
-    let { texture, timestamp } = this.attributes;
+    const { hot_potato_count, timestamp } = this.attributes;
+    let { texture } = this.attributes;
     if (texture) {
       texture = null;
       try {
@@ -68,8 +68,8 @@ class Item {
     if (hot_potato_count) {
       this.attributes.anvil_uses -= hot_potato_count;
     }
-    if (timestamp) {
-      // todo
+    if (timestamp && Number.isNaN(timestamp)) {
+      this.attributes.timestamp = Date.parse(timestamp);
     }
     this.getStats();
   }
