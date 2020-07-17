@@ -1,4 +1,6 @@
+/* eslint-disable camelcase */
 const { removeFormatting, getNestedObjects } = require('../util');
+const constants = require('../constants');
 
 const itemSchema = {
   item_id: 'id',
@@ -19,10 +21,19 @@ const attributeSchema = {
   timestamp: 'tag.ExtraAttributes.timestamp',
   color: 'tag.ExtraAttribute.color',
   rarity_upgrades: 'tag.ExtraAttributes.rarity_upgrades',
+  baseStatBoostPercentage: 'tag.ExtraAttributes.baseStatBoostPercentage',
+  dungeon_floor: 'tag.ExtraAttributes.item_tier',
   texture: 'tag.SkullOwner.Properties.textures',
 };
 
+/**
+* Represents a SkyBlock item
+ */
 class Item {
+  /**
+  * @param {Object} nbt raw simplified NBT data
+  * @param {Boolean} active Item state, indicating whether item provides bonuses
+   */
   constructor(nbt, active = true) {
     this.active = active;
     this.stats = {};
@@ -43,18 +54,32 @@ class Item {
         this.attributes[key] = value;
       }
     });
-    if (this.attributes.texture) {
-      this.attributes.texture = JSON.parse(Buffer.from(this.attributes.texture[0].Value, 'base64').toString()).textures.SKIN.url.split('/').pop();
+    const { hot_potato_count } = this.attributes;
+    let { texture, timestamp } = this.attributes;
+    if (texture) {
+      texture = null;
+      try {
+        texture = JSON.parse(Buffer.from(this.attributes.texture[0].Value, 'base64').toString()).textures.SKIN.url.split('/').pop();
+      } catch (e) {
+        // do nothing
+      }
+      this.attributes.texture = texture;
     }
-    if (this.attributes.hot_potato_count) {
-      this.attributes.anvil_uses -= this.attributes.hot_potato_count;
+    if (hot_potato_count) {
+      this.attributes.anvil_uses -= hot_potato_count;
     }
-    if (this.attributes.timestamp) {
+    if (timestamp) {
       // todo
     }
+    this.getStats();
   }
 
+  /**
+   * Return stats modified by the item
+   * @type {object}
+   */
   parseStats() {
+    const bonus = { ...constants.statTemplate };
     this.lore.forEach((line) => {
       const split = removeFormatting(line).split(':');
 
@@ -64,43 +89,49 @@ class Item {
       // eslint-disable-next-line default-case
       switch (statType) {
         case 'Damage':
-          this.stats.damage = statValue;
+          bonus.damage = statValue;
           break;
         case 'Health':
-          this.stats.health = statValue;
+          bonus.health = statValue;
           break;
         case 'Defense':
-          this.stats.defense = statValue;
+          bonus.defense = statValue;
           break;
         case 'Strength':
-          this.stats.strength = statValue;
+          bonus.strength = statValue;
           break;
         case 'Speed':
-          this.stats.speed = statValue;
+          bonus.speed = statValue;
           break;
         case 'Crit Chance':
-          this.stats.crit_chance = statValue;
+          bonus.crit_chance = statValue;
           break;
         case 'Crit Damage':
-          this.stats.crit_damage = statValue;
+          bonus.crit_damage = statValue;
           break;
         case 'Bonus Attack Speed':
-          this.stats.bonus_attack_speed = statValue;
+          bonus.bonus_attack_speed = statValue;
           break;
         case 'Intelligence':
-          this.stats.intelligence = statValue;
+          bonus.intelligence = statValue;
           break;
         case 'Sea Creature Chance':
-          this.stats.sea_creature_chance = statValue;
+          bonus.sea_creature_chance = statValue;
           break;
         case 'Magic Find':
-          this.stats.magic_find = statValue;
+          bonus.magic_find = statValue;
           break;
         case 'Pet Luck':
-          this.stats.pet_luck = statValue;
+          bonus.pet_luck = statValue;
           break;
       }
     });
+    return bonus;
+  }
+
+  getStats() {
+    if (!this.active) return;
+    this.stats = this.parseStats();
   }
 
   getSkullTexture() {
