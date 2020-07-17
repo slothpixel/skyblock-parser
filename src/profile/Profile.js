@@ -1,11 +1,25 @@
 const Player = require('../player/Player');
 
 class Profile {
+  /**
+   * Profile class
+   * @param profile {Object} Profile object returned by the Hypixel API
+   * @type {Promise}
+   */
   constructor(profile = {}) {
-    if (!profile.profile_id) throw new Error('Invalid skyblock profile');
-    this.id = profile.profile_id;
-    this.banking = profile.banking;
-    this.members = Object.keys(profile.members).map((key) => new Player(key, profile.members[key]));
+    return (async () => {
+      if (!profile.profile_id) throw new Error('Invalid skyblock profile');
+      this.id = profile.profile_id;
+      const banking = profile.banking || {};
+      this.banking = {
+        balance: banking.balance || null,
+        transactions: banking.transactions || [],
+      };
+      this.members = Object.keys(profile.members).map(async (key) => {
+        await new Player(key, profile.members[key]);
+      });
+      return this;
+    })();
   }
 }
 
