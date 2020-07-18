@@ -18,7 +18,8 @@ const baseStats = {
   pet_luck: 0,
 };
 
-async function getInventory({ data }, active = false) {
+async function getInventory({ data = '' }, active = false) {
+  if (data === '') return null;
   const { i } = await util.decodeData(data);
   return i.map((item) => new Item(item, active));
 }

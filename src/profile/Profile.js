@@ -15,9 +15,8 @@ class Profile {
         balance: banking.balance || null,
         transactions: banking.transactions || [],
       };
-      this.members = Object.keys(profile.members).map(async (key) => {
-        await new Player(key, profile.members[key]);
-      });
+      this.members = await Promise.all(Object.keys(profile.members)
+        .map(async (key) => new Player(key, profile.members[key])));
       return this;
     })();
   }
