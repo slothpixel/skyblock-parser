@@ -17,6 +17,8 @@ class Profile {
       };
       this.members = await Promise.all(Object.keys(profile.members)
         .map(async (key) => new Player(key, profile.members[key])));
+
+      this.unlocked_minions = {};
       return this;
     })();
   }

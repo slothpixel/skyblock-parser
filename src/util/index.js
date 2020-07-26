@@ -26,6 +26,39 @@ function getNestedObjects(object = {}, pathString = '') {
   return object;
 }
 
+function fromEntries(array) {
+  return array.reduce((object, [key, value]) => {
+    // eslint-disable-next-line no-param-reassign
+    object[key] = value;
+    return object;
+  }, {});
+}
+
+/*
+ * Pick certain keys from obj.
+ *
+ * Options:
+ *    regexp: A regex object that the keys must pass.
+ *        Defaults to .*
+ *    filter: A function that is passed both the key
+ *        and value, and returns a boolean. Defaults
+ *        to (() => true).
+ *    keyMap: A function that remaps all keys that
+ *        pass the above two tests. Defaults to
+ *        (key => key).
+ *    valueMap: Same as keyMap, but for the values.
+ */
+function pickKeys(object, options) {
+  const regexp = options.regexp || /.+/;
+  const filter = options.filter || (() => true);
+  const keyMap = options.keyMap || ((key) => key);
+  const valueMap = options.valueMap || ((value) => value);
+
+  return fromEntries(Object.entries(object)
+    .filter(([key, value]) => regexp.test(key) && filter(key, value))
+    .map(([key, value]) => [keyMap(key), valueMap(value)]));
+}
+
 function getLevelByXp(xp = 0, runecrafting) {
   const xpTable = runecrafting ? constants.runecraftingXp : constants.levelingXp;
   if (Number.isNaN(xp)) {
@@ -167,6 +200,7 @@ module.exports = {
   removeFormatting,
   decodeData,
   getNestedObjects,
+  pickKeys,
   getLevelByXp,
   getSlayerLevel,
   getPetLevel,
