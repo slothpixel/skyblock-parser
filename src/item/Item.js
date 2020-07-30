@@ -36,6 +36,8 @@ class Item {
    */
   constructor(nbt, active = true) {
     this.active = active;
+    this.rarity = null;
+    this.type = null;
     this.stats = {};
     this.damage = 0;
     this.lore = [];
@@ -71,6 +73,17 @@ class Item {
     if (timestamp && Number.isNaN(timestamp)) {
       this.attributes.timestamp = Date.parse(timestamp);
     }
+    const { lore } = this;
+    if (lore.length > 0) {
+      const rarityType = removeFormatting(lore[lore.length - 1].replace(/§ka(§r )?/g, '')).split(' ');
+      // TODO - Update to work with Very Special
+      this.rarity = rarityType.shift().toLowerCase();
+      if (rarityType.length > 0) {
+        this.type = rarityType.join(' ').toLowerCase();
+      }
+    }
+
+    if (this.type === 'hatccessory') this.type = 'accessory';
     this.getStats();
   }
 
@@ -79,7 +92,7 @@ class Item {
    * @type {object}
    */
   parseStats() {
-    const bonus = { ...constants.statTemplate };
+    const bonus = {};
     this.lore.forEach((line) => {
       const split = removeFormatting(line).split(':');
 
