@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable camelcase,no-param-reassign */
 const util = require('../util');
 const Item = require('../item/Item');
 
@@ -108,7 +108,7 @@ class Player {
   constructor(uuid, data) {
     return (async () => {
       this.uuid = uuid;
-      this.stats = baseStats;
+      this.player = baseStats;
 
       const {
         last_save = null,
@@ -192,13 +192,99 @@ class Player {
       const skills = getSkills(/^experience_skill_(?!runecrafting)/);
       skills.runecrafting = util.getLevelByXp(rest.experience_skill_runecrafting, true);
 
+      this.last_save = last_save;
+      this.first_join = first_join;
+      this.coin_purse = Math.round(coin_purse);
+      this.fairy_souls_collected = fairy_souls_collected;
+      this.fairy_souls = fairy_souls;
+      this.fairy_exchanges = fairy_exchanges;
+      this.pets = pets;
+      this.skills = skills;
+      this.collection = collection;
+      this.collection_tiers = collection_tiers;
+      this.collections_unlocked = Object.keys(collection_tiers).length;
+      this.minions = getUnlockedTier(crafted_generators);
+      this.slayer = {
+        zombie: getSlayer(slayer_bosses.zombie || {}),
+        spider: getSlayer(slayer_bosses.spider || {}),
+        wolf: getSlayer(slayer_bosses.wolf || {}),
+      };
+
       return this;
     })();
   }
 
+  getFairyBonus() {
+    const bonus = {
+      speed: 0, strength: 0, defense: 0, health: 0,
+    };
+    bonus.speed = Math.floor(this.fairy_exchanges / 10);
+
+    for (let i = 0; i < this.fairy_exchanges; i += 1) {
+      bonus.strength += (i + 1) % 5 === 0 ? 2 : 1;
+      bonus.defense += (i + 1) % 5 === 0 ? 2 : 1;
+      bonus.health += 3 + Math.floor(i / 2);
+    }
+    return bonus;
+  }
+
+  isArmorSet(startsWith, requiredPieces = 4) {
+    return this.armor.filter((a) => a.attributes.id.startsWith(startsWith))
+      .length === requiredPieces;
+  }
+
+  // Returns accessories that provide bonuses
+  getActiveAccessories() {
+    let accessories = [
+      ...this.talisman_bag,
+      ...this.inventory,
+      ...this.armor,
+    ].filter((item) => item.type === 'accessory');
+
+    const maxCampFireTier = Math.max(...accessories.filter((i) => i.getId().startsWith('CAMPFIRE_TALISMAN_'))
+      .map((a) => a.getId().split('_').pop()));
+    const maxRingTier = Math.max(...accessories.filter((i) => i.getId().startsWith('WEDDING_RING_'))
+      .map((a) => a.getId().split('_').pop()));
+    // Don't count lower tier talismans
+    accessories.forEach((item) => {
+      const { id } = item.attributes;
+      if (id.startsWith('CAMPFIRE_TALISMAN_')) {
+        const tier = parseInt(id.split('_').pop(), 10);
+        if (tier < maxCampFireTier) item.active = false;
+      }
+      if (id.startsWith('WEDDING_RING_')) {
+        const tier = parseInt(id.split('_').pop(), 10);
+        if (tier < maxRingTier) item.active = false;
+      }
+      // item.active = true;
+    });
+    // Don't count duplicated talismans
+    accessories = [...new Set(accessories.map((item) => item.attributes.id))];
+    return accessories.filter((item) => item.active);
+  }
+
+  getBonuses() {
+    const bonuses = [];
+    // New year cake bag
+    // Fairy souls
+    bonuses.push({
+      type: 'FAIRY_SOULS',
+      bonus: this.getFairyBonus(),
+    });
+    // Slayers
+    // Pet rewards
+    // Melody
+    // Skills
+    // Accessories
+    // Armor
+    // Active weapon?
+    // Pet
+    return bonuses;
+  }
+
   getEHP() {
-    if (this.stats.defense <= 0) return this.stats.health;
-    return Math.round(this.stats.health * (1 + this.stats.defense / 100));
+    if (this.player.defense <= 0) return this.player.health;
+    return Math.round(this.player.health * (1 + this.player.defense / 100));
   }
 }
 
