@@ -9,8 +9,8 @@ function removeFormatting(i) {
   return i.replace(/§./g, '');
 }
 
-async function decodeData(data) {
-  const parsedNbt = await parseNbt(Buffer.from(data, 'base64'));
+async function decodeData(buffer) {
+  const parsedNbt = await parseNbt(buffer);
   return nbt.simplify(parsedNbt);
 }
 

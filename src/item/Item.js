@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const { removeFormatting, getNestedObjects } = require('../util');
+const { removeFormatting, decodeData, getNestedObjects } = require('../util');
 const constants = require('../constants');
 
 const itemSchema = {
@@ -33,58 +33,77 @@ class Item {
   /**
   * @param {Object} nbt raw simplified NBT data
   * @param {Boolean} active Item state, indicating whether item provides bonuses
+  * @type {Promise}
    */
   constructor(nbt, active = true) {
-    this.active = active;
-    this.rarity = null;
-    this.type = null;
-    this.stats = {};
-    this.damage = 0;
-    this.lore = [];
-    this.attributes = {};
-    // Extract basic fields from NBT
-    Object.keys(itemSchema).forEach((key) => {
-      const value = getNestedObjects(nbt, itemSchema[key]);
-      if (value) {
-        this[key] = value;
+    return (async () => {
+      this.active = active;
+      this.name = null;
+      this.rarity = null;
+      this.type = null;
+      this.stats = {};
+      this.damage = 0;
+      this.lore = [];
+      this.attributes = {};
+      if (Object.entries(nbt).length === 0) return this;
+      // Extract basic fields from NBT
+      Object.keys(itemSchema).forEach((key) => {
+        const value = getNestedObjects(nbt, itemSchema[key]);
+        if (value) {
+          this[key] = value;
+        }
+      });
+      // Extract attributes from NBT
+      Object.keys(attributeSchema).forEach((key) => {
+        const value = getNestedObjects(nbt, attributeSchema[key]);
+        if (value) {
+          this.attributes[key] = value;
+        }
+      });
+      const { hot_potato_count, timestamp } = this.attributes;
+      let { texture } = this.attributes;
+      if (texture) {
+        texture = null;
+        try {
+          texture = JSON.parse(Buffer.from(this.attributes.texture[0].Value, 'base64').toString()).textures.SKIN.url.split('/').pop();
+        } catch (e) {
+          // do nothing
+        }
+        this.attributes.texture = texture;
       }
-    });
-    // Extract attributes from NBT
-    Object.keys(attributeSchema).forEach((key) => {
-      const value = getNestedObjects(nbt, attributeSchema[key]);
-      if (value) {
-        this.attributes[key] = value;
+      if (hot_potato_count) {
+        this.attributes.anvil_uses -= hot_potato_count;
       }
-    });
-    const { hot_potato_count, timestamp } = this.attributes;
-    let { texture } = this.attributes;
-    if (texture) {
-      texture = null;
-      try {
-        texture = JSON.parse(Buffer.from(this.attributes.texture[0].Value, 'base64').toString()).textures.SKIN.url.split('/').pop();
-      } catch (e) {
-        // do nothing
+      // TODO - Improve accuracy
+      if (timestamp && Number.isNaN(timestamp)) {
+        this.attributes.timestamp = Date.parse(timestamp);
       }
-      this.attributes.texture = texture;
-    }
-    if (hot_potato_count) {
-      this.attributes.anvil_uses -= hot_potato_count;
-    }
-    if (timestamp && Number.isNaN(timestamp)) {
-      this.attributes.timestamp = Date.parse(timestamp);
-    }
-    const { lore } = this;
-    if (lore.length > 0) {
-      const rarityType = removeFormatting(lore[lore.length - 1].replace(/§ka(§r )?/g, '')).split(' ');
-      // TODO - Update to work with Very Special
-      this.rarity = rarityType.shift().toLowerCase();
-      if (rarityType.length > 0) {
-        this.type = rarityType.join(' ').toLowerCase();
+      const { name, lore } = this;
+      // Backpack data
+      if (name.endsWith('Backpack') || name.endsWith('New Year Cake Bag')) {
+        const extraAttributes = getNestedObjects(nbt, 'tag.ExtraAttributes');
+        // console.log(extraAttributes);
+        const dataKey = Object.keys(extraAttributes).find((key) => key.endsWith('backpack_data')
+          || key === 'new_year_cake_bag_data');
+        const backpackData = extraAttributes[dataKey];
+        if (Array.isArray(backpackData)) {
+          const { i } = await decodeData(Buffer.from(backpackData));
+          this.inventory = await Promise.all(i.map(async (item) => new Item(item)));
+        }
       }
-    }
+      if (lore.length > 0) {
+        const rarityType = removeFormatting(lore[lore.length - 1].replace(/§ka(§r )?/g, '')).split(' ');
+        // TODO - Update to work with Very Special
+        this.rarity = rarityType.shift().toLowerCase();
+        if (rarityType.length > 0) {
+          this.type = rarityType.join(' ').toLowerCase();
+        }
+      }
 
-    if (this.type === 'hatccessory') this.type = 'accessory';
-    this.getStats();
+      if (this.type === 'hatccessory') this.type = 'accessory';
+      this.getStats();
+      return this;
+    })();
   }
 
   /**
@@ -145,6 +164,10 @@ class Item {
   getStats() {
     if (!this.active) return;
     this.stats = this.parseStats();
+  }
+
+  getId() {
+    return this.attributes.id;
   }
 
   getSkullTexture() {

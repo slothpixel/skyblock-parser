@@ -21,8 +21,8 @@ const baseStats = {
 
 async function getInventory({ data = '' }, active = false) {
   if (data === '') return null;
-  const { i } = await util.decodeData(data);
-  return i.map((item) => new Item(item, active));
+  const { i } = await util.decodeData(Buffer.from(data, 'base64'));
+  return Promise.all(i.map(async (item) => new Item(item, active)));
 }
 
 // Process the stats object
