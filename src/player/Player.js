@@ -108,7 +108,7 @@ class Player {
   constructor(uuid, data) {
     return (async () => {
       this.uuid = uuid;
-      this.player = baseStats;
+      this.attributes = { ...baseStats };
 
       const {
         last_save = null,
@@ -210,6 +210,8 @@ class Player {
         wolf: getSlayer(slayer_bosses.wolf || {}),
       };
 
+      this.bonuses = this.getBonuses();
+      this.applyBonuses();
       return this;
     })();
   }
@@ -269,6 +271,7 @@ class Player {
     // Fairy souls
     bonuses.push({
       type: 'FAIRY_SOULS',
+      operation: 'add',
       bonus: this.getFairyBonus(),
     });
     // Slayers
@@ -282,9 +285,32 @@ class Player {
     return bonuses;
   }
 
+  applyBonuses() {
+    const additions = [];
+    const multiplications = [];
+    this.bonuses.forEach((k) => {
+      if (k.operation === 'add') {
+        additions.push(k);
+      } else {
+        multiplications.push(k);
+      }
+    });
+    additions.forEach((element) => {
+      Object.keys(element.bonus).forEach((key) => {
+        // console.log(key);
+        this.attributes[key] += element.bonus[key];
+      });
+    });
+    multiplications.forEach((element) => {
+      Object.keys(element.bonus).forEach((key) => {
+        this.attributes[key] *= element.bonus[key];
+      });
+    });
+  }
+
   getEHP() {
-    if (this.player.defense <= 0) return this.player.health;
-    return Math.round(this.player.health * (1 + this.player.defense / 100));
+    if (this.attributes.defense <= 0) return this.attributes.health;
+    return Math.round(this.attributes.health * (1 + this.attributes.defense / 100));
   }
 }
 
