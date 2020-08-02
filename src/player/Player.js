@@ -230,6 +230,15 @@ class Player {
     return bonus;
   }
 
+  getCakeBonus() {
+    const bonus = { health: 0 };
+    const cakeBag = this.active_accessories.find((item) => item.getId() === 'NEW_YEAR_CAKE_BAG') || {};
+    const cakes = (cakeBag.inventory || []).filter((item) => item.getId() === 'NEW_YEAR_CAKE');
+    // Get unique years
+    bonus.health += [...new Set(cakes)].length;
+    return bonus;
+  }
+
   isArmorSet(startsWith, requiredPieces = 4) {
     return this.armor.filter((a) => a.attributes.id.startsWith(startsWith))
       .length === requiredPieces;
@@ -261,13 +270,19 @@ class Player {
       // item.active = true;
     });
     // Don't count duplicated talismans
-    accessories = [...new Set(accessories.map((item) => item.attributes.id))];
-    return accessories.filter((item) => item.active);
+    accessories = [...new Map(accessories.map((item) => [item.attributes.id, item])).values()];
+    this.active_accessories = accessories.filter((item) => item.active);
   }
 
   getBonuses() {
     const bonuses = [];
+    this.getActiveAccessories();
     // New year cake bag
+    bonuses.push({
+      type: 'NEW_YEAR_CAKEBAG',
+      operation: 'add',
+      bonus: this.getCakeBonus(),
+    });
     // Fairy souls
     bonuses.push({
       type: 'FAIRY_SOULS',

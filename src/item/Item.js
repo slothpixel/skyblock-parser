@@ -80,9 +80,8 @@ class Item {
       }
       const { name, lore } = this;
       // Backpack data
-      if (name.endsWith('Backpack') || name.endsWith('New Year Cake Bag')) {
+      if (name.endsWith('Backpack') || this.getId() === 'NEW_YEAR_CAKE_BAG') {
         const extraAttributes = getNestedObjects(nbt, 'tag.ExtraAttributes');
-        // console.log(extraAttributes);
         const dataKey = Object.keys(extraAttributes).find((key) => key.endsWith('backpack_data')
           || key === 'new_year_cake_bag_data');
         const backpackData = extraAttributes[dataKey];
@@ -90,6 +89,9 @@ class Item {
           const { i } = await decodeData(Buffer.from(backpackData));
           this.inventory = await Promise.all(i.map(async (item) => new Item(item)));
         }
+      }
+      if (this.getId() === 'NEW_YEAR_CAKE') {
+        this.cake_year = getNestedObjects(nbt, 'tag.ExtraAttributes.new_years_cake');
       }
       if (lore.length > 0) {
         const rarityType = removeFormatting(lore[lore.length - 1].replace(/§ka(§r )?/g, '')).split(' ');
