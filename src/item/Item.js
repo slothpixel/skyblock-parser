@@ -23,6 +23,7 @@ const attributeSchema = {
   rarity_upgrades: 'tag.ExtraAttributes.rarity_upgrades',
   baseStatBoostPercentage: 'tag.ExtraAttributes.baseStatBoostPercentage',
   dungeon_floor: 'tag.ExtraAttributes.item_tier',
+  cake_year: 'tag.ExtraAttributes.new_years_cake',
   texture: 'tag.SkullOwner.Properties.textures',
 };
 
@@ -89,9 +90,6 @@ class Item {
           const { i } = await decodeData(Buffer.from(backpackData));
           this.inventory = await Promise.all(i.map(async (item) => new Item(item)));
         }
-      }
-      if (this.getId() === 'NEW_YEAR_CAKE') {
-        this.cake_year = getNestedObjects(nbt, 'tag.ExtraAttributes.new_years_cake');
       }
       if (lore.length > 0) {
         const rarityType = removeFormatting(lore[lore.length - 1].replace(/§ka(§r )?/g, '')).split(' ');

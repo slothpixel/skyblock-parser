@@ -235,7 +235,7 @@ class Player {
     const cakeBag = this.active_accessories.find((item) => item.getId() === 'NEW_YEAR_CAKE_BAG') || {};
     const cakes = (cakeBag.inventory || []).filter((item) => item.getId() === 'NEW_YEAR_CAKE');
     // Get unique years
-    bonus.health += [...new Set(cakes)].length;
+    bonus.health += [...new Set(cakes.map((i) => i.attributes.cake_year))].length;
     return bonus;
   }
 
