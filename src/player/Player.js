@@ -321,6 +321,15 @@ class Player {
         this.attributes[key] *= element.bonus[key];
       });
     });
+    if (this.isArmorSet('CHEAP_TUXEDO_', 3)) {
+      this.attributes.health = 75;
+    }
+    if (this.isArmorSet('FANCY_TUXEDO_', 3)) {
+      this.attributes.health = 150;
+    }
+    if (this.isArmorSet('ELEGANT_TUXEDO_', 3)) {
+      this.attributes.health = 250;
+    }
   }
 
   getEHP() {
