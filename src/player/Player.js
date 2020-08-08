@@ -1,5 +1,6 @@
 /* eslint-disable camelcase,no-param-reassign */
 const util = require('../util');
+const constants = require('../constants');
 const Item = require('../item/Item');
 
 const baseStats = {
@@ -20,7 +21,7 @@ const baseStats = {
 };
 
 async function getInventory({ data = '' }, active = false) {
-  if (data === '') return null;
+  if (data === '') return [];
   const { i } = await util.decodeData(Buffer.from(data, 'base64'));
   return Promise.all(i.map(async (item) => new Item(item, active)));
 }
@@ -239,8 +240,19 @@ class Player {
     return bonus;
   }
 
+  getItemBonuses(name) {
+    const items = this[name];
+    const bonus = { ...constants.statTemplate };
+    items.forEach((item) => {
+      Object.keys(item.stats).forEach((stat) => {
+        bonus[stat] += item.stats[stat];
+      });
+    });
+    return bonus;
+  }
+
   isArmorSet(startsWith, requiredPieces = 4) {
-    return this.armor.filter((a) => a.attributes.id.startsWith(startsWith))
+    return this.armor.filter((a) => a.name !== null && a.attributes.id.startsWith(startsWith))
       .length === requiredPieces;
   }
 
@@ -292,9 +304,38 @@ class Player {
     // Slayers
     // Pet rewards
     // Melody
+    if (this.active_accessories.some((i) => i.getId() === 'MELODY_HAIR')) {
+      bonuses.push({
+        type: 'MELODY',
+        operation: 'add',
+        bonus: { intelligence: 26 },
+      });
+    }
     // Skills
     // Accessories
+    bonuses.push({
+      type: 'ACCESSORIES',
+      operation: 'add',
+      bonus: this.getItemBonuses('active_accessories'),
+    });
     // Armor
+    bonuses.push({
+      type: 'ARMOR',
+      operation: 'add',
+      bonus: this.getItemBonuses('armor'),
+    });
+    // Superior Dragon Armor bonus
+    if (this.isArmorSet('SUPERIOR_DRAGON_')) {
+      const superiorBonus = { ...constants.statTemplate };
+      Object.keys(superiorBonus).forEach((stat) => {
+        superiorBonus[stat] = 1.05;
+      });
+      bonuses.push({
+        type: 'SUPERIOR_BLOOD',
+        operation: 'multiply',
+        bonus: superiorBonus,
+      });
+    }
     // Active weapon?
     // Pet
     return bonuses;
