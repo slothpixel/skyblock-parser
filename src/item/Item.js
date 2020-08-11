@@ -75,10 +75,7 @@ class Item {
       if (hot_potato_count) {
         this.attributes.anvil_uses -= hot_potato_count;
       }
-      // TODO - Improve accuracy
-      if (timestamp && Number.isNaN(timestamp)) {
-        this.attributes.timestamp = Date.parse(timestamp);
-      }
+      this.attributes.timestamp = Date.parse(timestamp) || null;
       const { name, lore } = this;
       // Backpack data
       if (name.endsWith('Backpack') || this.getId() === 'NEW_YEAR_CAKE_BAG') {
