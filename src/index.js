@@ -10,4 +10,5 @@ module.exports = {
   constants: require('./constants'),
   // Utilities
   removeFormatting: util.removeFormatting,
+  decodeData: util.decodeData,
 };
