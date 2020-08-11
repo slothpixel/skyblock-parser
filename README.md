@@ -30,7 +30,8 @@ const profileId = '83eeafe88f68419a8192406efe69fd86';
   const json = await api.json();
   const profile = await new Profile(json.profile);
   
-  profile.members.forEach((member) => {
+  Object.keys(profile.members).forEach((uuid) => {
+    const member = profile.members[uuid]
     console.log(member.uuid, member.stats)
   });
 })();
