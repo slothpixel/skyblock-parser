@@ -2,6 +2,16 @@
 const { removeFormatting, decodeData, getNestedObjects } = require('../util');
 const constants = require('../constants');
 
+const rarityMap = {
+  f: 'common',
+  a: 'uncommon',
+  9: 'rare',
+  5: 'epic',
+  6: 'legendary',
+  d: 'mythic',
+  c: 'special',
+};
+
 const itemSchema = {
   item_id: 'id',
   count: 'Count',
@@ -89,9 +99,15 @@ class Item {
         }
       }
       if (lore.length > 0) {
-        const rarityType = removeFormatting(lore[lore.length - 1].replace(/§ka(§r )?/g, '')).split(' ');
-        // TODO - Update to work with Very Special
-        this.rarity = rarityType.shift().toLowerCase();
+        const loreRaw = lore[lore.length - 1];
+        const rarityType = removeFormatting(loreRaw.replace(/§ka(§r )?/g, '')).split(' ');
+        // By using rarity color we can bypass localization restrictions
+        this.rarity = rarityMap[loreRaw.charAt(1)];
+        if (this.rarity === 'special' && rarityType[0] === 'VERY') {
+          this.rarity = 'very_special';
+          rarityType.shift();
+        }
+        rarityType.shift();
         if (rarityType.length > 0) {
           this.type = rarityType.join(' ').toLowerCase();
         }
