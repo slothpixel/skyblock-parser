@@ -49,7 +49,7 @@ class Item {
   constructor(nbt, active = true) {
     return (async () => {
       this.active = active;
-      this.name = null;
+      this.name = '';
       this.rarity = null;
       this.type = null;
       this.stats = {};
@@ -185,6 +185,20 @@ class Item {
 
   getSkullTexture() {
     return `http://textures.minecraft.net/texture/${this.texture}`;
+  }
+
+  /**
+   * Remove unwanted properties
+   * @param properties {Array}
+   */
+  deleteProperties(properties = []) {
+    properties.forEach((property) => {
+      try {
+        delete this[property];
+      } catch (e) {
+        // do nothing
+      }
+    });
   }
 }
 
