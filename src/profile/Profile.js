@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const Player = require('../player/Player');
 
 class Profile {
@@ -21,7 +22,16 @@ class Profile {
         balance: banking.balance || null,
         transactions: banking.transactions || [],
       };
-      this.unlocked_minions = {};
+      const unlocked_minions = {};
+      Object.keys(this.members).forEach((uuid) => {
+        const { minions } = this.members[uuid];
+        Object.keys(minions).forEach((minion) => {
+          if (unlocked_minions[minion] < minions[minion] || !(minion in unlocked_minions)) {
+            unlocked_minions[minion] = minions[minion];
+          }
+        });
+      });
+      this.unlocked_minions = unlocked_minions;
       return this;
     })();
   }
