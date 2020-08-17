@@ -217,6 +217,28 @@ class Player {
     })();
   }
 
+  getSkillBonus(skill) {
+    const bonus = {};
+    const skillStats = constants.bonusStats[`${skill}_skill`];
+    const { level, maxLevel } = this.skills[skill];
+    const steps = Object.keys(skillStats).sort((a, b) => a - b).map((a) => Number(a));
+
+    for (let x = 1; x <= maxLevel; x += 1) {
+      if (level < x) break;
+
+      const skillStep = steps.slice().reverse().find((a) => a <= x);
+      const skillBonus = skillStats[skillStep];
+      Object.keys(skillBonus).forEach((type) => {
+        if (!(type in bonus)) {
+          bonus[type] = skillBonus[type];
+        } else {
+          bonus[type] += skillBonus[type];
+        }
+      });
+    }
+    return bonus;
+  }
+
   getFairyBonus() {
     const bonus = {
       speed: 0, strength: 0, defense: 0, health: 0,
@@ -252,7 +274,7 @@ class Player {
   }
 
   isArmorSet(startsWith, requiredPieces = 4) {
-    return this.armor.filter((a) => a.name !== null && a.attributes.id.startsWith(startsWith))
+    return this.armor.filter((a) => a.name !== '' && a.getId().startsWith(startsWith))
       .length === requiredPieces;
   }
 
@@ -312,6 +334,16 @@ class Player {
       });
     }
     // Skills
+    const { skills } = this;
+    Object.keys(skills).forEach((skill) => {
+      if (!['runecrafting', 'carpentry'].includes(skill)) {
+        bonuses.push({
+          type: `SKILL_BONUS_${skill.toUpperCase()}`,
+          operation: 'add',
+          bonus: this.getSkillBonus(skill),
+        });
+      }
+    });
     // Accessories
     bonuses.push({
       type: 'ACCESSORIES',

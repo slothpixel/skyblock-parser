@@ -1,6 +1,6 @@
 module.exports = {
   // Object with skill, slayer bonuses and enchantment bonuses
-  bonus_stats: {
+  bonusStats: {
     taming_skill: {
       1: {
         pet_luck: 1,
