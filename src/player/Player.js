@@ -179,9 +179,10 @@ class Player {
         boss_kills_tier_1,
         boss_kills_tier_2,
         boss_kills_tier_3,
-      }) => ({
+      }, name) => ({
         claimed_levels: Object.keys(claimed_levels).length,
         xp,
+        xpForNext: utils.getSlayerLevel({claimed_levels: Object.keys(claimed_levels), xp: xp}, name).xpForNext,
         kills_tier: {
           1: boss_kills_tier_0,
           2: boss_kills_tier_1,
@@ -206,9 +207,9 @@ class Player {
       this.collections_unlocked = Object.keys(collection_tiers).length;
       this.minions = getUnlockedTier(crafted_generators);
       this.slayer = {
-        zombie: getSlayer(slayer_bosses.zombie || {}),
-        spider: getSlayer(slayer_bosses.spider || {}),
-        wolf: getSlayer(slayer_bosses.wolf || {}),
+        zombie: getSlayer(slayer_bosses.zombie || {}, "zombie"),
+        spider: getSlayer(slayer_bosses.spider || {}, "spider"),
+        wolf: getSlayer(slayer_bosses.wolf || {}, "wolf"),
       };
 
       this.bonuses = this.getBonuses();
