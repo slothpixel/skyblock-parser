@@ -175,14 +175,14 @@ class Player {
       const getSlayer = ({
         claimed_levels = {},
         xp = 0,
-        boss_kills_tier_0,
-        boss_kills_tier_1,
-        boss_kills_tier_2,
-        boss_kills_tier_3,
+        boss_kills_tier_0 = 0,
+        boss_kills_tier_1 = 0,
+        boss_kills_tier_2 = 0,
+        boss_kills_tier_3 = 0,
       }, name) => ({
         claimed_levels: Object.keys(claimed_levels).length,
         xp,
-        xpForNext: util.getSlayerLevel({ claimedLevels: Object.keys(claimed_levels), xp },
+        xp_for_next: util.getSlayerLevel({ claimedLevels: Object.keys(claimed_levels), xp },
           name).xpForNext,
         kills_tier: {
           1: boss_kills_tier_0,
