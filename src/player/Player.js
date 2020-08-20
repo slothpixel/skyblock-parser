@@ -224,7 +224,7 @@ class Player {
   }
 
   getSkillBonus(skill) {
-    const bonus = {};
+    const bonus = { ...constants.statTemplate };
     const skillStats = constants.bonusStats[`${skill}_skill`];
     const { level, maxLevel } = this.skills[skill];
     const steps = Object.keys(skillStats).sort((a, b) => a - b).map((a) => Number(a));
@@ -235,14 +235,10 @@ class Player {
       const skillStep = steps.slice().reverse().find((a) => a <= x);
       const skillBonus = skillStats[skillStep];
       Object.keys(skillBonus).forEach((type) => {
-        if (!(type in bonus)) {
-          bonus[type] = skillBonus[type];
-        } else {
-          bonus[type] += skillBonus[type];
-        }
+        bonus[type] += skillBonus[type];
       });
     }
-    return bonus;
+    return util.removeZeroes(bonus);
   }
 
   getFairyBonus() {
@@ -276,7 +272,7 @@ class Player {
         bonus[stat] += item.stats[stat];
       });
     });
-    return bonus;
+    return util.removeZeroes(bonus);
   }
 
   isArmorSet(startsWith, requiredPieces = 4) {

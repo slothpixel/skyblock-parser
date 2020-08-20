@@ -59,6 +59,17 @@ function pickKeys(object, options) {
     .map(([key, value]) => [keyMap(key), valueMap(value)]));
 }
 
+function removeZeroes(object = {}) {
+  const newObject = {};
+  Object.keys(object).forEach((entry) => {
+    const value = object[entry];
+    if (value !== 0) {
+      newObject[entry] = value;
+    }
+  });
+  return newObject;
+}
+
 function getLevelByXp(xp = 0, runecrafting) {
   const xpTable = runecrafting ? constants.runecraftingXp : constants.levelingXp;
   if (Number.isNaN(xp)) {
@@ -192,6 +203,7 @@ function getBonusStat(level, skill, max, incrementation) {
 
 module.exports = {
   removeFormatting,
+  removeZeroes,
   decodeData,
   getNestedObjects,
   pickKeys,
