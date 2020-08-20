@@ -329,20 +329,17 @@ class Player {
     // New year cake bag
     bonuses.push({
       type: 'NEW_YEAR_CAKEBAG',
-      operation: 'add',
       bonus: this.getCakeBonus(),
     });
     // Fairy souls
     bonuses.push({
       type: 'FAIRY_SOULS',
-      operation: 'add',
       bonus: this.getFairyBonus(),
     });
     // Slayers
     Object.keys(this.slayer).forEach((slayer) => {
       bonuses.push({
         type: `SLAYER_BONUS_${slayer.toUpperCase()}`,
-        operation: 'add',
         bonus: this.getSlayerBonus(slayer),
       });
     });
@@ -351,7 +348,6 @@ class Player {
     if (this.active_accessories.some((i) => i.getId() === 'MELODY_HAIR')) {
       bonuses.push({
         type: 'MELODY',
-        operation: 'add',
         bonus: { intelligence: 26 },
       });
     }
@@ -361,7 +357,6 @@ class Player {
       if (!['runecrafting', 'carpentry'].includes(skill)) {
         bonuses.push({
           type: `SKILL_BONUS_${skill.toUpperCase()}`,
-          operation: 'add',
           bonus: this.getSkillBonus(skill),
         });
       }
@@ -369,13 +364,11 @@ class Player {
     // Accessories
     bonuses.push({
       type: 'ACCESSORIES',
-      operation: 'add',
       bonus: this.getItemBonuses('active_accessories'),
     });
     // Armor
     bonuses.push({
       type: 'ARMOR',
-      operation: 'add',
       bonus: this.getItemBonuses('armor'),
     });
     // Superior Dragon Armor bonus
@@ -399,7 +392,8 @@ class Player {
     const additions = [];
     const multiplications = [];
     this.bonuses.forEach((k) => {
-      if (k.operation === 'add') {
+      const operation = k.operation || 'add';
+      if (operation === 'add') {
         additions.push(k);
       } else {
         multiplications.push(k);
