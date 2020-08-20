@@ -217,6 +217,16 @@ class Player {
         wolf: getSlayer(slayer_bosses.wolf || {}, 'wolf'),
       };
 
+      const highestRarity = {};
+      this.pets.forEach((pet) => {
+        const { type } = pet;
+        const rarity = pet.tier.toLowerCase();
+        if (!(type in highestRarity) || constants.petValue[rarity] > highestRarity[type]) {
+          highestRarity[type] = constants.petValue[rarity];
+        }
+      });
+      this.pet_score = Object.values(highestRarity).reduce((a, b) => a + b, 0);
+
       this.bonuses = this.getBonuses();
       this.applyBonuses();
       return this;
@@ -288,6 +298,19 @@ class Player {
     return util.removeZeroes(bonus);
   }
 
+  getPetScoreBonus() {
+    let bonus = { magic_find: 0 };
+    const { pet_score } = this;
+    const milestones = Object.keys(constants.petRewards);
+    for (let x = milestones.length; x > 0; x -= 1) {
+      if (pet_score > milestones[x]) {
+        bonus = constants.petRewards[milestones[x]];
+        break;
+      }
+    }
+    return bonus;
+  }
+
   isArmorSet(startsWith, requiredPieces = 4) {
     return this.armor.filter((a) => a.name !== '' && a.getId().startsWith(startsWith))
       .length === requiredPieces;
@@ -344,6 +367,10 @@ class Player {
       });
     });
     // Pet rewards
+    bonuses.push({
+      type: 'PET_SCORE',
+      bonus: this.getPetScoreBonus(),
+    });
     // Melody
     if (this.active_accessories.some((i) => i.getId() === 'MELODY_HAIR')) {
       bonuses.push({
@@ -383,8 +410,9 @@ class Player {
         bonus: superiorBonus,
       });
     }
+    // TODO - Other special armor bonuses
     // Active weapon?
-    // Pet
+    // TODO - Pet
     return bonuses;
   }
 
