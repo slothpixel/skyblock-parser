@@ -179,18 +179,22 @@ class Player {
         boss_kills_tier_1 = 0,
         boss_kills_tier_2 = 0,
         boss_kills_tier_3 = 0,
-      }, name) => ({
-        claimed_levels: Object.keys(claimed_levels).length,
-        xp,
-        xp_for_next: util.getSlayerLevel({ claimedLevels: Object.keys(claimed_levels), xp },
-          name).xpForNext,
-        kills_tier: {
-          1: boss_kills_tier_0,
-          2: boss_kills_tier_1,
-          3: boss_kills_tier_2,
-          4: boss_kills_tier_3,
-        },
-      });
+      }, name) => {
+        const {
+          xpForNext,
+        } = util.getSlayerLevel({ claimedLevels: Object.keys(claimed_levels), xp }, name);
+        return {
+          claimed_levels: Object.keys(claimed_levels).length,
+          xp,
+          xp_for_next: xpForNext - xp,
+          kills_tier: {
+            1: boss_kills_tier_0,
+            2: boss_kills_tier_1,
+            3: boss_kills_tier_2,
+            4: boss_kills_tier_3,
+          },
+        };
+      };
       const collection_tiers = getUnlockedTier(unlocked_coll_tiers);
       const skills = getSkills(/^experience_skill_(?!runecrafting)/);
       skills.runecrafting = util.getLevelByXp(rest.experience_skill_runecrafting, true);

@@ -105,17 +105,11 @@ function getLevelByXp(xp = 0, runecrafting) {
 
 function getSlayerLevel(slayer, slayerName) {
   const { xp, claimedLevels } = slayer;
-
-  let currentLevel = 0;
   let progress;
   let xpForNext = 0;
 
   const maxLevel = Math.max(Object.keys(constants.slayerXp[slayerName]).length);
-  Object.keys(claimedLevels).forEach((levelName) => {
-    const level = Number.parseInt(levelName.split('_').pop(), 10);
-    if (level > currentLevel) currentLevel = level;
-  });
-
+  const currentLevel = Object.keys(claimedLevels).length;
   if (currentLevel < maxLevel) {
     const nextLevel = constants.slayerXp[slayerName][currentLevel + 1];
 
