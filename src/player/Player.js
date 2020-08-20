@@ -275,6 +275,19 @@ class Player {
     return util.removeZeroes(bonus);
   }
 
+  getSlayerBonus(slayer) {
+    const bonus = { ...constants.statTemplate };
+    const slayerBonuses = constants.bonusStats[`${slayer}_slayer`];
+    for (let level = this.slayer[slayer].claimed_levels; level > 0; level -= 1) {
+      if (level in slayerBonuses) {
+        Object.keys(slayerBonuses[level]).forEach((stat) => {
+          bonus[stat] += slayerBonuses[level][stat];
+        });
+      }
+    }
+    return util.removeZeroes(bonus);
+  }
+
   isArmorSet(startsWith, requiredPieces = 4) {
     return this.armor.filter((a) => a.name !== '' && a.getId().startsWith(startsWith))
       .length === requiredPieces;
@@ -326,6 +339,13 @@ class Player {
       bonus: this.getFairyBonus(),
     });
     // Slayers
+    Object.keys(this.slayer).forEach((slayer) => {
+      bonuses.push({
+        type: `SLAYER_BONUS_${slayer.toUpperCase()}`,
+        operation: 'add',
+        bonus: this.getSlayerBonus(slayer),
+      });
+    });
     // Pet rewards
     // Melody
     if (this.active_accessories.some((i) => i.getId() === 'MELODY_HAIR')) {
