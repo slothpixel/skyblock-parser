@@ -175,20 +175,26 @@ class Player {
       const getSlayer = ({
         claimed_levels = {},
         xp = 0,
-        boss_kills_tier_0,
-        boss_kills_tier_1,
-        boss_kills_tier_2,
-        boss_kills_tier_3,
-      }) => ({
-        claimed_levels: Object.keys(claimed_levels).length,
-        xp,
-        kills_tier: {
-          1: boss_kills_tier_0,
-          2: boss_kills_tier_1,
-          3: boss_kills_tier_2,
-          4: boss_kills_tier_3,
-        },
-      });
+        boss_kills_tier_0 = 0,
+        boss_kills_tier_1 = 0,
+        boss_kills_tier_2 = 0,
+        boss_kills_tier_3 = 0,
+      }, name) => {
+        const {
+          xpForNext,
+        } = util.getSlayerLevel({ claimedLevels: Object.keys(claimed_levels), xp }, name);
+        return {
+          claimed_levels: Object.keys(claimed_levels).length,
+          xp,
+          xp_for_next: xpForNext - xp,
+          kills_tier: {
+            1: boss_kills_tier_0,
+            2: boss_kills_tier_1,
+            3: boss_kills_tier_2,
+            4: boss_kills_tier_3,
+          },
+        };
+      };
       const collection_tiers = getUnlockedTier(unlocked_coll_tiers);
       const skills = getSkills(/^experience_skill_(?!runecrafting)/);
       skills.runecrafting = util.getLevelByXp(rest.experience_skill_runecrafting, true);
@@ -206,9 +212,9 @@ class Player {
       this.collections_unlocked = Object.keys(collection_tiers).length;
       this.minions = getUnlockedTier(crafted_generators);
       this.slayer = {
-        zombie: getSlayer(slayer_bosses.zombie || {}),
-        spider: getSlayer(slayer_bosses.spider || {}),
-        wolf: getSlayer(slayer_bosses.wolf || {}),
+        zombie: getSlayer(slayer_bosses.zombie || {}, 'zombie'),
+        spider: getSlayer(slayer_bosses.spider || {}, 'spider'),
+        wolf: getSlayer(slayer_bosses.wolf || {}, 'wolf'),
       };
 
       this.bonuses = this.getBonuses();
