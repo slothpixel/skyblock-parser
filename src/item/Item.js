@@ -48,6 +48,7 @@ class Item {
    */
   constructor(nbt, active = true) {
     return (async () => {
+      if (Object.entries(nbt).length === 0) return this;
       this.active = active;
       this.name = '';
       this.rarity = null;
@@ -56,7 +57,6 @@ class Item {
       this.damage = 0;
       this.lore = [];
       this.attributes = {};
-      if (Object.entries(nbt).length === 0) return this;
       // Extract basic fields from NBT
       Object.keys(itemSchema).forEach((key) => {
         const value = getNestedObjects(nbt, itemSchema[key]);
@@ -180,7 +180,7 @@ class Item {
   }
 
   getId() {
-    return this.attributes.id;
+    return (this.attributes || {}).id || null;
   }
 
   getSkullTexture() {
