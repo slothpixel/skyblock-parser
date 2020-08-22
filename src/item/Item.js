@@ -124,8 +124,10 @@ class Item {
    */
   parseStats() {
     const bonus = {};
+    const id = this.getId();
     this.lore.forEach((line) => {
-      const split = removeFormatting(line).split(':');
+      const rawLine = removeFormatting(line);
+      const split = rawLine.split(':');
 
       if (split.length < 2) return;
       const statType = split[0];
@@ -169,7 +171,15 @@ class Item {
           bonus.pet_luck = statValue;
           break;
       }
+      // Party Crab Hat
+      if (id === 'PARTY_HAT_CRAB' && rawLine.startsWith('Your bonus: ')) {
+        bonus.intelligence = (bonus.intelligence || 0) + parseInt(rawLine.split(' ')[2].substring(1), 10);
+      }
     });
+    // Apply Speed Talisman speed bonuses
+    if (id === 'SPEED_TALISMAN') bonus.speed = (bonus.speed || 0) + 1;
+    if (id === 'SPEED_RING') bonus.speed = (bonus.speed || 0) + 3;
+    if (id === 'SPEED_ARTIFACT') bonus.speed = (bonus.speed || 0) + 5;
     return bonus;
   }
 
