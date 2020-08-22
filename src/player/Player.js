@@ -236,6 +236,7 @@ class Player {
 
       this.bonuses = this.getBonuses();
       this.applyBonuses();
+      this.attributes.effective_health = this.getEHP();
       return this;
     })();
   }
@@ -400,6 +401,13 @@ class Player {
       type: 'ACCESSORIES',
       bonus: this.getItemBonuses('active_accessories'),
     });
+    // Day & Night Crystals
+    if (this.active_accessories.filter((i) => ['DAY_CRYSTAL', 'NIGHT_CRYSTAL'].includes(i.getId())).length === 2) {
+      bonuses.push({
+        type: 'DAY_NIGHT_CRYSTAL',
+        bonus: { defense: 5, strength: 5 },
+      });
+    }
     // Armor
     bonuses.push({
       type: 'ARMOR',
