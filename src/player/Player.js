@@ -147,7 +147,9 @@ class Player {
 
       // Insert rest of the fields as in the API
       Object.keys(rest).forEach((key) => {
-        this[key] = rest[key];
+        if (!key.startsWith('experience_skill_')) {
+          this[key] = rest[key];
+        }
       });
 
       this.stats = processStats(stats);
