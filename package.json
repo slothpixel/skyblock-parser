@@ -1,5 +1,5 @@
 {
-  "name": "skyblock-parser",
+  "name": "@slothpixel/skyblock-parser",
   "version": "0.1.0",
   "description": "A powerful library for processing Hypixel SkyBlock data",
   "main": "./src/index.js",
