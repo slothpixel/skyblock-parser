@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 const { removeFormatting, decodeData, getNestedObjects } = require('../util');
-const constants = require('../constants');
 
 const rarityMap = {
   f: 'common',

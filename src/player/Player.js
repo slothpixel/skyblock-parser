@@ -286,7 +286,7 @@ class Player {
     const items = this[name];
     const bonus = { ...constants.statTemplate };
     items.forEach((item) => {
-      Object.keys(item.stats).forEach((stat) => {
+      Object.keys(item.stats || {}).forEach((stat) => {
         bonus[stat] += item.stats[stat];
       });
     });
@@ -320,7 +320,7 @@ class Player {
   }
 
   isArmorSet(startsWith, requiredPieces = 4) {
-    return this.armor.filter((a) => a.name !== '' && a.getId().startsWith(startsWith))
+    return this.armor.filter((a) => a.getId() !== null && a.getId().startsWith(startsWith))
       .length === requiredPieces;
   }
 

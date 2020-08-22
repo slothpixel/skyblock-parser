@@ -102,7 +102,7 @@ function getLevelByXp(xp = 0, runecrafting) {
 
   const xpCurrent = Math.floor(xp - xpTotal);
   if (level < maxLevel) xpForNext = Math.ceil(xpTable[level + 1]);
-  const progress = Math.max(0, Math.min(xpCurrent / xpForNext, 1)).toFixed(2);
+  const progress = Number(Math.max(0, Math.min(xpCurrent / xpForNext, 1)).toFixed(2));
 
   return {
     xp,
