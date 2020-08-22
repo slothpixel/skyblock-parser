@@ -53,11 +53,13 @@ function processStats({
   auctions_fees = 0,
   auctions_gold_earned = 0,
   auctions_gold_spent = 0,
+  pet_milestone_ores_mined = 0,
+  pet_milestone_sea_creatures_killed = 0,
   ...rest
 }) {
-  const getStats = (regexp) => util.pickKeys(rest, {
+  const getStats = (regexp, replace) => util.pickKeys(rest, {
     regexp,
-    keyMap: (key) => key.replace(regexp, ''),
+    keyMap: replace || ((key) => key.replace(regexp, '')),
   });
   const auctions = {
     created: auctions_created,
@@ -82,6 +84,7 @@ function processStats({
     ender_crystals_destroyed,
     end_race_best_time: end_race_best_time ? end_race_best_time / 1000 : null,
     chicken_race_best_time: chicken_race_best_time_2 ? chicken_race_best_time_2 / 1000 : null,
+    dungeon_hub_best_time: getStats(/^dungeon_hub_/, (key) => key.replace(/^dungeon_hub_/, '').replace(/_best_time$/, '')),
     gifts_given,
     gifts_received,
     items_fished: {
@@ -96,6 +99,10 @@ function processStats({
       damage: most_winter_damage_dealt,
       magma_cube_damage: most_winter_magma_damage_dealt,
       cannonballs_hit: most_winter_cannonballs_hit,
+    },
+    pet_milestones: {
+      ore_mined: pet_milestone_ores_mined,
+      sea_creatures_killed: pet_milestone_sea_creatures_killed,
     },
   };
 }
