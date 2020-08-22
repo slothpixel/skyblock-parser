@@ -326,6 +326,7 @@ class Player {
 
   // Returns accessories that provide bonuses
   getActiveAccessories() {
+    const { accessoryUpgrades } = constants;
     let accessories = [
       ...this.talisman_bag,
       ...this.inventory,
@@ -338,7 +339,7 @@ class Player {
       .map((a) => a.getId().split('_').pop()));
     // Don't count lower tier talismans
     accessories.forEach((item) => {
-      const { id } = item.attributes;
+      const id = item.getId();
       if (id.startsWith('CAMPFIRE_TALISMAN_')) {
         const tier = parseInt(id.split('_').pop(), 10);
         if (tier < maxCampFireTier) item.active = false;
@@ -347,9 +348,13 @@ class Player {
         const tier = parseInt(id.split('_').pop(), 10);
         if (tier < maxRingTier) item.active = false;
       }
-      // item.active = true;
+      // Don't count accessories that have a higher tier
+      if (id in accessoryUpgrades
+        && accessories.filter((i) => accessoryUpgrades[id].includes(i.getId())).length > 0) {
+        item.active = false;
+      }
     });
-    // Don't count duplicated talismans
+    // Don't count duplicated accessories
     accessories = [...new Map(accessories.map((item) => [item.attributes.id, item])).values()];
     this.active_accessories = accessories.filter((item) => item.active);
   }

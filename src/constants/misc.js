@@ -1,0 +1,111 @@
+module.exports = {
+  accessoryUpgrades: {
+    WOLF_TALISMAN: [
+      'WOLF_RING',
+    ],
+    RING_POTION_AFFINITY: [
+      'ARTIFACT_POTION_AFFINITY',
+    ],
+    POTION_AFFINITY_TALISMAN: [
+      'RING_POTION_AFFINITY',
+      'ARTIFACT_POTION_AFFINITY',
+    ],
+    FEATHER_RING: [
+      'FEATHER_ARTIFACT',
+    ],
+    FEATHER_TALISMAN: [
+      'FEATHER_RING',
+      'FEATHER_ARTIFACT',
+    ],
+    SEA_CREATURE_RING: [
+      'SEA_CREATURE_ARTIFACT',
+    ],
+    SEA_CREATURE_TALISMAN: [
+      'SEA_CREATURE_RING',
+      'SEA_CREATURE_ARTIFACT',
+    ],
+    HEALING_TALISMAN: [
+      'HEALING_RING',
+    ],
+    CANDY_RING: [
+      'CANDY_ARTIFACT',
+    ],
+    CANDY_TALISMAN: [
+      'CANDY_RING',
+      'CANDY_ARTIFACT',
+    ],
+    INTIMIDATION_RING: [
+      'INTIMIDATION_ARTIFACT',
+    ],
+    INTIMIDATION_TALISMAN: [
+      'INTIMIDATION_RING',
+      'INTIMIDATION_ARTIFACT',
+    ],
+    SPIDER_RING: [
+      'SPIDER_ARTIFACT',
+    ],
+    SPIDER_TALISMAN: [
+      'SPIDER_RING',
+      'SPIDER_ARTIFACT',
+    ],
+    RED_CLAW_RING: [
+      'RED_CLAW_ARTIFACT',
+    ],
+    RED_CLAW_TALISMAN: [
+      'RED_CLAW_RING',
+      'RED_CLAW_ARTIFACT',
+    ],
+    HUNTER_TALISMAN: [
+      'HUNTER_RING',
+    ],
+    ZOMBIE_RING: [
+      'ZOMBIE_ARTIFACT',
+    ],
+    ZOMBIE_TALISMAN: [
+      'ZOMBIE_RING',
+      'ZOMBIE_ARTIFACT',
+    ],
+    BAT_RING: [
+      'BAT_ARTIFACT',
+    ],
+    BAT_TALISMAN: [
+      'BAT_RING',
+      'BAT_ARTIFACT',
+    ],
+    BROKEN_PIGGY_BANK: [
+      'CRACKED_PIGGY_BANK',
+      'PIGGY_BANK',
+    ],
+    CRACKED_PIGGY_BANK: [
+      'PIGGY_BANK',
+    ],
+    SPEED_TALISMAN: [
+      'SPEED_RING',
+      'SPEED_ARTIFACT',
+    ],
+    SPEED_RING: [
+      'SPEED_ARTIFACT',
+    ],
+    PERSONAL_COMPACTOR_4000: [
+      'PERSONAL_COMPACTOR_5000',
+      'PERSONAL_COMPACTOR_6000',
+    ],
+    PERSONAL_COMPACTOR_5000: [
+      'PERSONAL_COMPACTOR_6000',
+    ],
+    SCARF_STUDIES: [
+      'SCARF_THESIS',
+      'SCARF_GRIMOIRE',
+    ],
+    SCARF_THESIS: [
+      'SCARF_GRIMOIRE',
+    ],
+    CAT_TALISMAN: [
+      'LYNX_TALISMAN',
+      'CHEETAH_TALISMAN',
+    ],
+    LYNX_TALISMAN: [
+      'CHEETAH_TALISMAN',
+    ],
+  },
+};
