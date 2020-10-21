@@ -21,6 +21,7 @@ const statTemplate = {
   sea_creature_chance: 0,
   magic_find: 0,
   pet_luck: 0,
+  ferocity: 0,
 };
 
 module.exports = {

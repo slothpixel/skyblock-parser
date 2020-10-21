@@ -18,6 +18,7 @@ const baseStats = {
   sea_creature_chance: 20,
   magic_find: 10,
   pet_luck: 0,
+  ferocity: 0,
 };
 
 async function getInventory({ data = '' }, active = false) {
