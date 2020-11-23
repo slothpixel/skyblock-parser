@@ -179,6 +179,7 @@ class Item {
         bonus.intelligence = (bonus.intelligence || 0) + parseInt(rawLine.split(' ')[2].substring(1), 10);
       }
     });
+    if (id === 'FROZEN_CHICKEN') bonus.speed = (bonus.speed || 0) + 1;
     // Apply Speed Talisman speed bonuses
     if (id === 'SPEED_TALISMAN') bonus.speed = (bonus.speed || 0) + 1;
     if (id === 'SPEED_RING') bonus.speed = (bonus.speed || 0) + 3;
