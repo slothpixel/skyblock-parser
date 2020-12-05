@@ -5,6 +5,7 @@ module.exports = {
     rare: 11,
     epic: 16,
     legendary: 20,
+    mythic: 20,
   },
 
   petValue: {
@@ -13,6 +14,7 @@ module.exports = {
     rare: 3,
     epic: 4,
     legendary: 5,
+    mythic: 6,
   },
 
   petRewards: {
