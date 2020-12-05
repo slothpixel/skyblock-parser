@@ -22,6 +22,7 @@ const statTemplate = {
   magic_find: 0,
   pet_luck: 0,
   ferocity: 0,
+  ability_damage: 0,
 };
 
 module.exports = {

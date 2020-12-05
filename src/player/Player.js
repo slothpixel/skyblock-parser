@@ -19,6 +19,7 @@ const baseStats = {
   magic_find: 10,
   pet_luck: 0,
   ferocity: 0,
+  ability_damage: 0,
 };
 
 async function getInventory({ data = '' }, active = false) {

@@ -173,6 +173,9 @@ class Item {
         case 'Ferocity':
           bonus.ferocity = statValue;
           break;
+        case 'Ability Damage':
+          bonus.ability_damage = statValue;
+          break;
       }
       // Party Crab Hat
       if (id === 'PARTY_HAT_CRAB' && rawLine.startsWith('Your bonus: ')) {
