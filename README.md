@@ -10,7 +10,7 @@ skyblock-parser is a javascript library for processing Hypixel SkyBlock data. It
 
 **Node.js 12.0.0 or newer is required.**
 
-Run `npm i -s slothpixel/skyblock-parser` on your project folder.
+Run `npm i -s skyblock-parser` on your project folder.
 
 
 ## Example usage
