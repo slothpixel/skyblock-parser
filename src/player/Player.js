@@ -180,7 +180,6 @@ class Player {
       const getSkills = (regexp) => util.pickKeys(rest, {
         regexp,
         keyMap: (key) => key.replace(regexp, ''),
-        valueMap: (value) => util.getLevelByXp(value),
       });
       const getSlayer = ({
         claimed_levels = {},
@@ -206,9 +205,10 @@ class Player {
         };
       };
       const collection_tiers = getUnlockedTier(unlocked_coll_tiers);
-      const skills = getSkills(/^experience_skill_(?!runecrafting)/);
-      skills.runecrafting = util.getLevelByXp(rest.experience_skill_runecrafting, true);
-
+      const skills = getSkills(/^experience_skill_/);
+      Object.entries(skills).forEach(([key, value]) => {
+        skills[key] = util.getLevelByXp(value, key);
+      });
       this.last_save = last_save;
       this.first_join = first_join;
       this.coin_purse = Math.round(coin_purse);

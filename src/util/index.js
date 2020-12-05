@@ -70,8 +70,18 @@ function removeZeroes(object = {}) {
   return newObject;
 }
 
-function getLevelByXp(xp = 0, runecrafting) {
-  const xpTable = runecrafting ? constants.runecraftingXp : constants.levelingXp;
+function getLevelByXp(xp = 0, type) {
+  let xpTable;
+  switch (type) {
+    case 'runecrafting':
+      xpTable = constants.runecraftingXp;
+      break;
+    case 'dungeoneering':
+      xpTable = constants.dungeoneeringXp;
+      break;
+    default:
+      xpTable = constants.levelingXp;
+  }
   if (Number.isNaN(xp)) {
     return {
       xp: 0,
