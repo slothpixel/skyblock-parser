@@ -99,19 +99,21 @@ class Item {
       }
       if (lore.length > 0) {
         const loreRaw = lore[lore.length - 1];
-        const rarityType = removeFormatting(loreRaw.replace(/§ka(§r )?/g, '')).split(' ');
-        // By using rarity color we can bypass localization restrictions
-        this.rarity = rarityMap[loreRaw.charAt(1)];
-        if (this.rarity === 'special' && rarityType[0] === 'VERY') {
-          this.rarity = 'very_special';
+        // Check if lore contains rarity/type
+        if (loreRaw.substring(2, 4) === '§l') {
+          const rarityType = removeFormatting(loreRaw.replace(/§ka(§r )?/g, '')).split(' ');
+          // By using rarity color we can bypass localization restrictions
+          this.rarity = rarityMap[loreRaw.charAt(1)];
+          if (this.rarity === 'special' && rarityType[0] === 'VERY') {
+            this.rarity = 'very_special';
+            rarityType.shift();
+          }
           rarityType.shift();
-        }
-        rarityType.shift();
-        if (rarityType.length > 0) {
-          this.type = rarityType.join(' ').toLowerCase();
+          if (rarityType.length > 0) {
+            this.type = rarityType.join(' ').toLowerCase().trim();
+          }
         }
       }
-
       if (this.type === 'hatccessory') this.type = 'accessory';
       this.getStats();
       return this;
