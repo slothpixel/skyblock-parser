@@ -1,5 +1,10 @@
 /* eslint-disable camelcase */
-const constants = require('../constants');
+const {
+  statTemplate, pets, petData, petItems, petSkins, rarityColors,
+} = require('../constants');
+const {
+  capitalizeFirstLetter, titleCase, removeZeroes, round, getPetLevel,
+} = require('../util');
 
 const petRarity = [
   'common',
@@ -7,50 +12,168 @@ const petRarity = [
   'rare',
   'epic',
   'legendary',
+  'mythic',
 ];
 
 class Pet {
-  constructor(type, rarity, level, held_item, candy_used) {
+  #activeAbilities = [];
+
+  constructor({
+    uuid, type, tier: rarity, exp, active, heldItem, skin, candyUsed,
+  }) {
+    if (typeof type !== 'string') return this;
+    this.uuid = uuid;
+    this.name = titleCase(type);
     this.rarity = rarity;
-    this.level = level;
-    this.held_item = held_item;
-    this.candy_used = candy_used;
+    this.exp = exp;
+    this.level = 1;
+    this.active = active;
+    this.held_item = heldItem;
+    this.candy_used = candyUsed;
+    this.texture = null;
+    this.skin = skin;
     this.lore = [];
-    this.stats = {};
+    this.stats = { ...statTemplate };
 
-    const pet = constants.pets[type];
-    let rarityTier = petRarity.indexOf(rarity) || 4;
+    const rarityL = rarity.toLowerCase();
+    const { level, progress } = getPetLevel(rarityL, exp);
+    this.level = level;
 
-    this.lore.push(`[Lvl ${level}] §${constants.rarityColors[rarity]}${pet.name}`, `§8${pet.type}`, '');
+    const pet = pets[type] || {};
+    let rarityTier = petRarity.indexOf(rarityL) || 4;
 
-    if (held_item === 'PET_ITEM_TIER_BOOST' && rarityTier < 4) {
+    const { head, type: petType } = petData[type];
+    this.texture = head || 'bc8ea1f51f253ff5142ca11ae45193a4ad8c3ab5e9c6eec8ba7a4fcb7bac40';
+
+    this.lore.push(`[Lvl ${level}] §${rarityColors[rarityL]}${this.name || type}`);
+    let typeString = `§8${capitalizeFirstLetter(petType)} `;
+    typeString += [
+      'HORSE',
+      'SKELETON_HORSE',
+      'PIG',
+      'ROCK',
+    ].indexOf(type) === -1 ? 'Pet' : 'Mount';
+
+    if (skin && petSkins[type][skin]) {
+      const petSkin = petSkins[type][skin];
+      this.texture = petSkin.head;
+      this.skin = titleCase(skin);
+      typeString += `, ${petSkin.name} Skin`;
+    }
+    this.lore.push(typeString, '');
+
+    // Pet's own lore
+    if ('lore' in pet) {
+      this.lore.push(pet.lore, '');
+    }
+
+    let abilityLore = [];
+
+    if ((heldItem === 'PET_ITEM_TIER_BOOST' || heldItem === 'PET_ITEM_VAMPIRE_FANGS') && rarityTier < 4) {
       rarityTier += 1;
     }
 
-    Object.keys(pet.statModifiers).forEach((stat) => {
-      this.stats[stat] = level * pet.statModifiers[stat];
+    // Load stats
+    this.stats = Object.assign(this.stats, pet.baseStats);
+
+    const { statModifiers } = pet;
+    Object.keys(statModifiers).forEach((stat) => {
+      this.stats[stat] += statModifiers[stat] * level;
     });
+    this.stats = removeZeroes(this.stats);
 
-    // TODO - Stat lore
+    function getAbilityModifier(modifier) {
+      return (typeof modifier === 'number')
+        ? modifier
+        : modifier[rarityTier];
+    }
 
+    // Load pet abilities
     const { abilities } = pet;
-    for (let x = 0; x < rarityTier; x += 0) {
-      if (rarityTier in abilities) {
-        this.lore.push('', abilities[x]);
+    for (let x = 0; x < rarityTier; x += 1) {
+      if (abilities && rarityTier in abilities) {
+        // eslint-disable-next-line no-loop-func
+        abilities[x].forEach((tier) => {
+          const stats = {};
+          const { desc, name } = tier;
+          Object.keys(pet.abilityModifiers[x]).forEach((stat) => {
+            const modifier = getAbilityModifier(pet.abilityModifiers[x][stat]);
+            const abilityValue = (typeof modifier === 'number')
+              ? round(this.level * getAbilityModifier(modifier))
+              : modifier;
+            if (stat in statTemplate) {
+              stats[stat] = abilityValue;
+            }
+            desc[0] = desc[0].replace(`%${stat}%`, abilityValue);
+          });
+          this.#activeAbilities.push({ ...tier, stats });
+          abilityLore = abilityLore.concat([`§6${name}`, ...desc, '']);
+        });
       }
     }
 
-    if (held_item !== null) {
-      const item = constants.petItems[held_item];
-      const { description } = item;
-      this.lore.push('', description);
+    Object.keys(this.stats).forEach((stat) => {
+      const valueFloored = Math.floor(this.stats[stat]);
+      let statString = (valueFloored > 0) ? `§a+${valueFloored}` : `§a${valueFloored}`;
+      if (['ability_damage', 'crit_chance', 'crit_damage', 'sea_creature_chance'].includes(stat)) {
+        statString += '%';
+      }
+      this.lore.push(`§7${titleCase(stat)}: ${statString}`);
+    });
+
+    this.lore.push('');
+    this.lore.push(...abilityLore);
+
+    if (heldItem !== null) {
+      // TODO item stats
+      const item = petItems[heldItem];
+      const { description, name } = item;
+      const petItemRarityColor = rarityColors[item.rarity.toLowerCase()];
+      this.lore.push(`§4Held Item: §${petItemRarityColor}${name}`, description, '');
     }
 
-    if (candy_used > 0) {
-      this.lore.push('', `§a(${candy_used}/10) Pet Candy Used`);
+    if (candyUsed > 0) {
+      this.lore.push(`§a(${candyUsed}/10) Pet Candy Used`, '');
     }
 
-    this.lore.push(`Progress to Level §7${level}: §e${}%`);
+    if (level === 100) {
+      this.lore.push('§bMAX LEVEL');
+    } else {
+      let levelBar = '';
+
+      for (let i = 0; i < 20; i += 1) {
+        if (progress > i / 20) levelBar += '§2';
+        else levelBar += '§f';
+        levelBar += '-';
+      }
+
+      this.lore.push(`Progress to Level §7${level + 1}: §e${(progress * 100).toFixed(1)}%`, levelBar);
+    }
+  }
+
+  getAbilityStats(player) {
+    const bonuses = [];
+    console.log(this.#activeAbilities);
+    Object.values(this.#activeAbilities).forEach((ability) => {
+      // Returns passive stats
+      const name = ability.name.toUpperCase().replace(/ /g, '_').replace(/-/g, '_');
+      if ('func' in ability) {
+        const [bonus = {}, operation = 'addition'] = ability.func(player);
+        if (Object.keys(bonus || {}).length > 0) {
+          bonuses.push({
+            type: `PET_ABILITY_${name}`,
+            operation,
+            bonus,
+          });
+        }
+      } else if (Object.keys(ability.stats || {}).length > 0) {
+        bonuses.push({
+          type: `PET_ABILITY_${name}`,
+          bonus: ability.stats,
+        });
+      }
+    });
+    return bonuses;
   }
 }
 
