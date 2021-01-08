@@ -1,3 +1,4 @@
+// /* eslint-disable no-template-curly-in-string */
 // We have to duplicate this to prevent circular dependency
 const symbols = {
   health: '❤',
@@ -211,18 +212,19 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Hive',
+          name: 'Hive',
           desc: [`§7Gain §b+%intelligence%${symbols.intelligence} Intelligence §7and §c+%strength%${symbols.strength} Strength §7for each nearby bee.`, '§8Max 15 bees'],
+          func: () => ({}),
         }],
         1: [],
         2: [{
-          name: '§6Busy Buzz Buzz',
+          name: 'Busy Buzz Buzz',
           desc: ['§7Has §a%ability%% §7chance for flowers to drop an extra one'],
         }],
         3: [],
         4: [{
-          name: '§6Weaponized Honey',
-          desc: [`§7Gain §a%ability%% §7of recieved damage as §6${symbols.health} Absorption`],
+          name: 'Weaponized Honey',
+          desc: [`§7Gain §a%ability%% §7of received damage as §6${symbols.health} Absorption`],
         }],
       },
     },
@@ -237,7 +239,7 @@ module.exports = {
         },
         1: {},
         2: {
-          ability: [0, 0.8, 1, 2, 2],
+          ability: [0, 0, 0.8, 1, 2],
         },
         3: {},
         4: {
@@ -246,17 +248,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Light Feet',
+          name: 'Light Feet',
           desc: ['§7Reduces fall damage by §a%ability%%'],
         }],
         1: [],
         2: [{
-          name: '§6Eggstra',
+          name: 'Eggstra',
           desc: ['§7Killing chickens has a §a%ability%% §7chance to drop an egg'],
         }],
         3: [],
         4: [{
-          name: '§6Mighty Chickens',
+          name: 'Mighty Chickens',
           desc: ['§7Chicken minions work §a%ability%% §7faster while on your island'],
         }],
       },
@@ -269,7 +271,7 @@ module.exports = {
       },
       abilityModifiers: {
         0: {
-          ability: [0.1, 0.15, 0.2, 0.2],
+          ability: [0.1, 0.15, 0.2, 0.2, 0.2],
         },
         1: {},
         2: {
@@ -282,19 +284,22 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Stomp',
+          name: 'Stomp',
           desc: [`§7Gain §a%ability% ${symbols.defense} Defense §7for every §f100 ${symbols.speed} Speed`],
-          func: () => {}, // TODO
+          func: (player) => {
+            console.log(player.attributes);
+            return {};
+          },
         }],
         1: [],
         2: [{
-          name: '§6Walking Fortress',
+          name: 'Walking Fortress',
           desc: [`§7Gain §c%ability% ${symbols.health} Health §7for every §a10 ${symbols.defense} Defense`],
-          func: () => {}, // TODO
+          func: (player) => ({}),
         }],
         3: [],
         4: [{
-          name: '§6Trunk Efficiency',
+          name: 'Trunk Efficiency',
           desc: ['§7Grants a §a%ability%% §7chance to get double crops while farming'],
         }],
       },
@@ -306,32 +311,32 @@ module.exports = {
       },
       abilityModifiers: {
         0: {
-          ability: [0.3, 0.4, 0.5, 0.5, 0.5],
+          ability: [0.3, 0.4, 0.4, 0.5, 0.5],
         },
         1: {},
         2: {
-          ability: [0, 0.4, 0.5, 0.5, 0.5],
+          ability: [0, 0, 0.4, 0.5, 0.5],
         },
         3: {},
         4: {},
       },
       abilities: {
         0: [{
-          name: '§6Ridable',
+          name: 'Ridable',
           desc: ['§7Right-click your summoned pet to ride it!'],
         },
         {
-          name: '§6Run',
+          name: 'Run',
           desc: ['§7Increases the speed of your mount by §a%ability%%'],
         }],
         1: [],
         2: [{
-          name: '§6Sprint',
+          name: 'Sprint',
           desc: ['§7While holding an Enchanted Carrot on a Stick, increase the speed of your mount by §a%ability%%'],
         }],
         3: [],
         4: [{
-          name: '§6Trample',
+          name: 'Trample',
           desc: ['§7While on your private island, break all crops your pig rides over'],
         }],
       },
@@ -344,11 +349,11 @@ module.exports = {
       },
       abilityModifiers: {
         0: {
-          ability: [0.3, 0.4, 0.5, 0.5, 0.5],
+          ability: [0.3, 0.4, 0.4, 0.5, 0.5],
         },
         1: {},
         2: {
-          ability: [0, 0.25, 0.3, 0.3, 0.3],
+          ability: [0, 0, 0.25, 0.3, 0.3],
         },
         3: {},
         4: {
@@ -357,17 +362,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Happy Feet ',
+          name: 'Happy Feet ',
           desc: ['§7Jump Potions also give §a+%ability% §7speed'],
         }],
         1: [],
         2: [{
-          name: '§6Farming Exp Boost ',
+          name: 'Farming Exp Boost ',
           desc: ['§7Boosts your Farming Exp by §a%ability%%'],
         }],
         3: [],
         4: [{
-          name: '§6Efficient Farming',
+          name: 'Efficient Farming',
           desc: ['§7Farming minions work §a%ability%% §7faster while on your island.'],
         }],
       },
@@ -392,28 +397,28 @@ module.exports = {
           ability: 0.5,
         },
         5: {
-          ability: 0.25,
+          sea_creature_chance: 0.25,
         },
       },
       abilities: {
         0: [{
-          name: '§6Candy Lover',
+          name: 'Candy Lover',
           desc: ['§7Increases the chance for mobs to drop Candy by §a%ability%%'],
         }],
         1: [],
         2: [{
-          name: '§6Nightmare',
+          name: 'Nightmare',
           desc: [`§7During night, gain §a%intelligence% §9${symbols.intelligence} Intelligence, §a%speed% §f${symbols.speed} Speed§7, and night vision`],
+          func: () => ({}),
         }],
         3: [],
         4: [{
-          name: '§6Wings of Steel',
+          name: 'Wings of Steel',
           desc: ['§7Deals §a+%ability%% §7damage to §6Spooky §7enemies during the §6Spooky Festival'],
         }],
         5: [{
-          name: '§6Sonar',
-          desc: ['§7+§a%ability%% §7chance to fish up spooky sea creatures'],
-          func: () => {}, // TODO
+          name: 'Sonar',
+          desc: ['§7+§a%sea_creature_chance%% §7chance to fish up spooky sea creatures'],
         }],
       },
     },
@@ -424,7 +429,7 @@ module.exports = {
       },
       abilityModifiers: {
         0: {
-          ability: [0.4, 0.5, 0.5, 0.5, 0.5],
+          ability: [0.3, 0.4, 0.5, 0.5, 0.5],
         },
         1: {},
         2: {
@@ -437,17 +442,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6More Stonks',
+          name: 'More Stonks',
           desc: ['§7Gain more exp orbs for breaking end stone and gain a +§a%ability%% §7chance to get an extra block dropped.'],
         }],
         1: [],
         2: [{
-          name: '§6Pearl Muncher',
+          name: 'Pearl Muncher',
           desc: ['§7Upon picking up an ender pearl, consume it and gain §a%ability% §6coins'],
         }],
         3: [],
         4: [{
-          name: '§6Pearl Powered',
+          name: 'Pearl Powered',
           desc: ['§7Upon consuming an ender pearl, gain +§a%ability% §7speed for 10 seconds'],
         }],
       },
@@ -462,7 +467,7 @@ module.exports = {
         0: {},
         1: {},
         2: {
-          ability: [0, 0.2, 0.25, 0.25, 0.25],
+          ability: [0, 0, 0.2, 0.25, 0.25],
         },
         3: {},
         4: {
@@ -471,21 +476,21 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Ridable',
+          name: 'Ridable',
           desc: ['§7Right-click on your summoned pet to ride it!'],
         },
         {
-          name: '§6Sailing Stone',
+          name: 'Sailing Stone',
           desc: ['§7Sneak to move your rock to your location (15s cooldown)'],
         }],
         1: [],
         2: [{
-          name: '§6Fortify',
+          name: 'Fortify',
           desc: ['§7While sitting on your rock, gain +§a%ability%% §7defense'],
         }],
         3: [],
         4: [{
-          name: '§6Steady Ground',
+          name: 'Steady Ground',
           desc: ['§7While sitting on your rock, gain +§a%ability%§7% damage'],
         }],
       },
@@ -502,25 +507,24 @@ module.exports = {
         },
         1: {},
         2: {
-          ability: [0, 0, 0.2, 0.3, 0.3],
+          ability: [0, 0, 0.25, 0.3, 0.3],
         },
         3: {},
         4: {},
       },
       abilities: {
         0: [{
-          name: '§6True Defense Boost',
+          name: 'True Defense Boost',
           desc: [`§7Boosts your §f${symbols.true_defense} True Defense §7by §a%true_defense%`],
-          func: () => {}, // TODO
         }],
         1: [],
         2: [{
-          name: '§6Mining Exp Boost',
+          name: 'Mining Exp Boost',
           desc: ['§7Boosts your Mining exp by §a%ability%%'],
         }],
         3: [],
         4: [{
-          name: '§6Dexterity',
+          name: 'Dexterity',
           desc: ['§7Gives permanent haste III'],
         }],
       },
@@ -549,12 +553,12 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Stronger Bones',
+          name: 'Stronger Bones',
           desc: ['§7Take §a%ability%% §7less damage from skeletons'],
         }],
         1: [],
         2: [{
-          name: '§6Wither Blood',
+          name: 'Wither Blood',
           desc: ['§7Deal §a%ability%% §7more damage to wither mobs'],
         }],
         3: [],
@@ -576,30 +580,28 @@ module.exports = {
         },
         1: {},
         2: {
-          ability: 0.15,
+          pet_luck: 0.15,
         },
         3: {},
         4: {
-          ability: 0.15,
+          magic_find: 0.15,
         },
       },
       abilities: {
         0: [{
-          name: '§6Hunter',
+          name: 'Hunter',
           desc: ['§7Increases your speed and speed cap by +§a%ability%'],
-          func: () => {}, // TODO
+          func: () => ({}), // TODO
         }],
         1: [],
         2: [{
-          name: '§6Omen',
-          desc: [`§7Grants §d%ability% ${symbols.pet_luck} Pet Luck`],
-          func: () => {}, // TODO
+          name: 'Omen',
+          desc: [`§7Grants §d%pet_luck% ${symbols.pet_luck} Pet Luck`],
         }],
         3: [],
         4: [{
-          name: '§6Supernatural',
-          desc: [`§7Grants §b%ability% ${symbols.magic_find} Magic Find`],
-          func: () => {}, // TODO
+          name: 'Supernatural',
+          desc: [`§7Grants §b%magic_find% ${symbols.magic_find} Magic Find`],
         }],
       },
     },
@@ -625,20 +627,20 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Nether Embodiment',
+          name: 'Nether Embodiment',
           desc: ['§7Increases all stats by §a%ability%% §7while on the Blazing Fortress'],
         }],
         1: [],
         2: [{
-          name: '§6Bling Armor',
+          name: 'Bling Armor',
           desc: ['§7Upgrades §cBlaze Armor §7stats and ability by §a%ability%%'],
-          func: () => {}, // TODO
+          func: () => ({}), // TODO
         }],
         3: [],
         4: [{
-          name: '§6Fusion-Style Potato',
+          name: 'Fusion-Style Potato',
           desc: ['§7Doubles effects of hot potato books'],
-          func: () => {}, // TODO
+          func: () => ({}), // TODO
         }],
       },
     },
@@ -665,19 +667,19 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6End Strike',
+          name: 'End Strike',
           desc: ['§7Deal §a%ability%% §7more damage to end mobs'],
         }],
         1: [],
         2: [{
-          name: '§6One With The Dragon',
+          name: 'One With The Dragon',
           desc: [`§7Buffs the Aspect of the Dragons sword by §a%damage% §c${symbols.strength} Damage and §a%strength% §c${symbols.strength} Strength`],
         }],
         3: [],
         4: [{
-          name: '§6Superior',
+          name: 'Superior',
           desc: ['§7Increases all stats by §a%ability%%'],
-          func: () => {}, // TODO
+          func: () => ({}), // TODO
         }],
       },
     },
@@ -701,17 +703,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Enderian',
+          name: 'Enderian',
           desc: ['§7Take §a%ability%% §7less damage from end monsters'],
         }],
         1: [],
         2: [{
-          name: '§6Teleport Savvy',
+          name: 'Teleport Savvy',
           desc: ['§7Buffs the Aspect of the End ability granting §a%ability% §7weapon damage for 5s on use.'],
         }],
         3: [],
         4: [{
-          name: '§6Zealot Madness',
+          name: 'Zealot Madness',
           desc: ['§7Increases your odds to find a special Zealot by §a%ability%%.'],
         }],
       },
@@ -738,17 +740,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Amplified Healing',
+          name: 'Amplified Healing',
           desc: ['§7Increase all healing by §a%ability%%'],
         }],
         1: [],
         2: [{
-          name: '§6Zombie Arm',
+          name: 'Zombie Arm',
           desc: ['§7Increase the health and range of the Zombie sword by §a%ability%%'],
         }],
         3: [],
         4: [{
-          name: '§6Reaper Soul',
+          name: 'Reaper Soul',
           desc: ['§7Increases the health and lifespan of the Reaper Scythe zombies by §a%ability%%'],
         }],
       },
@@ -765,7 +767,7 @@ module.exports = {
         },
         1: {},
         2: {
-          ability: 0.25,
+          ability: [0, 0, 0, 0.2, 0.25],
         },
         3: {},
         4: {
@@ -774,18 +776,18 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Last Stand',
+          name: 'Last Stand',
           desc: ['§7While less than 15% HP, deal §a%ability%% §7more damage'],
         }],
         1: [],
         2: [{
-          name: '§6Ricochet',
-          desc: ['§7Your iron plating causes §a%ability%% §7of attacks to rocochet and hit the attacker'],
+          name: 'Ricochet',
+          desc: ['§7Your iron plating causes §a%ability%% §7of attacks to ricochet and hit the attacker'],
         }],
         3: [],
         4: [{
-          name: '§6Toss',
-          desc: [`§7Every 5 hits, throw the enemy up into the air and deal ${200 + round(this.level * mult, 1)}% damage (10s cooldown)`],
+          name: 'Toss',
+          desc: ['§7Every 5 hits, throw the enemy up into the air and deal ${200 + round(this.level * mult, 1)}% damage (10s cooldown)'],
         }],
       },
     },
@@ -816,21 +818,21 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Odyssey',
+          name: 'Odyssey',
           desc: ['§2Mythological creatures §7you find and burrows you dig scale in §cdifficulty §7and §6rewards §7based on your equipped Griffin\'s rarity.'],
         }],
         1: [{
-          name: '§6Legendary Constitution',
+          name: 'Legendary Constitution',
           desc: ['§7Permanent §cRegeneration %regeneration% §7and §4Strength %strength%§7.'],
         }],
         2: [],
         3: [{
-          name: '§6Perpetual Empathy',
+          name: 'Perpetual Empathy',
           desc: ['§7Heal nearby players for §a%ability%% §7of the final damage you receive.', '§8Excludes other griffins.'],
         }],
         4: [{
-          name: '§6King of Kings',
-          desc: [`§7Gain §c+${round(1 + (this.level * 0.14), 1)}% §c❁ Strength §7when above §c85% §7health.`],
+          name: 'King of Kings',
+          desc: ['§7Gain §c+${round(1 + (this.level * 0.14), 1)}% §c❁ Strength §7when above §c85% §7health.'],
         }],
       },
     },
@@ -855,17 +857,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Lazerbeam',
+          name: 'Lazerbeam',
           desc: [`§7Zap your enemies for §b%ability%x §7your §b${symbols.intelligence} Intelligence §7every §a3s`],
         }],
         1: [],
         2: [{
-          name: '§6Enchanting Exp Boost',
+          name: 'Enchanting Exp Boost',
           desc: ['§7Boosts your Enchanting exp by §a%ability%%'],
         }],
         3: [],
         4: [{
-          name: '§6Mana Pool',
+          name: 'Mana Pool',
           desc: ['§7Regenerate §b%ability%% §7extra mana, doubled when near or in water'],
         }],
       },
@@ -889,17 +891,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Ridable',
+          name: 'Ridable',
           desc: ['§7Right-click your summoned pet to ride it!'],
         }],
         1: [],
         2: [{
-          name: '§6Run',
+          name: 'Run',
           desc: ['§7Increase the speed of your mount by §a%ability%%'],
         }],
         3: [],
         4: [{
-          name: '§6Ride Into Battle',
+          name: 'Ride Into Battle',
           desc: ['§7When riding your horse, gain +§a%ability%% §7bow damage'],
         }],
       },
@@ -921,24 +923,23 @@ module.exports = {
         },
         3: {},
         4: {
-          ability: 0.1,
+          bonus_attack_speed: 0.1,
         },
       },
       abilities: {
         0: [{
-          name: '§6Scavenger',
+          name: 'Scavenger',
           desc: ['§7Gain +§a%ability% §7coins per monster kill'],
         }],
         1: [],
         2: [{
-          name: '§6Finder',
+          name: 'Finder',
           desc: ['§7Increases the chance for monsters to drop their armor by §a%ability%%'],
         }],
         3: [],
         4: [{
-          name: '§6Fury Claws',
-          desc: [`§7Grants %ability%§e${symbols.attack_speed} Bonus Attack Speed`],
-          func: () => {}, // TODO
+          name: 'Fury Claws',
+          desc: [`§7Grants %bonus_attack_speed%§e${symbols.attack_speed} Bonus Attack Speed`],
         }],
       },
     },
@@ -951,7 +952,7 @@ module.exports = {
       },
       abilityModifiers: {
         0: {
-          ability: [0.2, 0.25, 0.3, 0.3, 0.3],
+          ability: [0.2, 0.2, 0.25, 0.3, 0.3],
         },
         1: {},
         2: {
@@ -964,19 +965,19 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Slimy Minions',
+          name: 'Slimy Minions',
           desc: ['§7Slime minions work §a%ability%% §7faster while on your island'],
         }],
         1: [],
         2: [{
-          name: '§6Salt Blade',
+          name: 'Salt Blade',
           desc: ['§7Deal §a%ability%% §7more damage to slimes'],
         }],
         3: [],
         4: [{
-          name: '§6Hot Ember',
+          name: 'Hot Ember',
           desc: ['§7Buffs the stats of Ember Armor by %ability%%'],
-          func: () => {}, // TODO
+          func: () => ({}), // TODO
         }],
       },
     },
@@ -1002,19 +1003,19 @@ module.exports = {
         1: [],
         2: [],
         3: [{
-          name: '§6Rekindle',
-          desc: [`§7Before death, become §eimmune §7and gain §c${start_strength + round(this.level * mult_strength, 1)} ${symbols.strength} Strength §7for ${2 + round(this.level * mult_time, 1)} §7seconds`, '§73 minutes cooldown'],
+          name: 'Rekindle',
+          desc: ['§7Before death, become §eimmune §7and gain §c${start_strength + round(this.level * mult_strength, 1)} ${symbols.strength} Strength §7for ${2 + round(this.level * mult_time, 1)} §7seconds', '§73 minutes cooldown'],
         },
         {
-          name: '§6Fourth Flare',
-          desc: [`§7On 4th melee strike, §6ignite §7mobs, dealing §c${1 + round(this.level * mult_damage, 1)}x §7your §9${symbols.crit_damage} Crit Damage §7each second for §a${2 + floor(this.level * mult_time, 0)} §7seconds`],
+          name: 'Fourth Flare',
+          desc: ['§7On 4th melee strike, §6ignite §7mobs, dealing §c${1 + round(this.level * mult_damage, 1)}x §7your §9${symbols.crit_damage} Crit Damage §7each second for §a${2 + floor(this.level * mult_time, 0)} §7seconds'],
         }],
         4: [{
-          name: '§6Magic Bird',
+          name: 'Magic Bird',
           desc: ['§7You may always fly on your private island'],
         },
         {
-          name: '§6Eternal Coins',
+          name: 'Eternal Coins',
           desc: ['§7Don\'t lose coins from death.'],
         }],
       },
@@ -1042,23 +1043,24 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Bacon Farmer',
+          name: 'Bacon Farmer',
           desc: ['§7Pig minions work §a%ability%% §7faster while on your island'],
         }],
         1: [],
         2: [{
-          name: '§6Pork Master',
+          name: 'Pork Master',
           desc: [`§7Buffs the Pigman sword by §a%damage% §c${symbols.strength} Damage and §7§a%strength% §c${symbols.strength} Strength`],
         }],
         3: [],
         4: [{
-          name: '§6Giant Slayer',
+          name: 'Giant Slayer',
           desc: ['§7Deal §a%ability%% §7extra damage to monsters level 100 and up'],
         }],
       },
     },
     SKELETON_HORSE: {
       name: 'Skeleton Horse',
+      lore: '§7Run around town on your scary, yet trusty, steed!',
       statModifiers: {
         speed: 0.5,
         intelligence: 1,
@@ -1067,7 +1069,7 @@ module.exports = {
         0: {},
         1: {},
         2: {
-          ability: [0, 0, 0.1, 1.5, 1.5],
+          ability: 1.5,
         },
         3: {},
         4: {
@@ -1076,17 +1078,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Ridable',
+          name: 'Ridable',
           desc: ['§7Right-click your summoned pet to ride it!'],
         }],
         1: [],
         2: [{
-          name: '§6Run',
+          name: 'Run',
           desc: ['§7Increase the speed of your mount by §a%ability%%'],
         }],
         3: [],
         4: [{
-          name: '§6Ride Into Battle',
+          name: 'Ride Into Battle',
           desc: ['§7When riding your horse, gain +§a%ability%% §7bow damage'],
         }],
       },
@@ -1099,34 +1101,35 @@ module.exports = {
       },
       abilityModifiers: {
         0: {
-          ability: [0.1, 0.1, 0.2, 0.2, 0.2],
+          ability: [0.1, 0.15, 0.2, 0.2, 0.2],
         },
         1: {},
         2: {
-          ability: [0, 0, 0.17, 0.2, 0.2],
+          ability: [0, 0, 0.15, 0.17, 0.2],
         },
         3: {},
         4: {},
       },
       abilities: {
         0: [{
-          name: '§6Bone Arrows',
+          name: 'Bone Arrows',
           desc: ['§7Increase arrow damage by §a%ability%% §7which is tripled while in dungeons'],
         }],
         1: [],
         2: [{
-          name: '§6Combo',
+          name: 'Combo',
           desc: [`§7Gain a combo stack for every bow hit granting +§a3 §c${symbols.strength} Strength§7. Max §a%ability% §7stacks, stacks disappear after 8 seconds`],
         }],
         3: [],
         4: [{
-          name: '§6Skeletal Defense',
+          name: 'Skeletal Defense',
           desc: [`§7Your skeleton shoots an arrow dealing §a60x §7your §9${symbols.crit_damage} Crit Damage §7when a mob gets close to you (15s cooldown)`],
         }],
       },
     },
     SNOWMAN: {
       name: 'Snowman',
+      lore: '§7Fight alongside your pet Snowman!',
       statModifiers: {
         damage: 0.25,
         strength: 0.25,
@@ -1145,17 +1148,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Blizzard',
-          desc: [`§7Slow all enemies within §a${4 + round(this.level * mult, 1)} §7blocks`],
+          name: 'Blizzard',
+          desc: ['§7Slow all enemies within §a${4 + round(this.level * mult, 1)} §7blocks'],
         }],
         1: [],
         2: [{
-          name: '§6Frostbite',
-          desc: [`§7Your freezing aura slows enemy attacks causing you to take §a${floor(this.level * mult, 1)}% §7reduced damage`],
+          name: 'Frostbite',
+          desc: ['§7Your freezing aura slows enemy attacks causing you to take §a${floor(this.level * mult, 1)}% §7reduced damage'],
         }],
         3: [],
         4: [{
-          name: '§6Snow Cannon',
+          name: 'Snow Cannon',
           desc: [`§7Your snowman fires a snowball dealing §a5x §7your §c${symbols.strength} Strength §7when a mob gets close to you (1s cooldown)`],
         }],
       },
@@ -1181,17 +1184,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6One With The Spider',
+          name: 'One With The Spider',
           desc: [`§7Gain §a%ability% §c${symbols.strength} Strength §7for every nearby spider`, '§8Max 10 spiders'],
         }],
         1: [],
         2: [{
-          name: '§6Web-weaver',
+          name: 'Web-weaver',
           desc: ['§7Upon hitting a monster it becomes slowed by §a%ability%%'],
         }],
         3: [],
         4: [{
-          name: '§6Spider Whisperer',
+          name: 'Spider Whisperer',
           desc: ['§7Spider and tarantula minions work §a%ability%% §7faster while on your island'],
         }],
       },
@@ -1213,17 +1216,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Spirit Assistance',
+          name: 'Spirit Assistance',
           desc: ['§7Spawns and assists you when you are ghost in dungeons.'],
         }],
         1: [],
         2: [{
-          name: '§6Spirit Leap',
+          name: 'Spirit Leap',
           desc: ['§7Grants a §a10% §7chance for mini-bosses in dungeons to drop §b5 §7Spirit Leap Pearls.'],
         }],
         3: [],
         4: [{
-          name: '§6Spirit Cooldowns',
+          name: 'Spirit Cooldowns',
           desc: ['§7Reduces the cooldown of your ghost abilities in dungeons by §a%ability%%§7.'],
         }],
       },
@@ -1250,17 +1253,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Webbed Cells',
+          name: 'Webbed Cells',
           desc: ['§7Anti-healing is §a%ability%% §7less effective against you'],
         }],
         1: [],
         2: [{
-          name: '§6Eight Legs',
+          name: 'Eight Legs',
           desc: ['§7Decreases the mana cost of Spider, Tarantula and Thorn\'s boots by §a%ability%%'],
         }],
         3: [],
         4: [{
-          name: '§6Arachnid Slayer',
+          name: 'Arachnid Slayer',
           desc: ['§7Gain +§a%ability%% §7more combat xp from spiders'],
         }],
       },
@@ -1291,18 +1294,18 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Merciless Swipe',
-          desc: [`§7Gain 	§c+%ability%% ${symbols.ferocity} Ferocity.`],
+          name: 'Merciless Swipe',
+          desc: [`§7Gain §c+%ability%% ${symbols.ferocity} Ferocity.`],
           func: () => {}, // TODO
         }],
         1: [],
         2: [{
-          name: '§6Hemorrhage',
+          name: 'Hemorrhage',
           desc: ['§7Melee attacks reduce healing by §a%ability%% §7for 10 seconds'],
         }],
         3: [],
         4: [{
-          name: '§6Apex Predator',
+          name: 'Apex Predator',
           desc: ['§7Deal %ability%% damage against targets with no other mobs within 15 blocks'],
         }],
       },
@@ -1327,18 +1330,18 @@ module.exports = {
       },
       abilities: {
         0: [{
-          nname: '§6Turtle Tactics',
+          nname: 'Turtle Tactics',
           desc: [`§7Gain §a+%ability%% ${symbols.defense} Defense`],
-          func: () => {}, // TODO
+          func: () => ({}), // TODO
         }],
         1: [],
         2: [{
-          name: '§6Genius Amniote',
+          name: 'Genius Amniote',
           desc: [`§7Gain §a+%defense% ${symbols.defense} Defense §7and regen §c+%health%${symbols.health} §7per second when near or in water`],
         }],
         3: [],
         4: [{
-          name: '§6Unflippable',
+          name: 'Unflippable',
           desc: ['§7Gain §aimmunity §7to knockback'],
         }],
       },
@@ -1366,17 +1369,17 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Alpha Dog',
+          name: 'Alpha Dog',
           desc: ['§7Take §a%ability%% §7less damage from wolves'],
         }],
         1: [],
         2: [{
-          name: '§6Pack Leader',
+          name: 'Pack Leader',
           desc: [`§7Gain §a%ability% §9 ${symbols.crit_damage} Crit Damage §7for every nearby wolf monsters`, '§8Max 10 wolves'],
         }],
         3: [],
         4: [{
-          name: '§6Combat Exp Boost',
+          name: 'Combat Exp Boost',
           desc: ['§7Boosts your Combat exp by §a%ability%%'],
         }],
       },
@@ -1402,19 +1405,530 @@ module.exports = {
       },
       abilities: {
         0: [{
-          name: '§6Chomp',
+          name: 'Chomp',
           desc: ['§7Gain +§a%ability% §7hp per zombie kill'],
         }],
         1: [],
         2: [{
-          name: '§6Rotten Blade',
+          name: 'Rotten Blade',
           desc: ['Deal §a%ability% §7more damage to zombies'],
         }],
         3: [],
         4: [{
-          name: '§6Living Dead',
+          name: 'Living Dead',
           desc: ['§7Increases the defense of all undead armor sets by §a%ability%%'],
-          func: () => {}, // TODO
+          func: () => ({}), // TODO
+        }],
+      },
+    },
+    GIRAFFE: {
+      name: 'Giraffe',
+      statModifiers: {
+        health: 1,
+        crit_damage: 0.05,
+      },
+      abilityModifiers: {
+        0: {
+          ability: [0.1, 0.15, 0.15, 0.2, 0.25],
+        },
+        1: {},
+        2: {
+          strength: [0, 0, 0.4, 0.5, 0.5],
+          crit_damage: [0, 0, 0.1, 0.25, 0.4],
+        },
+        3: {},
+        4: {
+          ability: 0.25,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Good Heart',
+          desc: [`§7Regen §c%ability% ${symbols.health} §7per second`],
+        }],
+        1: [],
+        2: [{
+          name: 'Higher Ground',
+          desc: ['Grants §c+%strength% ${symbols.strength} Strength §7and §9+${round(this.level * cdMult + 20, 1)} ${symbols.crit_damage} Crit Damage §7when mid air or jumping'],
+        }],
+        3: [],
+        4: [{
+          name: 'Long Neck',
+          desc: ['§7See enemies from afar and gain §a%ability%% §7dodge chance'],
+        }],
+      },
+    },
+    LION: {
+      name: 'Lion',
+      statModifiers: {
+        strength: 0.5,
+        speed: 0.25,
+      },
+      abilityModifiers: {
+        0: {
+          ability: [0.025, 0.05, 0.1, 0.15, 0.2],
+        },
+        1: {},
+        2: {
+          ability: [0, 0, 0.3, 0.4, 0.5],
+        },
+        3: {},
+        4: {
+          ability: 0.3,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Primal Force',
+          desc: [`§7Adds §c+%ability%${symbols.strength} Damage §7to your weapons`],
+        }],
+        1: [],
+        2: [{
+          name: 'First Pounce',
+          desc: ['Increases damage dealt by §a%ability%% §7on your first hit on a mob'],
+        }],
+        3: [],
+        4: [{
+          name: 'King of the Jungle',
+          desc: [`Deal §c+%ability%% ${symbols.strength} Damage §7against mobs below level §a80`],
+        }],
+      },
+    },
+    MONKEY: {
+      name: 'Monkey',
+      statModifiers: {
+        speed: 0.2,
+        intelligence: 0.5,
+      },
+      abilityModifiers: {
+        0: {
+          ability: [0.4, 0.5, 0.5, 0.6, 0.6],
+        },
+        1: {},
+        2: {
+          ability: [0, 0, 0.8, 1, 1],
+        },
+        3: {},
+        4: {
+          ability: 0.5,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Treeborn',
+          desc: ['§7Increase double drop rates for logs by §a%ability%%'],
+        }],
+        1: [],
+        2: [{
+          name: 'Vine Swing',
+          desc: [`§7Gain +§a%ability% §f${symbols.speed} Speed §7while in The Park`],
+        }],
+        3: [],
+        4: [{
+          name: 'Evolved Axes',
+          desc: ['§7Reduce the cooldown of Jungle Axe and Treecapitator by §a%ability%%'],
+        }],
+      },
+    },
+    OCELOT: {
+      name: 'Ocelot',
+      statModifiers: {
+        speed: 0.5,
+        ferocity: 0.1,
+      },
+      abilityModifiers: {
+        0: {
+          ability: [0.4, 0.5, 0.5, 0.6, 0.6],
+        },
+        1: {},
+        2: {
+          ability: 0.3,
+        },
+        3: {},
+        4: {
+          ability: 0.3,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Foraging Exp Boost',
+          desc: ['§7Boosts your Foraging exp by §a%ability%%'],
+        }],
+        1: [],
+        2: [{
+          name: 'Tree Hugger',
+          desc: ['§7Foraging minions work §a%ability%% §7faster while on your island'],
+        }],
+        3: [],
+        4: [{
+          name: 'Tree Essence',
+          desc: ['§7Gain a §a%ability%% §7chance to get exp from breaking a log'],
+        }],
+      },
+    },
+    BABY_YETI: {
+      name: 'Baby Yeti',
+      statModifiers: {
+        intelligence: 0.75,
+        strength: 0.4,
+      },
+      abilityModifiers: {
+        0: {},
+        1: {},
+        2: {},
+        3: {
+          first: 0.5,
+          second: 1,
+        },
+        4: {
+          ability: 1,
+        },
+      },
+      abilities: {
+        0: [],
+        1: [],
+        2: [],
+        3: [{
+          name: 'Cold Breeze',
+          desc: [`§7Gives §a%first% §c${symbols.strength} Strength §7and §9${symbols.crit_damage} Crit Damage §7when near snow`],
+        },
+        {
+          name: 'Ice Shields',
+          desc: [`§7Gain §a%second%% §7of your strength as §a${symbols.defense} Defense`],
+        }],
+        4: [{
+          name: 'Yeti Fury',
+          desc: [`§7Buff the Yeti sword by §a%ability% §c${symbols.strength} Damage §7and §9${symbols.intelligence} Intelligence`],
+        }],
+      },
+    },
+    BLUE_WHALE: {
+      name: 'Blue Whale',
+      statModifiers: {
+        health: 2,
+      },
+      abilityModifiers: {
+        0: {
+          ability: [0.5, 1, 1.5, 2, 2.5],
+        },
+        1: {},
+        2: {
+          defense: 0.03,
+          health: [0, 0, 30, 25, 20],
+        },
+        3: {},
+        4: {
+          ability: 0.2,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Ingest',
+          desc: [`§7All potions heal §c+%ability%${symbols.health}`],
+        }],
+        1: [],
+        2: [{
+          name: 'Bulk',
+          desc: [`§7Gain §a%defense% ${symbols.defense} Defense §7per §c%health% Max ${symbols.health} Health`],
+          func: (yeet) => {
+            console.log('yeet');
+            return [];
+          }, // TODO
+        }],
+        3: [],
+        4: [{
+          name: 'Archimedes',
+          desc: [`§7Gain §c+%ability%% Max ${symbols.health} Health`],
+          func: () => ({}), // TODO
+        }],
+      },
+    },
+    DOLPHIN: {
+      name: 'Dolphin',
+      statModifiers: {
+        sea_creature_chance: 0.05,
+        intelligence: 1,
+      },
+      abilityModifiers: {
+        0: {
+          ability: [0.03, 0.04, 0.05, 0.05, 0.05],
+          max: [15, 20, 25, 25, 25],
+        },
+        1: {},
+        2: {
+          ability: [0, 0, 0.07, 0.1, 0.1],
+        },
+        3: {},
+        4: {},
+      },
+      abilities: {
+        0: [{
+          name: 'Pod Tactics',
+          desc: ['§7Increases your fishing speed by §a%ability%% §7for each nearby player within 10 blocks up to §a%max%%'],
+        }],
+        1: [],
+        2: [{
+          name: 'Echolocation',
+          desc: ['§7Increases sea creatures catch chance by §a%ability%%'],
+          func: () => ({}), // TODO
+        }],
+        3: [],
+        4: [{
+          name: 'Splash Surprise',
+          desc: ['§7Stun sea creatures for §a5s §7after fishing them up'],
+        }],
+      },
+    },
+    FLYING_FISH: {
+      name: 'Flying Fish',
+      statModifiers: {
+        defense: 0.5,
+        strength: 0.5,
+      },
+      abilityModifiers: {
+        0: {
+          ability: [0.3, 0.3, 0.4, 0.4, 0.4],
+        },
+        1: {},
+        2: {
+          ability: [0, 0, 0.4, 0.5, 0.5],
+        },
+        3: {},
+        4: {
+          ability: 0.3,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Quick Reel',
+          desc: ['§7Increases fishing speed by §a%ability%%'],
+        }],
+        1: [],
+        2: [{
+          name: 'Water Bender',
+          desc: [`§7Gives §a%ability% §c${symbols.strength} Strength §7and §a${symbols.defense} Defense §7when near water`],
+        }],
+        3: [],
+        4: [{
+          name: 'Deep Sea Diver',
+          desc: ['§7Increases the stats of Diver Armor by §a%ability%%'],
+          func: () => ({}), // TODO
+        }],
+      },
+    },
+    MEGALODON: {
+      name: 'Megalodon',
+      statModifiers: {
+        strength: 0.5,
+        magic_find: 0.1,
+        ferocity: 0.05,
+      },
+      abilityModifiers: {
+        0: {
+          ability: 0.25,
+        },
+        1: {},
+        2: {
+          ability: 0.2,
+        },
+        3: {},
+        4: {
+          ability: 0.5,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Blood Scent',
+          desc: [`§7Deal up to §c+%ability%% ${symbols.strength} §7Damage based on the enemy's missing health`],
+        }],
+        1: [],
+        2: [{
+          name: 'Enhanced scales',
+          desc: ['§7Increases the stats of Shark Armor by §a%ability%%'],
+          func: () => ({}), // TODO
+        }],
+        3: [],
+        4: [{
+          name: 'Feeding frenzy',
+          desc: [`§7On kill gain §c%ability%${symbols.strength} Damage §7and §f${symbols.speed} Speed §7for 5 seconds`],
+        }],
+      },
+    },
+    SQUID: {
+      name: 'Squid',
+      statModifiers: {
+        health: 0.5,
+        intelligence: 0.5,
+      },
+      abilityModifiers: {
+        0: {
+          ability: [0.5, 0.75, 0.75, 1, 1],
+        },
+        1: {},
+        2: {
+          damage: [0, 0, 0.3, 0.4, 0.4],
+          strength: [0, 0, 0.1, 0.2, 0.2],
+        },
+        3: {},
+        4: {
+          ability: 0.3,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'More Ink',
+          desc: ['§7Gain a §a%ability%% §7chance to get double drops from squids'],
+        }],
+        1: [],
+        2: [{
+          name: 'Ink Specialty',
+          desc: [`§7Buffs the Ink Wand by §a%damage% §c${symbols.strength} Damage §7and §a%strength% §c${symbols.strength} Strength`],
+        }],
+        3: [],
+        4: [{
+          name: 'Fishing Exp Boost',
+          desc: ['§7Boosts your Fishing exp by §a%ability%%'],
+        }],
+      },
+    },
+    JELLYFISH: {
+      name: 'Jellyfish',
+      statModifiers: {
+        health: 2,
+      },
+      abilityModifiers: {
+        0: {
+          ability: 1,
+        },
+        1: {},
+        2: {},
+        3: {},
+        4: {
+          ability: 0.5,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Radiant Regeneration',
+          desc: ['§7While in dungeons, increase your base health regen by §a%ability%% §7and heals players within 8 blocks by up to 10hp/s'],
+        }],
+        1: [],
+        2: [{
+          name: 'Hungry Healer',
+          desc: ['§7While in dungeons, for every 1000 you heal teammates apply the §aenchanted golden apple §7effect to all players within 10 blocks (10s cooldown)'],
+        }],
+        3: [],
+        4: [{
+          name: 'Powerful Potions',
+          desc: ['§7While in dungeons, increase the effectiveness of Instant Health and Mana splash potions by §a%ability%%'],
+        }],
+      },
+    },
+    PARROT: {
+      name: 'Parrot',
+      statModifiers: {
+        crit_damage: 0.1,
+        intelligence: 1,
+      },
+      abilityModifiers: {
+        0: {
+          ability: 1,
+        },
+        1: {},
+        2: {
+          ability: 0.35,
+        },
+        3: {},
+        4: {
+          ability: 0.25,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Flamboyant',
+          desc: ['§7Adds §a${Math.max(round(this.level * mult, 0), 1)} §7levels to intimidation accessories'],
+        }],
+        1: [],
+        2: [{
+          name: 'Repeat',
+          desc: ['§7Boosts potion duration by §a${round(5 + (this.level * mult), 1)}%'],
+        }],
+        3: [],
+        4: [{
+          name: 'Bird Discourse',
+          desc: ['§7Gives §c+${symbols.strength}${round(5 + (this.level * mult), 1)} Strength §7to players within §a20 §7blocks', '§7Doesn\'t stack'],
+        }],
+      },
+    },
+    SHEEP: {
+      name: 'Sheep',
+      statModifiers: {
+        ability_damage: 0.2,
+        intelligence: 1,
+      },
+      abilityModifiers: {
+        0: {
+          ability: [0.05, 0.05, 0.125, 0.2, 0.2],
+        },
+        1: {},
+        2: {
+          ability: 0.1,
+        },
+        3: {},
+        4: {
+          ability: 0.25,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Mana Saver',
+          desc: ['§7Reduces the mana cost of abilites by §a%ability%%'],
+        }],
+        1: [],
+        2: [{
+          name: 'Overheal',
+          desc: ['§7Gives a §a%ability%% §7shield after not taking damage for 10s'],
+        }],
+        3: [],
+        4: [{
+          name: 'Dungeon Wizard',
+          desc: ['§7Increases your total mana by §a%ability%% §7while in dungeons'],
+        }],
+      },
+    },
+    JERRY: {
+      name: 'Jerry',
+      statModifiers: {
+        intelligence: -1,
+      },
+      abilityModifiers: {
+        0: {
+          first: 50,
+          second: 100,
+        },
+        1: {},
+        2: {},
+        3: {},
+        4: {
+          ability: 0.1,
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Jerry',
+          desc: ['§7Gain §a%ability%% §7chance to deal your regular damage.'],
+        },
+        {
+          name: 'Jerry',
+          desc: ['§7Gain §a%ability%% §7chance to receive a normal amount of drops from mobs.'],
+        }],
+        1: [],
+        2: [],
+        3: [],
+        4: [{
+          name: 'Jerry',
+          desc: ['§7Actually adds ${Math.floor(this.level * mult)} damage to the Aspect of the Jerry.'],
+          func: () => ({}), // TODO
         }],
       },
     },

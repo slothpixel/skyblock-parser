@@ -14,6 +14,22 @@ const rarityColors = {
   mythic: 'd',
   special: 'c',
 };
+const symbols = {
+  health: '❤',
+  defense: '❈',
+  strength: '❁',
+  crit_chance: '☣',
+  crit_damage: '☠',
+  intelligence: '✎',
+  speed: '✦',
+  sea_creature_chance: 'α',
+  magic_find: '✯',
+  pet_luck: '♣',
+  attack_speed: '⚔️',
+  true_defense: '❂',
+  ferocity: '⫽',
+  ability_damage: '✹',
+};
 const statTemplate = {
   damage: 0,
   health: 0,
@@ -29,12 +45,16 @@ const statTemplate = {
   sea_creature_chance: 0,
   magic_find: 0,
   pet_luck: 0,
+  true_defense: 0,
+  ferocity: 0,
+  ability_damage: 0,
 };
 
 module.exports = {
   MAX_SOULS,
   rarityOrder,
   rarityColors,
+  symbols,
   statTemplate,
   ...leveling,
   ...bonuses,
