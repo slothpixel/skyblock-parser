@@ -22,6 +22,10 @@ const baseStats = {
   true_defense: 0,
   ferocity: 0,
   ability_damage: 0,
+  mining_speed: 0,
+  mining_fortune: 0,
+  farming_fortune: 0,
+  foraging_fortune: 0,
 };
 
 async function getInventory({ data = '' }, active = false) {

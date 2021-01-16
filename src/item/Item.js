@@ -178,6 +178,18 @@ class Item {
         case 'Ability Damage':
           bonus.ability_damage = statValue;
           break;
+        case 'Mining Speed':
+          bonus.mining_speed = statValue;
+          break;
+        case 'Mining Fortune':
+          bonus.mining_fortune = statValue;
+          break;
+        case 'Foraging Fortune':
+          bonus.foraging_fortune = statValue;
+          break;
+        case 'Farming Fortune':
+          bonus.farming_fortune = statValue;
+          break;
       }
       // Party Crab Hat
       if (id === 'PARTY_HAT_CRAB' && rawLine.startsWith('Your bonus: ')) {

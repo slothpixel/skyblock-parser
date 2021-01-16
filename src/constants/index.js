@@ -29,6 +29,10 @@ const symbols = {
   true_defense: '❂',
   ferocity: '⫽',
   ability_damage: '✹',
+  mining_speed: '↑',
+  mining_fortune: '',
+  farming_fortune: '',
+  foraging_fortune: '',
 };
 const statTemplate = {
   damage: 0,
@@ -48,6 +52,10 @@ const statTemplate = {
   true_defense: 0,
   ferocity: 0,
   ability_damage: 0,
+  mining_speed: 0,
+  mining_fortune: 0,
+  farming_fortune: 0,
+  foraging_fortune: 0,
 };
 
 module.exports = {
