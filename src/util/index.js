@@ -111,13 +111,13 @@ function modifyStats(sourceObj, targetObj, operator = '+') {
     const value = sourceObj[stat];
     if (typeof value === 'number') {
       if (operator === '+') {
-        target[stat] += value;
+        target[stat] = (target[stat] || 0) + value;
       }
       if (operator === '-') {
-        target[stat] -= value;
+        target[stat] = (target[stat] || 0) - value;
       }
       if (operator === '*') {
-        target[stat] *= value;
+        target[stat] = (target[stat] || 0) * value;
       }
     }
   });
