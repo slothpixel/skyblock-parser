@@ -19,6 +19,9 @@ const baseStats = {
   sea_creature_chance: 20,
   magic_find: 10,
   pet_luck: 0,
+  true_defense: 0,
+  ferocity: 0,
+  ability_damage: 0,
 };
 
 async function getInventory({ data = '' }, active = false) {
@@ -448,16 +451,12 @@ class Player {
   applyBonuses() {
     function addStats(elements, player) {
       elements.forEach((element) => {
-        Object.keys(element.bonus).forEach((key) => {
-          player.attributes[key] += element.bonus[key];
-        });
+        player.attributes = util.modifyStats(element.bonus, player.attributes);
       });
     }
     function multiplyStats(elements, player) {
       elements.forEach((element) => {
-        Object.keys(element.bonus).forEach((key) => {
-          player.attributes[key] *= element.bonus[key];
-        });
+        player.attributes = util.modifyStats(element.bonus, player.attributes, '*');
       });
     }
     function applyBonuses(bonuses, player) {
