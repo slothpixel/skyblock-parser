@@ -22,7 +22,6 @@ const itemSchema = {
 const attributeSchema = {
   modifier: 'tag.ExtraAttributes.modifier',
   enchantments: 'tag.ExtraAttributes.enchantments',
-  anvil_uses: 'tag.ExtraAttributes.anvil_uses',
   hot_potato_count: 'tag.ExtraAttributes.hot_potato_count',
   origin: 'tag.ExtraAttributes.originTag',
   id: 'tag.ExtraAttributes.id',
@@ -70,7 +69,7 @@ class Item {
           this.attributes[key] = value;
         }
       });
-      const { hot_potato_count, timestamp } = this.attributes;
+      const { timestamp } = this.attributes;
       let { texture } = this.attributes;
       if (texture) {
         texture = null;
@@ -80,9 +79,6 @@ class Item {
           // do nothing
         }
         this.attributes.texture = texture;
-      }
-      if (hot_potato_count) {
-        this.attributes.anvil_uses -= hot_potato_count;
       }
       this.attributes.timestamp = Date.parse(timestamp) || null;
       const { name, lore } = this;
