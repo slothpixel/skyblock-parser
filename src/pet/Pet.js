@@ -44,7 +44,7 @@ class Pet {
     const pet = pets[type] || {};
     let rarityTier = petRarity.indexOf(rarityL) || 4;
 
-    const { head, type: petType } = petData[type];
+    const { head = '', type: petType = type } = petData[type] || {};
     this.texture = head || 'bc8ea1f51f253ff5142ca11ae45193a4ad8c3ab5e9c6eec8ba7a4fcb7bac40';
 
     let nameString = `[Lvl ${level}] §${rarityColors[rarityL]}${this.name || type}`;
