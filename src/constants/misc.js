@@ -180,7 +180,6 @@ module.exports = {
     WITHER_ARTIFACT: [
       'WITHER_RELIC',
     ],
-
     WEDDING_RING_0: [
       'WEDDING_RING_2',
       'WEDDING_RING_4',
@@ -199,7 +198,6 @@ module.exports = {
     WEDDING_RING_7: [
       'WEDDING_RING_9',
     ],
-
     CAMPFIRE_TALISMAN_1: [
       'CAMPFIRE_TALISMAN_4',
       'CAMPFIRE_TALISMAN_8',
@@ -217,6 +215,18 @@ module.exports = {
     ],
     CAMPFIRE_TALISMAN_13: [
       'CAMPFIRE_TALISMAN_21',
+    ],
+    JERRY_TALISMAN_GREEN: [
+      'JERRY_TALISMAN_BLUE',
+      'JERRY_TALISMAN_PURPLE',
+      'JERRY_TALISMAN_GOLDEN',
+    ],
+    JERRY_TALISMAN_BLUE: [
+      'JERRY_TALISMAN_PURPLE',
+      'JERRY_TALISMAN_GOLDEN',
+    ],
+    JERRY_TALISMAN_PURPLE: [
+      'JERRY_TALISMAN_GOLDEN',
     ],
   },
 };
