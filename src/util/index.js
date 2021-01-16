@@ -135,8 +135,15 @@ function removeZeroes(object = {}) {
   return newObject;
 }
 
-function getLevelByXp(xp = 0, runecrafting) {
-  const xpTable = runecrafting ? constants.runecraftingXp : constants.levelingXp;
+function getLevelByXp(xp = 0, type) {
+  let xpTable;
+  switch (type) {
+    case 'runecrafting':
+      xpTable = constants.runecraftingXp;
+      break;
+    default:
+      xpTable = constants.levelingXp;
+  }
   if (Number.isNaN(xp)) {
     return {
       xp: 0,
@@ -150,10 +157,8 @@ function getLevelByXp(xp = 0, runecrafting) {
   let xpTotal = 0;
   let level = 0;
   let xpForNext = Infinity;
-  const maxLevel = Object.keys(xpTable)
-    .sort((a, b) => Number(a) - Number(b))
-    .map((a) => Number(a))
-    .pop();
+
+  const maxLevel = constants.levelCaps[type] || 50;
 
   for (let x = 1; x <= maxLevel; x += 1) {
     xpTotal += xpTable[x];
