@@ -213,7 +213,7 @@ module.exports = {
         0: [{
           name: 'Hive',
           desc: [`§7Gain §b+%intelligence%${symbols.intelligence} Intelligence §7and §c+%strength%${symbols.strength} Strength §7for each nearby bee.`, '§8Max 15 bees'],
-          func: () => ([]),
+          func: () => ([]), // TODO
         }],
         1: [],
         2: [{
@@ -285,10 +285,7 @@ module.exports = {
         0: [{
           name: 'Stomp',
           desc: [`§7Gain §a%ability% ${symbols.defense} Defense §7for every §f100 ${symbols.speed} Speed`],
-          func: (player) => {
-            console.log(player.attributes);
-            return {};
-          },
+          func: () => ([]), // TODO
         }],
         1: [],
         2: [{
@@ -977,7 +974,7 @@ module.exports = {
         3: [],
         4: [{
           name: 'Hot Ember',
-          desc: ['§7Buffs the stats of Ember Armor by %ability%%'],
+          desc: ['§7Buffs the stats of Ember Armor by §a%ability%%'],
           func: () => ([]), // TODO
         }],
       },
@@ -1423,7 +1420,7 @@ module.exports = {
         1: [],
         2: [{
           name: 'Rotten Blade',
-          desc: ['Deal §a%ability% §7more damage to zombies'],
+          desc: ['§7Deal §a%ability%% §7more damage to zombies'],
         }],
         3: [],
         4: [{
@@ -1461,7 +1458,7 @@ module.exports = {
         1: [],
         2: [{
           name: 'Higher Ground',
-          desc: [`Grants §c+%strength% ${symbols.strength} Strength §7and §9+%ability% ${symbols.crit_damage} Crit Damage §7when mid air or jumping`],
+          desc: [`§7Grants §c+%strength% ${symbols.strength} Strength §7and §9+%ability% ${symbols.crit_damage} Crit Damage §7when mid air or jumping`],
           descFn: ({ round }, level, multiplier, rarity) => {
             const cdMult = [0, 0, 0.1, 0.25, 0.4][rarity];
             return round(level * cdMult + 20);
@@ -1501,12 +1498,12 @@ module.exports = {
         1: [],
         2: [{
           name: 'First Pounce',
-          desc: ['Increases damage dealt by §a%ability%% §7on your first hit on a mob'],
+          desc: ['§7Increases damage dealt by §a%ability%% §7on your first hit on a mob'],
         }],
         3: [],
         4: [{
           name: 'King of the Jungle',
-          desc: [`Deal §c+%ability%% ${symbols.strength} Damage §7against mobs below level §a80`],
+          desc: [`§7Deal §c+%ability%% ${symbols.strength} Damage §7against mobs below level §a80`],
         }],
       },
     },
@@ -1944,7 +1941,7 @@ module.exports = {
         3: [],
         4: [{
           name: 'Jerry',
-          desc: ['§7Actually adds %ability% damage to the Aspect of the Jerry.'],
+          desc: ['§7Actually adds §c%ability% damage §7to the Aspect of the Jerry.'],
           descFn: (level, multiplier) => Math.floor(level * multiplier),
           func: () => ([]), // TODO
         }],
@@ -2231,6 +2228,22 @@ module.exports = {
         name: 'Light Green',
         head: 'cf183ec2fe58faa43e568419b7a0dc446ece4ea0be52ec784c94e1d74b75939d',
       },
+      SHEEP_NEON_YELLOW: {
+        name: 'Neon Yellow',
+        head: '94263428c23da9165b2639a8f2428ff4835227945c9e1038461cf644d67cc82a',
+      },
+      SHEEP_NEON_RED: {
+        name: 'Neon Red',
+        head: '4918be142a20b2b39bc582f421f6ae87b3184b5c9523d16fbe6d69530107886a',
+      },
+      SHEEP_NEON_BLUE: {
+        name: 'Neon Blue',
+        head: 'e55b3fe9311c99342ea565483cbf9e969a258faf7afa30270fb9a0929377acfd',
+      },
+      SHEEP_NEON_GREEN: {
+        name: 'Neon Green',
+        head: '2c14d66911554bd0882339074bf6b8110c2d3509b69e7a6144e4d5a7164bacc8',
+      },
     },
     SILVERFISH: {
       SILVERFISH: {
@@ -2266,6 +2279,12 @@ module.exports = {
       YETI_GROWN_UP: {
         name: 'Grown-up',
         head: 'f5f29a975529276d916fc67998833c11ee178ff21e5941afdfb0fa7010f8374e',
+      },
+    },
+    MONKEY: {
+      MONKEY_GOLDEN: {
+        name: 'Golden',
+        head: 'e9281c4d87d68526b0749d4361e6ef786c8a35717aa053da704b1d53410d37a6',
       },
     },
   },

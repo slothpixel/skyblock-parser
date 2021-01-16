@@ -21,7 +21,7 @@ class Pet {
   #activeAbilities = [];
 
   constructor({
-    uuid, type, tier: rarity, exp, active, heldItem, skin, candyUsed,
+    uuid, type, tier: rarity, exp, level: simulatedLevel, active, heldItem, skin, candyUsed,
   }) {
     if (typeof type !== 'string') return this;
     this.uuid = uuid;
@@ -39,7 +39,7 @@ class Pet {
 
     const rarityL = rarity.toLowerCase();
     const { level, progress } = getPetLevel(rarityL, exp);
-    this.level = level;
+    this.level = simulatedLevel || level;
 
     const pet = pets[type] || {};
     let rarityTier = petRarity.indexOf(rarityL) || 4;
@@ -153,7 +153,9 @@ class Pet {
     });
 
     this.lore.push('', ...abilityLore);
-    this.lore.push(...heldItemLore, '');
+    if (heldItem !== null) {
+      this.lore.push(...heldItemLore, '');
+    }
 
     if (candyUsed > 0) {
       this.lore.push(`§a(${candyUsed}/10) Pet Candy Used`, '');
@@ -176,7 +178,6 @@ class Pet {
 
   getAbilityStats(player) {
     const bonuses = [];
-    console.log(this.#activeAbilities);
     Object.values(this.#activeAbilities).forEach((ability) => {
       // Returns passive stats
       const name = ability.name.toUpperCase().replace(/ /g, '_').replace(/-/g, '_');
