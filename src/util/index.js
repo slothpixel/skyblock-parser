@@ -105,6 +105,25 @@ const round = (value, exp = -1) => decimalAdjust('round', value, exp);
 // Decimal floor
 const floor = (value, exp = -1) => decimalAdjust('floor', value, exp);
 
+function modifyStats(sourceObj, targetObj, operator = '+') {
+  const target = { ...targetObj };
+  Object.keys(sourceObj).forEach((stat) => {
+    const value = sourceObj[stat];
+    if (typeof value === 'number') {
+      if (operator === '+') {
+        target[stat] += value;
+      }
+      if (operator === '-') {
+        target[stat] -= value;
+      }
+      if (operator === '*') {
+        target[stat] *= value;
+      }
+    }
+  });
+  return target;
+}
+
 function removeZeroes(object = {}) {
   const newObject = {};
   Object.keys(object).forEach((entry) => {
@@ -254,6 +273,7 @@ module.exports = {
   floor,
   round,
   removeZeroes,
+  modifyStats,
   decodeData,
   getNestedObjects,
   pickKeys,

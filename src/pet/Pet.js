@@ -2,9 +2,11 @@
 const {
   statTemplate, pets, petData, petItems, petSkins, rarityColors,
 } = require('../constants');
+const util = require('../util');
+
 const {
-  capitalizeFirstLetter, titleCase, removeZeroes, round, getPetLevel,
-} = require('../util');
+  capitalizeFirstLetter, titleCase, removeZeroes, modifyStats, round, getPetLevel,
+} = util;
 
 const petRarity = [
   'common',
@@ -45,7 +47,7 @@ class Pet {
     const { head, type: petType } = petData[type];
     this.texture = head || 'bc8ea1f51f253ff5142ca11ae45193a4ad8c3ab5e9c6eec8ba7a4fcb7bac40';
 
-    this.lore.push(`[Lvl ${level}] §${rarityColors[rarityL]}${this.name || type}`);
+    let nameString = `[Lvl ${level}] §${rarityColors[rarityL]}${this.name || type}`;
     let typeString = `§8${capitalizeFirstLetter(petType)} `;
     typeString += [
       'HORSE',
@@ -55,12 +57,13 @@ class Pet {
     ].indexOf(type) === -1 ? 'Pet' : 'Mount';
 
     if (skin && petSkins[type][skin]) {
+      nameString += ' ✦';
       const petSkin = petSkins[type][skin];
       this.texture = petSkin.head;
       this.skin = titleCase(skin);
       typeString += `, ${petSkin.name} Skin`;
     }
-    this.lore.push(typeString, '');
+    this.lore.push(nameString, typeString, '');
 
     // Pet's own lore
     if ('lore' in pet) {
@@ -68,15 +71,18 @@ class Pet {
     }
 
     let abilityLore = [];
+    const heldItemLore = [];
 
-    if ((heldItem === 'PET_ITEM_TIER_BOOST' || heldItem === 'PET_ITEM_VAMPIRE_FANGS') && rarityTier < 4) {
+    if ((heldItem === 'PET_ITEM_TIER_BOOST'
+      || heldItem === 'PET_ITEM_VAMPIRE_FANGS'
+      || heldItem === 'PET_ITEM_TOY_JERRY') && rarityTier < 4) {
       rarityTier += 1;
     }
 
     // Load stats
     this.stats = Object.assign(this.stats, pet.baseStats);
 
-    const { statModifiers } = pet;
+    const { statModifiers = {} } = pet;
     Object.keys(statModifiers).forEach((stat) => {
       this.stats[stat] += statModifiers[stat] * level;
     });
@@ -98,9 +104,14 @@ class Pet {
           const { desc, name } = tier;
           Object.keys(pet.abilityModifiers[x]).forEach((stat) => {
             const modifier = getAbilityModifier(pet.abilityModifiers[x][stat]);
-            const abilityValue = (typeof modifier === 'number')
-              ? round(this.level * getAbilityModifier(modifier))
-              : modifier;
+            let abilityValue;
+            if ('descFn' in tier && stat === 'ability') {
+              abilityValue = tier.descFn(util, this.level, modifier, rarity);
+            } else {
+              abilityValue = (typeof modifier === 'number')
+                ? round(this.level * getAbilityModifier(modifier))
+                : modifier;
+            }
             if (stat in statTemplate) {
               stats[stat] = abilityValue;
             }
@@ -112,6 +123,26 @@ class Pet {
       }
     }
 
+    if (heldItem !== null) {
+      const item = petItems[heldItem];
+      // Item stats
+      if ('stats' in item) {
+        this.stats = modifyStats(item.stats, this.stats);
+      }
+      if ('multStats' in item) {
+        this.stats = modifyStats(item.multStats, this.stats, '*');
+      }
+      if ('multAll' in item) {
+        Object.keys(this.stats).forEach((stat) => {
+          this.stats[stat] *= item.multAll;
+        });
+      }
+      const { description = '', name = heldItem, rarity: heldRarity = 'common' } = item;
+      const petItemRarityColor = rarityColors[heldRarity.toLowerCase()];
+      heldItemLore.push(`§4Held Item: §${petItemRarityColor}${name}`, description);
+    }
+
+    // Generate stat lore
     Object.keys(this.stats).forEach((stat) => {
       const valueFloored = Math.floor(this.stats[stat]);
       let statString = (valueFloored > 0) ? `§a+${valueFloored}` : `§a${valueFloored}`;
@@ -121,16 +152,8 @@ class Pet {
       this.lore.push(`§7${titleCase(stat)}: ${statString}`);
     });
 
-    this.lore.push('');
-    this.lore.push(...abilityLore);
-
-    if (heldItem !== null) {
-      // TODO item stats
-      const item = petItems[heldItem];
-      const { description, name } = item;
-      const petItemRarityColor = rarityColors[item.rarity.toLowerCase()];
-      this.lore.push(`§4Held Item: §${petItemRarityColor}${name}`, description, '');
-    }
+    this.lore.push('', ...abilityLore);
+    this.lore.push(...heldItemLore, '');
 
     if (candyUsed > 0) {
       this.lore.push(`§a(${candyUsed}/10) Pet Candy Used`, '');

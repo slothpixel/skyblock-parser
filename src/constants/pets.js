@@ -1,4 +1,3 @@
-// /* eslint-disable no-template-curly-in-string */
 // We have to duplicate this to prevent circular dependency
 const symbols = {
   health: '❤',
@@ -214,7 +213,7 @@ module.exports = {
         0: [{
           name: 'Hive',
           desc: [`§7Gain §b+%intelligence%${symbols.intelligence} Intelligence §7and §c+%strength%${symbols.strength} Strength §7for each nearby bee.`, '§8Max 15 bees'],
-          func: () => ({}),
+          func: () => ([]),
         }],
         1: [],
         2: [{
@@ -295,7 +294,7 @@ module.exports = {
         2: [{
           name: 'Walking Fortress',
           desc: [`§7Gain §c%ability% ${symbols.health} Health §7for every §a10 ${symbols.defense} Defense`],
-          func: (player) => ({}),
+          func: () => ([]), // TODO
         }],
         3: [],
         4: [{
@@ -409,7 +408,7 @@ module.exports = {
         2: [{
           name: 'Nightmare',
           desc: [`§7During night, gain §a%intelligence% §9${symbols.intelligence} Intelligence, §a%speed% §f${symbols.speed} Speed§7, and night vision`],
-          func: () => ({}),
+          func: () => ([]),
         }],
         3: [],
         4: [{
@@ -591,7 +590,7 @@ module.exports = {
         0: [{
           name: 'Hunter',
           desc: ['§7Increases your speed and speed cap by +§a%ability%'],
-          func: () => ({}), // TODO
+          func: () => ([]), // TODO
         }],
         1: [],
         2: [{
@@ -634,13 +633,13 @@ module.exports = {
         2: [{
           name: 'Bling Armor',
           desc: ['§7Upgrades §cBlaze Armor §7stats and ability by §a%ability%%'],
-          func: () => ({}), // TODO
+          func: () => ([]), // TODO
         }],
         3: [],
         4: [{
           name: 'Fusion-Style Potato',
           desc: ['§7Doubles effects of hot potato books'],
-          func: () => ({}), // TODO
+          func: () => ([]), // TODO
         }],
       },
     },
@@ -679,7 +678,7 @@ module.exports = {
         4: [{
           name: 'Superior',
           desc: ['§7Increases all stats by §a%ability%%'],
-          func: () => ({}), // TODO
+          func: () => ([]), // TODO
         }],
       },
     },
@@ -787,7 +786,8 @@ module.exports = {
         3: [],
         4: [{
           name: 'Toss',
-          desc: ['§7Every 5 hits, throw the enemy up into the air and deal ${200 + round(this.level * mult, 1)}% damage (10s cooldown)'],
+          desc: ['§7Every 5 hits, throw the enemy up into the air and deal %%ability% damage (10s cooldown)'],
+          descFn: ({ round }, level, multiplier) => 200 + round(level * multiplier),
         }],
       },
     },
@@ -832,7 +832,8 @@ module.exports = {
         }],
         4: [{
           name: 'King of Kings',
-          desc: ['§7Gain §c+${round(1 + (this.level * 0.14), 1)}% §c❁ Strength §7when above §c85% §7health.'],
+          desc: ['§7Gain §c+%ability%% §c❁ Strength §7when above §c85% §7health.'],
+          descFn: ({ round }, level, multiplier) => round(1 + (level * multiplier)),
         }],
       },
     },
@@ -977,7 +978,7 @@ module.exports = {
         4: [{
           name: 'Hot Ember',
           desc: ['§7Buffs the stats of Ember Armor by %ability%%'],
-          func: () => ({}), // TODO
+          func: () => ([]), // TODO
         }],
       },
     },
@@ -1004,11 +1005,20 @@ module.exports = {
         2: [],
         3: [{
           name: 'Rekindle',
-          desc: ['§7Before death, become §eimmune §7and gain §c${start_strength + round(this.level * mult_strength, 1)} ${symbols.strength} Strength §7for ${2 + round(this.level * mult_time, 1)} §7seconds', '§73 minutes cooldown'],
+          desc: ['§7Before death, become §eimmune §7and gain §c%ability% §7seconds', '§73 minutes cooldown'],
+          descFn: ({ round }, level, multiplier, rarity) => {
+            const startStrength = rarity > 3 ? 15 : 10;
+            const multStrength = rarity > 3 ? 0.15 : 0.1;
+            return `${startStrength + round(level * multStrength)} ${symbols.strength} Strength §7for ${2 + round(level * 0.02)}`;
+          },
         },
         {
           name: 'Fourth Flare',
-          desc: ['§7On 4th melee strike, §6ignite §7mobs, dealing §c${1 + round(this.level * mult_damage, 1)}x §7your §9${symbols.crit_damage} Crit Damage §7each second for §a${2 + floor(this.level * mult_time, 0)} §7seconds'],
+          desc: ['§7On 4th melee strike, §6ignite §7mobs, dealing §c%ability% §7seconds'],
+          descFn: ({ round, floor }, level, multiplier, rarity) => {
+            const multDamage = rarity > 3 ? 0.14 : 0.12;
+            return `${1 + round(level * multDamage)}x §7your §9${symbols.crit_damage} Crit Damage §7each second for §a${2 + floor(level * 0.04, 0)}`;
+          },
         }],
         4: [{
           name: 'Magic Bird',
@@ -1149,12 +1159,14 @@ module.exports = {
       abilities: {
         0: [{
           name: 'Blizzard',
-          desc: ['§7Slow all enemies within §a${4 + round(this.level * mult, 1)} §7blocks'],
+          desc: ['§7Slow all enemies within §a%ability% §7blocks'],
+          descFn: ({ round }, level, multiplier) => 4 + round(level * multiplier),
         }],
         1: [],
         2: [{
           name: 'Frostbite',
-          desc: ['§7Your freezing aura slows enemy attacks causing you to take §a${floor(this.level * mult, 1)}% §7reduced damage'],
+          desc: ['§7Your freezing aura slows enemy attacks causing you to take §a%ability%% §7reduced damage'],
+          descFn: ({ floor }, level, multiplier) => floor(level * multiplier, 1),
         }],
         3: [],
         4: [{
@@ -1332,7 +1344,7 @@ module.exports = {
         0: [{
           nname: 'Turtle Tactics',
           desc: [`§7Gain §a+%ability%% ${symbols.defense} Defense`],
-          func: () => ({}), // TODO
+          func: () => ([]), // TODO
         }],
         1: [],
         2: [{
@@ -1417,7 +1429,7 @@ module.exports = {
         4: [{
           name: 'Living Dead',
           desc: ['§7Increases the defense of all undead armor sets by §a%ability%%'],
-          func: () => ({}), // TODO
+          func: () => ([]), // TODO
         }],
       },
     },
@@ -1449,7 +1461,11 @@ module.exports = {
         1: [],
         2: [{
           name: 'Higher Ground',
-          desc: ['Grants §c+%strength% ${symbols.strength} Strength §7and §9+${round(this.level * cdMult + 20, 1)} ${symbols.crit_damage} Crit Damage §7when mid air or jumping'],
+          desc: [`Grants §c+%strength% ${symbols.strength} Strength §7and §9+%ability% ${symbols.crit_damage} Crit Damage §7when mid air or jumping`],
+          descFn: ({ round }, level, multiplier, rarity) => {
+            const cdMult = [0, 0, 0.1, 0.25, 0.4][rarity];
+            return round(level * cdMult + 20);
+          },
         }],
         3: [],
         4: [{
@@ -1630,16 +1646,13 @@ module.exports = {
         2: [{
           name: 'Bulk',
           desc: [`§7Gain §a%defense% ${symbols.defense} Defense §7per §c%health% Max ${symbols.health} Health`],
-          func: (yeet) => {
-            console.log('yeet');
-            return [];
-          }, // TODO
+          func: () => ([]), // TODO
         }],
         3: [],
         4: [{
           name: 'Archimedes',
           desc: [`§7Gain §c+%ability%% Max ${symbols.health} Health`],
-          func: () => ({}), // TODO
+          func: () => ([]), // TODO
         }],
       },
     },
@@ -1670,7 +1683,7 @@ module.exports = {
         2: [{
           name: 'Echolocation',
           desc: ['§7Increases sea creatures catch chance by §a%ability%%'],
-          func: () => ({}), // TODO
+          func: () => ([]), // TODO
         }],
         3: [],
         4: [{
@@ -1712,7 +1725,7 @@ module.exports = {
         4: [{
           name: 'Deep Sea Diver',
           desc: ['§7Increases the stats of Diver Armor by §a%ability%%'],
-          func: () => ({}), // TODO
+          func: () => ([]), // TODO
         }],
       },
     },
@@ -1745,7 +1758,7 @@ module.exports = {
         2: [{
           name: 'Enhanced scales',
           desc: ['§7Increases the stats of Shark Armor by §a%ability%%'],
-          func: () => ({}), // TODO
+          func: () => ([]), // TODO
         }],
         3: [],
         4: [{
@@ -1846,17 +1859,20 @@ module.exports = {
       abilities: {
         0: [{
           name: 'Flamboyant',
-          desc: ['§7Adds §a${Math.max(round(this.level * mult, 0), 1)} §7levels to intimidation accessories'],
+          desc: ['§7Adds §a%ability% §7levels to intimidation accessories'],
+          descFn: ({ round }, level, multiplier) => Math.max(round(level * multiplier, 0), 1),
         }],
         1: [],
         2: [{
           name: 'Repeat',
-          desc: ['§7Boosts potion duration by §a${round(5 + (this.level * mult), 1)}%'],
+          desc: ['§7Boosts potion duration by §a%ability%%'],
+          descFn: ({ round }, level, multiplier) => round(5 + (level * multiplier)),
         }],
         3: [],
         4: [{
           name: 'Bird Discourse',
-          desc: ['§7Gives §c+${symbols.strength}${round(5 + (this.level * mult), 1)} Strength §7to players within §a20 §7blocks', '§7Doesn\'t stack'],
+          desc: [`§7Gives §c+${symbols.strength}%ability% Strength §7to players within §a20 §7blocks`, '§7Doesn\'t stack'],
+          descFn: ({ round }, level, multiplier) => round(5 + (level * multiplier)),
         }],
       },
     },
@@ -1910,25 +1926,31 @@ module.exports = {
         2: {},
         3: {},
         4: {
-          ability: 0.1,
+          ability: [0.1, 0.1, 0.1, 0.1, 0.5],
         },
+        5: {},
       },
       abilities: {
         0: [{
           name: 'Jerry',
-          desc: ['§7Gain §a%ability%% §7chance to deal your regular damage.'],
+          desc: ['§7Gain §a%ability%% §7chance to deal your regular damage'],
         },
         {
           name: 'Jerry',
-          desc: ['§7Gain §a%ability%% §7chance to receive a normal amount of drops from mobs.'],
+          desc: ['§7Gain §a%ability%% §7chance to receive a normal amount of drops from mobs'],
         }],
         1: [],
         2: [],
         3: [],
         4: [{
           name: 'Jerry',
-          desc: ['§7Actually adds ${Math.floor(this.level * mult)} damage to the Aspect of the Jerry.'],
-          func: () => ({}), // TODO
+          desc: ['§7Actually adds %ability% damage to the Aspect of the Jerry.'],
+          descFn: (level, multiplier) => Math.floor(level * multiplier),
+          func: () => ([]), // TODO
+        }],
+        5: [{
+          name: '§6Jerry',
+          desc: ['§7Tiny chance to find Jerry Candies when killing mobs'],
         }],
       },
     },
@@ -2507,6 +2529,11 @@ module.exports = {
       rarity: 'EPIC',
       description: '§7Increases all pet stats by §a33.3%',
       multAllStats: 1.333,
+    },
+    PET_ITEM_TOY_JERRY: {
+      name: 'Jerry 3D Glasses',
+      rarity: 'LEGENDARY',
+      description: '§7Upgrades a Jerry pet from §6Legendary §7to §dMythic §7and granting it a new perk!',
     },
   },
 };
