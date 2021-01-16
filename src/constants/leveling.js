@@ -50,7 +50,7 @@ module.exports = {
     47: 3100000,
     48: 3400000,
     49: 3700000,
-    50: 4000000
+    50: 4000000,
   },
 
   // XP required for each level of Runecrafting
@@ -97,7 +97,7 @@ module.exports = {
     },
     spider: {
       1: 5,
-      2: 15,
+      2: 25,
       3: 200,
       4: 1000,
       5: 5000,
@@ -108,7 +108,7 @@ module.exports = {
     },
     wolf: {
       1: 5,
-      2: 15,
+      2: 30,
       3: 200,
       4: 1500,
       5: 5000,
