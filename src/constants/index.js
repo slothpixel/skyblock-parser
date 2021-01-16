@@ -5,7 +5,31 @@ const misc = require('./misc');
 
 const MAX_SOULS = 209;
 const rarityOrder = ['special', 'mythic', 'legendary', 'epic', 'rare', 'uncommon', 'common'];
-const petTiers = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
+const rarityColors = {
+  common: 'f',
+  uncommon: 'a',
+  rare: 9,
+  epic: 5,
+  legendary: 6,
+  mythic: 'd',
+  special: 'c',
+};
+const symbols = {
+  health: '❤',
+  defense: '❈',
+  strength: '❁',
+  crit_chance: '☣',
+  crit_damage: '☠',
+  intelligence: '✎',
+  speed: '✦',
+  sea_creature_chance: 'α',
+  magic_find: '✯',
+  pet_luck: '♣',
+  attack_speed: '⚔️',
+  true_defense: '❂',
+  ferocity: '⫽',
+  ability_damage: '✹',
+};
 const statTemplate = {
   damage: 0,
   health: 0,
@@ -21,6 +45,7 @@ const statTemplate = {
   sea_creature_chance: 0,
   magic_find: 0,
   pet_luck: 0,
+  true_defense: 0,
   ferocity: 0,
   ability_damage: 0,
 };
@@ -28,7 +53,8 @@ const statTemplate = {
 module.exports = {
   MAX_SOULS,
   rarityOrder,
-  petTiers,
+  rarityColors,
+  symbols,
   statTemplate,
   ...leveling,
   ...bonuses,

@@ -2,6 +2,7 @@
 const util = require('../util');
 const constants = require('../constants');
 const Item = require('../item/Item');
+const Pet = require('../pet/Pet');
 
 const baseStats = {
   damage: 0,
@@ -18,6 +19,7 @@ const baseStats = {
   sea_creature_chance: 20,
   magic_find: 10,
   pet_luck: 0,
+  true_defense: 0,
   ferocity: 0,
   ability_damage: 0,
 };
@@ -229,13 +231,15 @@ class Player {
       };
 
       const highestRarity = {};
-      this.pets.forEach((pet) => {
-        const { type } = pet;
-        const rarity = pet.tier.toLowerCase();
+      this.pets = this.pets.map((p) => {
+        const pet = new Pet(p);
+        const { type, rarity } = pet;
         if (!(type in highestRarity) || constants.petValue[rarity] > highestRarity[type]) {
           highestRarity[type] = constants.petValue[rarity];
         }
+        return pet;
       });
+      this.active_pet = this.pets.find((p) => p.active) || new Pet({});
       this.pet_score = Object.values(highestRarity).reduce((a, b) => a + b, 0);
 
       this.bonuses = this.getBonuses();
@@ -436,32 +440,46 @@ class Player {
     }
     // TODO - Other special armor bonuses
     // Active weapon?
-    // TODO - Pet
+    // Pet
+    bonuses.push({
+      type: 'PET',
+      bonus: this.active_pet.stats || {},
+    });
     return bonuses;
   }
 
   applyBonuses() {
-    const additions = [];
-    const multiplications = [];
-    this.bonuses.forEach((k) => {
-      const operation = k.operation || 'add';
-      if (operation === 'add') {
-        additions.push(k);
-      } else {
-        multiplications.push(k);
-      }
-    });
-    additions.forEach((element) => {
-      Object.keys(element.bonus).forEach((key) => {
-        // console.log(key);
-        this.attributes[key] += element.bonus[key];
+    function addStats(elements, player) {
+      elements.forEach((element) => {
+        player.attributes = util.modifyStats(element.bonus, player.attributes);
       });
-    });
-    multiplications.forEach((element) => {
-      Object.keys(element.bonus).forEach((key) => {
-        this.attributes[key] *= element.bonus[key];
+    }
+    function multiplyStats(elements, player) {
+      elements.forEach((element) => {
+        player.attributes = util.modifyStats(element.bonus, player.attributes, '*');
       });
-    });
+    }
+    function applyBonuses(bonuses, player) {
+      const additions = [];
+      const multiplications = [];
+      bonuses.forEach((k) => {
+        const operation = k.operation || 'add';
+        if (operation === 'add') {
+          additions.push(k);
+        } else {
+          multiplications.push(k);
+        }
+      });
+      addStats(additions, player);
+      multiplyStats(multiplications, player);
+    }
+
+    applyBonuses(this.bonuses, this);
+    // Pet abilities
+    const petAbilities = this.active_pet.getAbilityStats(this);
+    this.bonuses = this.bonuses.concat(petAbilities);
+    applyBonuses(petAbilities, this);
+
     if (this.isArmorSet('CHEAP_TUXEDO_', 3)) {
       this.attributes.health = 75;
     }

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const nbt = require('prismarine-nbt');
 const util = require('util');
 
@@ -7,6 +8,19 @@ const parseNbt = util.promisify(nbt.parse);
 
 function removeFormatting(i) {
   return i.replace(/§./g, '');
+}
+
+function capitalizeFirstLetter(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+function titleCase(string) {
+  const split = string.replace(/_/g, ' ').toLowerCase().split(' ');
+
+  for (let i = 0; i < split.length; i += 1) {
+    split[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
+  }
+  return split.join(' ');
 }
 
 async function decodeData(buffer) {
@@ -57,6 +71,57 @@ function pickKeys(object, options) {
   return fromEntries(Object.entries(object)
     .filter(([key, value]) => regexp.test(key) && filter(key, value))
     .map(([key, value]) => [keyMap(key), valueMap(value)]));
+}
+
+/**
+ * Decimal adjustment of a number.
+ *
+ * @param {String}  type  The type of adjustment.
+ * @param {Number}  value The number.
+ * @param {Integer} exp   The exponent (the 10 logarithm of the adjustment base).
+ * @returns {Number} The adjusted value.
+ */
+function decimalAdjust(type, value, exp) {
+  // If the exp is undefined or zero...
+  if (typeof exp === 'undefined' || +exp === 0) {
+    return Math[type](value);
+  }
+  value = +value;
+  exp = +exp;
+  // If the value is not a number or the exp is not an integer...
+  if (Number.isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+    return NaN;
+  }
+  // Shift
+  value = value.toString().split('e');
+  value = Math[type](+(`${value[0]}e${value[1] ? (+value[1] - exp) : -exp}`));
+  // Shift back
+  value = value.toString().split('e');
+  return +(`${value[0]}e${value[1] ? (+value[1] + exp) : exp}`);
+}
+
+// Decimal round
+const round = (value, exp = -1) => decimalAdjust('round', value, exp);
+// Decimal floor
+const floor = (value, exp = -1) => decimalAdjust('floor', value, exp);
+
+function modifyStats(sourceObj, targetObj, operator = '+') {
+  const target = { ...targetObj };
+  Object.keys(sourceObj).forEach((stat) => {
+    const value = sourceObj[stat];
+    if (typeof value === 'number') {
+      if (operator === '+') {
+        target[stat] = (target[stat] || 0) + value;
+      }
+      if (operator === '-') {
+        target[stat] = (target[stat] || 0) - value;
+      }
+      if (operator === '*') {
+        target[stat] = (target[stat] || 0) * value;
+      }
+    }
+  });
+  return target;
 }
 
 function removeZeroes(object = {}) {
@@ -135,8 +200,8 @@ function getSlayerLevel(slayer, slayerName) {
   };
 }
 
-function getPetLevel(pet) {
-  const rarityOffset = constants.petRarityOffset[pet.rarity];
+function getPetLevel(rarity, exp) {
+  const rarityOffset = constants.petRarityOffset[rarity];
   const levels = constants.petLevels.slice(rarityOffset, rarityOffset + 99);
 
   const xpMaxLevel = levels.reduce((a, b) => a + b, 0);
@@ -148,7 +213,7 @@ function getPetLevel(pet) {
   for (let i = 0; i < 100; i += 1) {
     xpTotal += levels[i];
 
-    if (xpTotal > pet.exp) {
+    if (xpTotal > exp) {
       xpTotal -= levels[i];
       break;
     } else {
@@ -156,7 +221,7 @@ function getPetLevel(pet) {
     }
   }
 
-  let xpCurrent = Math.floor(pet.exp - xpTotal);
+  let xpCurrent = Math.floor(exp - xpTotal);
   let progress;
 
   if (level < 100) {
@@ -164,7 +229,7 @@ function getPetLevel(pet) {
     progress = Math.max(0, Math.min(xpCurrent / xpForNext, 1));
   } else {
     level = 100;
-    xpCurrent = pet.exp - levels[99];
+    xpCurrent = exp - levels[99];
     xpForNext = 0;
     progress = 1;
   }
@@ -203,7 +268,12 @@ function getBonusStat(level, skill, max, incrementation) {
 
 module.exports = {
   removeFormatting,
+  capitalizeFirstLetter,
+  titleCase,
+  floor,
+  round,
   removeZeroes,
+  modifyStats,
   decodeData,
   getNestedObjects,
   pickKeys,
