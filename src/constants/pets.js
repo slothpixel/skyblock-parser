@@ -14,6 +14,7 @@ const symbols = {
   true_defense: '❂',
   ferocity: '⫽',
   ability_damage: '✹',
+  mining_speed: '↑',
 };
 
 module.exports = {
@@ -450,6 +451,41 @@ module.exports = {
         4: [{
           name: 'Pearl Powered',
           desc: ['§7Upon consuming an ender pearl, gain +§a%ability% §7speed for 10 seconds'],
+        }],
+      },
+    },
+    MITHRIL_GOLEM: {
+      name: 'Mithril Golem',
+      statModifiers: {
+        true_defense: 0.5,
+      },
+      abilityModifiers: {
+        0: {},
+        1: {},
+        2: {},
+        3: {
+          ability: 1,
+          ability2: 0.2,
+        },
+        4: {
+          ability: 0.2,
+        },
+      },
+      abilities: {
+        0: [],
+        1: [],
+        2: [],
+        3: [{
+          name: 'Mithril Affinity',
+          desc: [`§7Gain +§a%ability% §6${symbols.mining_speed} Mining Speed §7when mining §Mithril`],
+        },
+        {
+          name: 'The Smell Of Powder',
+          desc: ['§7Gain +§a%ability2%% §7more §2Mithril Powder'],
+        }],
+        4: [{
+          name: 'Danger Averse',
+          desc: ['§7Increases your combat stats by +§a%ability%% §7on mining islands'],
         }],
       },
     },
@@ -2113,7 +2149,6 @@ module.exports = {
     BABY_YETI: {
       head: 'ab126814fc3fa846dad934c349628a7a1de5b415021a03ef4211d62514d5',
       type: 'fishing',
-      emoji: '❄️',
     },
     MEGALODON: {
       head: 'a94ae433b301c7fb7c68cba625b0bd36b0b14190f20e34a7c8ee0d9de06d53b9',
@@ -2130,7 +2165,6 @@ module.exports = {
     TARANTULA: {
       head: '8300986ed0a04ea79904f6ae53f49ed3a0ff5b1df62bba622ecbd3777f156df8',
       type: 'combat',
-      emoji: '🕸️',
     },
     BLACK_CAT: {
       head: 'e4b45cbaa19fe3d68c856cd3846c03b5f59de81a480eec921ab4fa3cd81317',
@@ -2143,6 +2177,10 @@ module.exports = {
     GRIFFIN: {
       head: '4c27e3cb52a64968e60c861ef1ab84e0a0cb5f07be103ac78da67761731f00c8',
       type: 'combat',
+    },
+    MITHRIL_GOLEM: {
+      head: 'c1b2dfe8ed5dffc5b1687bc1c249c39de2d8a6c3d90305c95f6d1a1a330a0b1',
+      type: 'mining',
     },
   },
 
