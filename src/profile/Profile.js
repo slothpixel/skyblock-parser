@@ -13,6 +13,7 @@ class Profile {
       this.id = profile.profile_id;
       this.members = {};
       const banking = profile.banking || {};
+      this.community_upgrades = profile.community_upgrades || {};
       await Promise.all(Object.keys(profile.members)
         .map(async (key) => {
           this.members[key] = await new Player(key, profile.members[key]);
