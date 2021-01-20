@@ -1375,7 +1375,7 @@ module.exports = {
       },
       abilities: {
         0: [{
-          nname: 'Turtle Tactics',
+          name: 'Turtle Tactics',
           desc: [`§7Gain §a+%ability%% ${symbols.defense} Defense`],
           func: () => ([]), // TODO
         }],
