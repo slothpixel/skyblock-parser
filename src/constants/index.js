@@ -3,7 +3,7 @@ const bonuses = require('./bonuses');
 const pets = require('./pets');
 const misc = require('./misc');
 
-const MAX_SOULS = 209;
+const MAX_SOULS = 220;
 const rarityOrder = ['special', 'mythic', 'legendary', 'epic', 'rare', 'uncommon', 'common'];
 const rarityColors = {
   common: 'f',
