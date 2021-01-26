@@ -2288,6 +2288,10 @@ module.exports = {
         name: 'Fortified',
         head: 'd8552ff591042c4a38f8ba0626784ae28c4545a97d423fd9037c341035593273',
       },
+      SILVERFISH_FOSSILIZED: {
+        name: 'Fossilized',
+        head: 'ca3a363368ed1e06cee3900717f062e02ec39aee1747675392255b48f7f83600',
+      },
     },
     ELEPHANT: {
       ELEPHANT_PINK: {
