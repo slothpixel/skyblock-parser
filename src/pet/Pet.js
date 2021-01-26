@@ -21,7 +21,7 @@ class Pet {
   #activeAbilities = [];
 
   constructor({
-    uuid, type, tier: rarity, exp, level: simulatedLevel, active, heldItem, skin, candyUsed,
+    uuid, type, tier: rarity, exp, level: simulatedLevel, active, heldItem = null, skin, candyUsed,
   }) {
     if (typeof type !== 'string') return this;
     this.uuid = uuid;
