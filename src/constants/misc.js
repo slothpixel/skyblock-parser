@@ -228,5 +228,17 @@ module.exports = {
     JERRY_TALISMAN_PURPLE: [
       'JERRY_TALISMAN_GOLDEN',
     ],
+    TITANIUM_TALISMAN: [
+      'TITANIUM_RING',
+      'TITANIUM_ARTIFACT',
+      'TITANIUM_RELIC',
+    ],
+    TITANIUM_RING: [
+      'TITANIUM_ARTIFACT',
+      'TITANIUM_RELIC',
+    ],
+    TITANIUM_ARTIFACT: [
+      'TITANIUM_RELIC',
+    ],
   },
 };
