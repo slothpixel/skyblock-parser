@@ -1341,7 +1341,7 @@ module.exports = {
         0: [{
           name: 'Merciless Swipe',
           desc: [`§7Gain §c+%ability%% ${symbols.ferocity} Ferocity.`],
-          func: () => {}, // TODO
+          func: () => ([]), // TODO
         }],
         1: [],
         2: [{
