@@ -477,7 +477,7 @@ module.exports = {
         2: [],
         3: [{
           name: 'Mithril Affinity',
-          desc: [`§7Gain +§a%ability% §6${symbols.mining_speed} Mining Speed §7when mining §Mithril`],
+          desc: [`§7Gain +§a%ability% §6${symbols.mining_speed} Mining Speed §7when mining §eMithril`],
         },
         {
           name: 'The Smell Of Powder',
