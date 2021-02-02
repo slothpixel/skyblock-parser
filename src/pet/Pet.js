@@ -56,7 +56,7 @@ class Pet {
       'ROCK',
     ].indexOf(type) === -1 ? 'Pet' : 'Mount';
 
-    if (skin && petSkins[type][skin]) {
+    if (skin && skin in (petSkins[type] || {})) {
       nameString += ' ✦';
       const petSkin = petSkins[type][skin];
       this.texture = petSkin.head;
