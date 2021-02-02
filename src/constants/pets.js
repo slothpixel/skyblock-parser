@@ -15,6 +15,7 @@ const symbols = {
   ferocity: '⫽',
   ability_damage: '✹',
   mining_speed: '↑',
+  fortune: '☘',
 };
 
 module.exports = {
@@ -297,7 +298,8 @@ module.exports = {
         3: [],
         4: [{
           name: 'Trunk Efficiency',
-          desc: ['§7Grants a §a%ability%% §7chance to get double crops while farming'],
+          desc: [`§7Grants §a+%ability% §6${symbols.fortune} Farming Fortune§7, which increases your chance for multiple drops`],
+          func: () => ([]), // TODO
         }],
       },
     },
@@ -1565,7 +1567,8 @@ module.exports = {
       abilities: {
         0: [{
           name: 'Treeborn',
-          desc: ['§7Increase double drop rates for logs by §a%ability%%'],
+          desc: [`§7Grants §a+%ability% §6${symbols.fortune} Foraging Fortune§7, which increases your chance at double logs`],
+          func: () => ([]), // TODO
         }],
         1: [],
         2: [{
