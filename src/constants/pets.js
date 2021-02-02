@@ -2329,6 +2329,12 @@ module.exports = {
         head: 'e9281c4d87d68526b0749d4361e6ef786c8a35717aa053da704b1d53410d37a6',
       },
     },
+    SKELETON_HORSE: {
+      HORSE_ZOMBIE: {
+        name: 'Zombie',
+        head: '578211e1b4d99d1c7bfda4838e48fc884c3eae376f58d932bc2f78b0a919f8e7',
+      },
+    },
   },
 
   petItems: {
