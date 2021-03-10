@@ -1470,6 +1470,10 @@ module.exports = {
             `§a30 Combo §8(lasts §a%coins2%s§8)`,
             `§8+§610 §7coins per kill`,
           ],
+          descFn: ({ round }, level, multiplier, rarity) => {
+            // [!] Doesn't work, the "2" should vary based on the combo (first one 8, then 6 5 3 3 2)
+            return Math.floor((2 + level * multiplier) * 10) / 10
+          }
         }],
       },
     },
