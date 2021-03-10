@@ -83,10 +83,10 @@ class Item {
       this.attributes.timestamp = Date.parse(timestamp) || null;
       const { name, lore } = this;
       // Backpack data
-      if (name.endsWith('Backpack') || this.getId() === 'NEW_YEAR_CAKE_BAG') {
+      if (name.includes('Backpack')
+        || ['NEW_YEAR_CAKE_BAG', 'BUILDERS_WAND', 'BASKET_OF_SEEDS'].includes(this.getId())) {
         const extraAttributes = getNestedObjects(nbt, 'tag.ExtraAttributes');
-        const dataKey = Object.keys(extraAttributes).find((key) => key.endsWith('backpack_data')
-          || key === 'new_year_cake_bag_data');
+        const dataKey = Object.keys(extraAttributes).find((key) => key.endsWith('_data'));
         const backpackData = extraAttributes[dataKey];
         if (Array.isArray(backpackData)) {
           const { i } = await decodeData(Buffer.from(backpackData));
