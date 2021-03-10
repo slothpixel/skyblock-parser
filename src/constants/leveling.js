@@ -66,7 +66,7 @@ module.exports = {
   levelCaps: {
     farming: 60,
     mining: 60,
-    combat: 50,
+    combat: 60,
     foraging: 50,
     fishing: 50,
     enchanting: 60,
