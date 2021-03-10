@@ -2309,6 +2309,18 @@ module.exports = {
         name: 'Orange',
         head: '554a34a80c474206d3700b8fced6b44fab0b0ed0b05c1293ff0c5d86eda251d1',
       },
+      ELEPHANT_RED: {
+        name: 'Red',
+        head: 'ba5c66ec66cb6b4b5550085f583b4e5c1cee5247bec5fbcc5c318c30c66cab42',
+      },
+      ELEPHANT_PURPLE: {
+        name: 'Purple',
+        head: '5ff9df290b6c5a4984fc6e516605f9816b9882f7bf04db08d3f7ee32d1969a44',
+      },
+      ELEPHANT_GREEN: {
+        name: 'Green',
+        head: '360c122ade5b2fedca14aa78c834a7b0ac9cb5da2a0c93112163086f90c13b68',
+      },
     },
     JERRY: {
       JERRY_RED_ELF: {
@@ -2336,6 +2348,26 @@ module.exports = {
       HORSE_ZOMBIE: {
         name: 'Zombie',
         head: '578211e1b4d99d1c7bfda4838e48fc884c3eae376f58d932bc2f78b0a919f8e7',
+      },
+    },
+    ENDER_DRAGON: {
+      DRAGON_NEON_BLUE: {
+        name: 'Neon Blue',
+        head: '96a4b9fbcf8c3e7e1232e57d6a2870ba3ea30f76407ae1197fd52e9f76ca46ac',
+      },
+      DRAGON_NEON_PURPLE: {
+        name: 'Neon Purple',
+        head: '54bdf5ba6289b29e27c57db1ec7f76151c39492d409268e00a9838e8c963159',
+      },
+      DRAGON_NEON_RED: {
+        name: 'Neon Red',
+        head: 'e05c9b4f4218677c5b4bcc9c7d9e29e18d1684a536781fede1280fc5e6961538',
+      },
+    },
+    BLUE_WHALE: {
+      WHALE_ORCA: {
+        name: 'Orca',
+        head: 'b008ca9c00cecf499685030e8ef0c230a32908619ce9dc10690b69111591faa1',
       },
     },
   },
