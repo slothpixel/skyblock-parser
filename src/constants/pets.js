@@ -1431,6 +1431,48 @@ module.exports = {
         }],
       },
     },
+    GRANDMA_WOLF: {
+      name: 'Grandma Wolf',
+      statModifiers: {
+        health: 1,
+        strength: 0.25,
+      },
+      abilityModifiers: {
+        0: {
+          mf1: [0.02, 0.02, 0.02, 0.02, 0.02],    // Math.floor((8 + this.level * 0.02) * 10) / 10
+          coins1: [0.02, 0.02, 0.02, 0.02, 0.02], // Math.floor((6 + this.level * 0.02) * 10) / 10
+          mf2: [0.02, 0.02, 0.02, 0.02, 0.02],    // Math.floor((4 + this.level * 0.02) * 10) / 10
+          exp: [0.01, 0.01, 0.01, 0.01, 0.01],    // Math.floor((3 + this.level * 0.02) * 10) / 10
+          mf3: [0.01, 0.01, 0.01, 0.01, 0.01],    // Math.floor((3 + this.level * 0.01) * 10) / 10
+          coins2: [0.01, 0.01, 0.01, 0.01, 0.01], // Math.floor((2 + this.level * 0.01) * 10) / 10
+        },
+      },
+      abilities: {
+        0: [{
+          name: 'Kill Combo',
+          desc: [
+            `§7Gain buffs for combo kills.`,
+            `§7Effects stack as you increase`,
+            `§7your combo. This pet does not`,
+            `§7need to be spawned for combos to`,
+            `§7be active!`,
+            ``,
+            `§a5 Combo §8(lasts §a%mf1%s§8)`,
+            `§8+§b3% §b${symbols.magic_find} Magic Find`,
+            `§a10 Combo §8(lasts §a%coins1%s§8)`,
+            `§8+§610 §7coins per kill`,
+            `§a15 Combo §8(lasts §a%mf2%s§8)`,
+            `§8+§b3% §b${symbols.magic_find} Magic Find`,
+            `§a20 Combo §8(lasts §a%exp%s§8)`,
+            `§8+§315% §7Combat Exp`,
+            `§a25 Combo §8(lasts §a%mf3%s§8)`,
+            `§8+§b3% §b${symbols.magic_find} Magic Find`,
+            `§a30 Combo §8(lasts §a%coins2%s§8)`,
+            `§8+§610 §7coins per kill`,
+          ],
+        }],
+      },
+    },
     ZOMBIE: {
       name: 'Zombie',
       statModifiers: {
