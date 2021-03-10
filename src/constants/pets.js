@@ -1439,12 +1439,12 @@ module.exports = {
       },
       abilityModifiers: {
         0: {
-          mf1: [0.02, 0.02, 0.02, 0.02, 0.02],    // Math.floor((8 + this.level * 0.02) * 10) / 10
-          coins1: [0.02, 0.02, 0.02, 0.02, 0.02], // Math.floor((6 + this.level * 0.02) * 10) / 10
-          mf2: [0.02, 0.02, 0.02, 0.02, 0.02],    // Math.floor((4 + this.level * 0.02) * 10) / 10
-          exp: [0.01, 0.01, 0.01, 0.01, 0.01],    // Math.floor((3 + this.level * 0.02) * 10) / 10
-          mf3: [0.01, 0.01, 0.01, 0.01, 0.01],    // Math.floor((3 + this.level * 0.01) * 10) / 10
-          coins2: [0.01, 0.01, 0.01, 0.01, 0.01], // Math.floor((2 + this.level * 0.01) * 10) / 10
+          mf1: [0.02],    // Math.floor((8 + this.level * 0.02) * 10) / 10
+          coins1: [0.02], // Math.floor((6 + this.level * 0.02) * 10) / 10
+          mf2: [0.02],    // Math.floor((4 + this.level * 0.02) * 10) / 10
+          exp: [0.02],    // Math.floor((3 + this.level * 0.02) * 10) / 10
+          mf3: [0.01],    // Math.floor((3 + this.level * 0.01) * 10) / 10
+          coins2: [0.01], // Math.floor((2 + this.level * 0.01) * 10) / 10
         },
       },
       abilities: {
