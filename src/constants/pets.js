@@ -1439,12 +1439,12 @@ module.exports = {
       },
       abilityModifiers: {
         0: {
-          mf1: [0.02],    // Math.floor((8 + this.level * 0.02) * 10) / 10
-          coins1: [0.02], // Math.floor((6 + this.level * 0.02) * 10) / 10
-          mf2: [0.02],    // Math.floor((4 + this.level * 0.02) * 10) / 10
-          exp: [0.02],    // Math.floor((3 + this.level * 0.02) * 10) / 10
-          mf3: [0.01],    // Math.floor((3 + this.level * 0.01) * 10) / 10
-          coins2: [0.01], // Math.floor((2 + this.level * 0.01) * 10) / 10
+          combo_1: [0.02],    // Math.floor((8 + this.level * 0.02) * 10) / 10
+          combo_2: [0.02], // Math.floor((6 + this.level * 0.02) * 10) / 10
+          combo_3: [0.02],    // Math.floor((4 + this.level * 0.02) * 10) / 10
+          combo_4: [0.02],    // Math.floor((3 + this.level * 0.02) * 10) / 10
+          combo_5: [0.01],    // Math.floor((3 + this.level * 0.01) * 10) / 10
+          combo_6: [0.01], // Math.floor((2 + this.level * 0.01) * 10) / 10
         },
       },
       abilities: {
@@ -1457,17 +1457,17 @@ module.exports = {
             `§7need to be spawned for combos to`,
             `§7be active!`,
             ``,
-            `§a5 Combo §8(lasts §a%mf1%s§8)`,
+            `§a5 Combo §8(lasts §a%combo_1%s§8)`,
             `§8+§b3% §b${symbols.magic_find} Magic Find`,
-            `§a10 Combo §8(lasts §a%coins1%s§8)`,
+            `§a10 Combo §8(lasts §a%combo_2%s§8)`,
             `§8+§610 §7coins per kill`,
-            `§a15 Combo §8(lasts §a%mf2%s§8)`,
+            `§a15 Combo §8(lasts §a%combo_3%s§8)`,
             `§8+§b3% §b${symbols.magic_find} Magic Find`,
-            `§a20 Combo §8(lasts §a%exp%s§8)`,
+            `§a20 Combo §8(lasts §a%combo_4%s§8)`,
             `§8+§315% §7Combat Exp`,
-            `§a25 Combo §8(lasts §a%mf3%s§8)`,
+            `§a25 Combo §8(lasts §a%combo_5%s§8)`,
             `§8+§b3% §b${symbols.magic_find} Magic Find`,
-            `§a30 Combo §8(lasts §a%coins2%s§8)`,
+            `§a30 Combo §8(lasts §a%combo_6%s§8)`,
             `§8+§610 §7coins per kill`,
           ],
           descFn: ({ round }, level, multiplier, rarity) => {
