@@ -115,7 +115,7 @@ class Pet {
             if (stat in statTemplate) {
               stats[stat] = abilityValue;
             }
-            desc[0] = desc[0].replace(`%${stat}%`, abilityValue);
+            desc = desc.join('\n').replace(`%${stat}%`, abilityValue).split('\n');
           });
           this.#activeAbilities.push({ ...tier, stats });
           abilityLore = abilityLore.concat([`§6${name}`, ...desc, '']);
