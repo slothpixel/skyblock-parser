@@ -107,7 +107,7 @@ class Pet {
             // stat = combo_1
             const modifier = getAbilityModifier(pet.abilityModifiers[x][stat]);
             let abilityValue;
-            if ('descFn' in tier && stat === 'ability') {
+            if ('descFn' in tier && stat.startsWith('ability')) {
               abilityValue = tier.descFn(util, this.level, modifier, rarity, stat);
             } else {
               abilityValue = (typeof modifier === 'number')
