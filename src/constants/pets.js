@@ -2247,6 +2247,10 @@ module.exports = {
       head: 'c1b2dfe8ed5dffc5b1687bc1c249c39de2d8a6c3d90305c95f6d1a1a330a0b1',
       type: 'mining',
     },
+    GRANDMA_WOLF: {
+      head: '4e794274c1bb197ad306540286a7aa952974f5661bccf2b725424f6ed79c7884',
+      type: 'combat',
+    },
   },
 
   petSkins: {
