@@ -124,7 +124,7 @@ class Pet {
     }
 
     if (heldItem !== null) {
-      const item = petItems[heldItem];
+      const item = petItems[heldItem] || {};
       // Item stats
       if ('stats' in item) {
         this.stats = modifyStats(item.stats, this.stats);
