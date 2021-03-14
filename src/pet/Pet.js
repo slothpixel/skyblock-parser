@@ -103,10 +103,12 @@ class Pet {
           const stats = {};
           let { desc, name } = tier;
           Object.keys(pet.abilityModifiers[x]).forEach((stat) => {
+            // x = index of ability
+            // stat = combo_1
             const modifier = getAbilityModifier(pet.abilityModifiers[x][stat]);
             let abilityValue;
             if ('descFn' in tier && stat === 'ability') {
-              abilityValue = tier.descFn(util, this.level, modifier, rarity);
+              abilityValue = tier.descFn(util, this.level, modifier, rarity, stat);
             } else {
               abilityValue = (typeof modifier === 'number')
                 ? round(this.level * getAbilityModifier(modifier))

@@ -1439,12 +1439,12 @@ module.exports = {
       },
       abilityModifiers: {
         0: {
-          combo_1: [0.02],    // Math.floor((8 + this.level * 0.02) * 10) / 10
-          combo_2: [0.02], // Math.floor((6 + this.level * 0.02) * 10) / 10
-          combo_3: [0.02],    // Math.floor((4 + this.level * 0.02) * 10) / 10
-          combo_4: [0.02],    // Math.floor((3 + this.level * 0.02) * 10) / 10
-          combo_5: [0.01],    // Math.floor((3 + this.level * 0.01) * 10) / 10
-          combo_6: [0.01], // Math.floor((2 + this.level * 0.01) * 10) / 10
+          combo_1: 0.02,
+          combo_2: 0.02,
+          combo_3: 0.02,
+          combo_4: 0.02,
+          combo_5: 0.01,
+          combo_6: 0.01,
         },
       },
       abilities: {
@@ -1470,9 +1470,17 @@ module.exports = {
             `§a30 Combo §8(lasts §a%combo_6%s§8)`,
             `§8+§610 §7coins per kill`,
           ],
-          descFn: ({ round }, level, multiplier, rarity) => {
-            // [!] Doesn't work, the "2" should vary based on the combo (first one 8, then 6 5 3 3 2)
-            return Math.floor((2 + level * multiplier) * 10) / 10
+          descFn: (util, level, multiplier, rarity, stat) => {
+            const x = {
+                combo_1: Math.floor((8 + level * multiplier) * 10) / 10,
+                combo_2: Math.floor((6 + level * multiplier) * 10) / 10,
+                combo_3: Math.floor((4 + level * multiplier) * 10) / 10,
+                combo_4: Math.floor((3 + level * multiplier) * 10) / 10,
+                combo_5: Math.floor((3 + level * multiplier) * 10) / 10,
+                combo_6: Math.floor((2 + level * multiplier) * 10) / 10
+            }
+
+            return x[stat]
           }
         }],
       },
