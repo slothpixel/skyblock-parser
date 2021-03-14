@@ -2637,5 +2637,10 @@ module.exports = {
       rarity: 'LEGENDARY',
       description: '§7Upgrades a Jerry pet from §6Legendary §7to §dMythic §7and granting it a new perk!',
     },
+    REAPER_GEM: {
+      name: 'Reaper Gem',
+      rarity: 'LEGENDARY',
+      description: `§7Gain §c8 ${symbols.ferocity} Ferocity §7for 5s on kill`,
+    },
   },
 };
