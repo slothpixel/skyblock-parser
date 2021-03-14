@@ -1971,6 +1971,9 @@ module.exports = {
           name: 'Bird Discourse',
           desc: [`§7Gives §c+${symbols.strength}%ability% Strength §7to players within §a20 §7blocks`, '§7Doesn\'t stack'],
           descFn: ({ round }, level, multiplier) => round(5 + (level * multiplier)),
+        }, {
+          name: 'Parrot Feather Infusion',
+          desc: ['§7When summoned or in your pets menu, boost the duration of consumed §cGod Potions§7 by §e%ability%%'],
         }],
       },
     },
