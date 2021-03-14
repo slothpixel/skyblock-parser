@@ -101,12 +101,13 @@ class Pet {
         // eslint-disable-next-line no-loop-func
         abilities[x].forEach((tier) => {
           const stats = {};
-          const { desc, name } = tier;
+          const { name } = tier;
+          let { desc } = tier;
           Object.keys(pet.abilityModifiers[x]).forEach((stat) => {
             const modifier = getAbilityModifier(pet.abilityModifiers[x][stat]);
             let abilityValue;
-            if ('descFn' in tier && stat === 'ability') {
-              abilityValue = tier.descFn(util, this.level, modifier, rarity);
+            if ('descFn' in tier && stat.startsWith('ability')) {
+              abilityValue = tier.descFn(util, this.level, modifier, rarity, stat);
             } else {
               abilityValue = (typeof modifier === 'number')
                 ? round(this.level * getAbilityModifier(modifier))
@@ -115,7 +116,7 @@ class Pet {
             if (stat in statTemplate) {
               stats[stat] = abilityValue;
             }
-            desc[0] = desc[0].replace(`%${stat}%`, abilityValue);
+            desc = desc.join('\n').replace(`%${stat}%`, abilityValue).split('\n');
           });
           this.#activeAbilities.push({ ...tier, stats });
           abilityLore = abilityLore.concat([`§6${name}`, ...desc, '']);

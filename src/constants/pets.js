@@ -1431,6 +1431,68 @@ module.exports = {
         }],
       },
     },
+    GRANDMA_WOLF: {
+      name: 'Grandma Wolf',
+      statModifiers: {
+        health: 1,
+        strength: 0.25,
+      },
+      abilityModifiers: {
+        0: {
+          ability_1: 0.02,
+          ability_2: 0.02,
+          ability_3: 0.02,
+          ability_4: 0.02,
+          ability_5: 0.01,
+          ability_6: 0.01,
+        },
+        1: {},
+        2: {},
+        3: {},
+        4: {},
+      },
+      abilities: {
+        0: [{
+          name: 'Kill Combo',
+          desc: [
+            '§7Gain buffs for combo kills.',
+            '§7Effects stack as you increase',
+            '§7your combo. This pet does not',
+            '§7need to be spawned for combos to',
+            '§7be active!',
+            '',
+            '§a5 Combo §8(lasts §a%ability_1%s§8)',
+            `§8+§b3% §b${symbols.magic_find} Magic Find`,
+            '§a10 Combo §8(lasts §a%ability_2%s§8)',
+            '§8+§610 §7coins per kill',
+            '§a15 Combo §8(lasts §a%ability_3%s§8)',
+            `§8+§b3% §b${symbols.magic_find} Magic Find`,
+            '§a20 Combo §8(lasts §a%ability_4%s§8)',
+            '§8+§315% §7Combat Exp',
+            '§a25 Combo §8(lasts §a%ability_5%s§8)',
+            `§8+§b3% §b${symbols.magic_find} Magic Find`,
+            '§a30 Combo §8(lasts §a%ability_6%s§8)',
+            '§8+§610 §7coins per kill',
+          ],
+          descFn: (util, level, multiplier, rarity, stat) => {
+            const x = {
+              ability_1: Math.floor((8 + level * multiplier) * 10) / 10,
+              ability_2: Math.floor((6 + level * multiplier) * 10) / 10,
+              ability_3: Math.floor((4 + level * multiplier) * 10) / 10,
+              ability_4: Math.floor((3 + level * multiplier) * 10) / 10,
+              ability_5: Math.floor((3 + level * multiplier) * 10) / 10,
+              ability_6: Math.floor((2 + level * multiplier) * 10) / 10,
+            };
+
+            return x[stat];
+          },
+        }],
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+      },
+    },
     ZOMBIE: {
       name: 'Zombie',
       statModifiers: {
@@ -2184,6 +2246,10 @@ module.exports = {
     MITHRIL_GOLEM: {
       head: 'c1b2dfe8ed5dffc5b1687bc1c249c39de2d8a6c3d90305c95f6d1a1a330a0b1',
       type: 'mining',
+    },
+    GRANDMA_WOLF: {
+      head: '4e794274c1bb197ad306540286a7aa952974f5661bccf2b725424f6ed79c7884',
+      type: 'combat',
     },
   },
 
