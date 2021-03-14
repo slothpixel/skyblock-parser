@@ -1446,6 +1446,10 @@ module.exports = {
           ability_5: 0.01,
           ability_6: 0.01,
         },
+        1: {},
+        2: {},
+        3: {},
+        4: {},
       },
       abilities: {
         0: [{
@@ -1483,6 +1487,10 @@ module.exports = {
             return x[stat]
           }
         }],
+        1: [],
+        2: [],
+        3: [],
+        4: [],
       },
     },
     ZOMBIE: {

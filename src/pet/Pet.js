@@ -103,8 +103,6 @@ class Pet {
           const stats = {};
           let { desc, name } = tier;
           Object.keys(pet.abilityModifiers[x]).forEach((stat) => {
-            // x = index of ability
-            // stat = combo_1
             const modifier = getAbilityModifier(pet.abilityModifiers[x][stat]);
             let abilityValue;
             if ('descFn' in tier && stat.startsWith('ability')) {
