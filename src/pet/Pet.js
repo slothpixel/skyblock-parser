@@ -101,7 +101,8 @@ class Pet {
         // eslint-disable-next-line no-loop-func
         abilities[x].forEach((tier) => {
           const stats = {};
-          let { desc, name } = tier;
+          const { name } = tier;
+          let { desc } = tier;
           Object.keys(pet.abilityModifiers[x]).forEach((stat) => {
             const modifier = getAbilityModifier(pet.abilityModifiers[x][stat]);
             let abilityValue;
