@@ -200,9 +200,9 @@ class Player {
           xpForNext,
         } = util.getSlayerLevel({ claimedLevels: Object.keys(claimed_levels), xp }, name);
         return {
-          claimed_levels: Object.keys(claimed_levels).length,
+          claimed_levels: Object.keys(claimed_levels).filter(level => !level.endsWith('_special')).length,
           xp,
-          xp_for_next: xpForNext - xp,
+          xp_for_next: Math.max(xpForNext - xp, 0),
           kills_tier: {
             1: boss_kills_tier_0,
             2: boss_kills_tier_1,
