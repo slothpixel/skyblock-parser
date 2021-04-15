@@ -2282,6 +2282,14 @@ module.exports = {
         name: 'Pretty',
         head: 'a34631d940fddb689ddef6a3b352c50220c460dba05cd18dc83192b59dc647f8',
       },
+      RABBIT_AQUAMARINE: {
+        name: 'Aquamarine',
+        head: '35a2119d122961852c010c1007ab2aff95b4bbeb74407463f6d2e1ff0792c812',
+      },
+      RABBIT_ROSE: {
+        name: 'Rose',
+        head: 'd7cddf5b20cb50d6600e5333c6bb3fb15b4741f17e3675fc2bfc09c2cd09e619',
+      },
     },
     WITHER_SKELETON: {
       WITHER: {
@@ -2392,6 +2400,10 @@ module.exports = {
         name: 'Green',
         head: '360c122ade5b2fedca14aa78c834a7b0ac9cb5da2a0c93112163086f90c13b68',
       },
+      ELEPHANT_MONOCHROME: {
+        name: 'Monochrome',
+        head: '4bdf0f628c05e86cabdee2f5858dd5def7f8b8d940cbf25f9937e2ffb53432f4',
+      },
     },
     JERRY: {
       JERRY_RED_ELF: {
@@ -2439,6 +2451,12 @@ module.exports = {
       WHALE_ORCA: {
         name: 'Orca',
         head: 'b008ca9c00cecf499685030e8ef0c230a32908619ce9dc10690b69111591faa1',
+      },
+    },
+    CHICKEN: {
+      CHICKEN_BABY_CHICK: {
+        name: 'Baby Chick',
+        head: '1bde55ed54cb5c87661b86c349186a9d5baffb3cb934b449a2d329e399d34bf',
       },
     },
   },
