@@ -1168,7 +1168,7 @@ module.exports = {
         3: [],
         4: [{
           name: 'Skeletal Defense',
-          desc: [`§7Your skeleton shoots an arrow dealing §a60x §7your §9${symbols.crit_damage} Crit Damage §7when a mob gets close to you (15s cooldown)`],
+          desc: [`§7Your skeleton shoots an arrow dealing §a30x §7your §9${symbols.crit_damage} Crit Damage §7when a mob gets close to you (15s cooldown)`],
         }],
       },
     },
@@ -1250,16 +1250,16 @@ module.exports = {
       name: 'Spirit',
       statModifiers: {
         intelligence: 1,
-        speed: 0.29,
+        speed: 0.3,
       },
       abilityModifiers: {
         0: {},
-        1: {},
-        2: {},
-        3: {},
-        4: {
+        1: {
           ability: 0.45,
         },
+        2: {},
+        3: {},
+        4: {},
       },
       abilities: {
         0: [{
@@ -1268,13 +1268,14 @@ module.exports = {
         }],
         1: [],
         2: [{
-          name: 'Spirit Leap',
-          desc: ['§7Grants a §a10% §7chance for mini-bosses in dungeons to drop §b5 §7Spirit Leap Pearls.'],
+          name: 'Spirit Cooldowns',
+          desc: ['§7Reduces the cooldown of your ghost abilities in dungeons by §a%ability%%§7.'],
+          descFn: ({ round }, level, multiplier) => round(5 + level * multiplier),
         }],
         3: [],
         4: [{
-          name: 'Spirit Cooldowns',
-          desc: ['§7Reduces the cooldown of your ghost abilities in dungeons by §a%ability%%§7.'],
+          name: '§6Half Life',
+          desc: ['§7If you are the first player to die in a dungeon, the score penalty for that death is reduced to §a1§7.'],
         }],
       },
     },
@@ -1324,11 +1325,11 @@ module.exports = {
         strength: 0.1,
         crit_chance: 0.05,
         crit_damage: 0.5,
-        ferocity: 0.1,
+        ferocity: 0.25,
       },
       abilityModifiers: {
         0: {
-          ability: [0.2, 0.5, 0.5, 1, 1],
+          ability: [0.15, 0.33, 0.33, 0.33, 0.5],
         },
         1: {},
         2: {
@@ -1348,12 +1349,12 @@ module.exports = {
         1: [],
         2: [{
           name: 'Hemorrhage',
-          desc: ['§7Melee attacks reduce healing by §a%ability%% §7for 10 seconds'],
+          desc: ['§7Melee attacks reduce healing by §6%ability%% §7for §a10s'],
         }],
         3: [],
         4: [{
           name: 'Apex Predator',
-          desc: ['§7Deal %ability%% damage against targets with no other mobs within 15 blocks'],
+          desc: ['§7Deal §c+%ability%% §7damage against targets with no other mobs within §a15 §7blocks'],
         }],
       },
     },
@@ -1501,15 +1502,15 @@ module.exports = {
       },
       abilityModifiers: {
         0: {
-          ability: [0.1, 0.2, 0.3, 0.3, 0.3],
+          ability: [0.1, 0.2, 0.25, 0.25, 0.25],
         },
         1: {},
         2: {
-          ability: 0.2,
+          ability: 0.25,
         },
         3: {},
         4: {
-          ability: 0.25,
+          ability: 0.2,
         },
       },
       abilities: {
@@ -1576,6 +1577,7 @@ module.exports = {
       statModifiers: {
         strength: 0.5,
         speed: 0.25,
+        ferocity: 0.05,
       },
       abilityModifiers: {
         0: {
@@ -1583,11 +1585,11 @@ module.exports = {
         },
         1: {},
         2: {
-          ability: [0, 0, 0.3, 0.4, 0.5],
+          ability: [0, 0, 0.75, 1, 1],
         },
         3: {},
         4: {
-          ability: 0.3,
+          ability: 0.15,
         },
       },
       abilities: {
@@ -1598,12 +1600,12 @@ module.exports = {
         1: [],
         2: [{
           name: 'First Pounce',
-          desc: ['§7Increases damage dealt by §a%ability%% §7on your first hit on a mob'],
+          desc: ['§7First Strike, Triple-Strike, and §d§lCombo §r§7are §a%ability%% §7more effective.'],
         }],
         3: [],
         4: [{
           name: 'King of the Jungle',
-          desc: [`§7Deal §c+%ability%% ${symbols.strength} Damage §7against mobs below level §a80`],
+          desc: [`§7Deal §c+%ability%% ${symbols.strength} Damage §7against mobs that have attacked you.`],
         }],
       },
     },
