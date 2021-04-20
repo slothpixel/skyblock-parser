@@ -195,6 +195,7 @@ class Player {
         boss_kills_tier_1 = 0,
         boss_kills_tier_2 = 0,
         boss_kills_tier_3 = 0,
+        boss_kills_tier_4 = 0,
       }, name) => {
         const {
           xpForNext,
@@ -208,6 +209,7 @@ class Player {
             2: boss_kills_tier_1,
             3: boss_kills_tier_2,
             4: boss_kills_tier_3,
+            5: boss_kills_tier_4,
           },
         };
       };
