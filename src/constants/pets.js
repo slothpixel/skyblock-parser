@@ -1103,6 +1103,44 @@ module.exports = {
         }],
       },
     },
+    RAT: {
+      name: 'Rat',
+      statModifiers: {
+        strength: 0.5,
+        health: 1,
+        crit_damage: 0.1,
+      },
+      abilityModifiers: {
+        0: {},
+        1: {},
+        2: {},
+        3: {
+          ability: 1, // placeholder value
+        },
+        4: {},
+      },
+      abilities: {
+        0: [{
+          name: 'Morph',
+          desc: ['§7Right-click your summoned pet to morph into it!'],
+        }],
+        1: [],
+        2: [{
+          name: 'CHEESE!',
+          desc: ['§7As a Rat, you smell §e§lCHEESE §r§7nearby! Yummy!'],
+        }],
+        3: [{
+          name: "Rat's Blessing",
+          desc: ['§7Has a chance to grant a random player §b+%ability% §7seconds after finding a yummy piece of Cheese! If the player gets a drop during this buff, you have a §a20% §7to get it too.'],
+          descFn: ({ round, floor }, level) => {
+            const multMf = 0.05;
+            const multTime = 0.2;
+            return `${floor(2 + level * multMf)}${symbols.magic_find} Magic Find §7for §a${round(20 + level * multTime)}`;
+          },
+        }],
+        4: [],
+      },
+    },
     SKELETON_HORSE: {
       name: 'Skeleton Horse',
       lore: '§7Run around town on your scary, yet trusty, steed!',
@@ -2254,6 +2292,10 @@ module.exports = {
     },
     GRANDMA_WOLF: {
       head: '4e794274c1bb197ad306540286a7aa952974f5661bccf2b725424f6ed79c7884',
+      type: 'combat',
+    },
+    RAT: {
+      head: 'a8abb471db0ab78703011979dc8b40798a941f3a4dec3ec61cbeec2af8cffe8',
       type: 'combat',
     },
   },
