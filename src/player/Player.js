@@ -146,6 +146,7 @@ class Player {
         ender_chest_contents = {},
         candy_inventory_contents = {},
         wardrobe_contents = {},
+        personal_vault_contents = {},
         // Fairy souls
         fairy_souls_collected = 0,
         fairy_souls = 0,
@@ -171,6 +172,7 @@ class Player {
       this.ender_chest = await getInventory(ender_chest_contents);
       this.candy_bag = await getInventory(candy_inventory_contents);
       this.wardrobe = await getInventory(wardrobe_contents);
+      this.personal_vault = await getInventory(personal_vault_contents);
 
       const getUnlockedTier = (array) => {
         const o = {};
