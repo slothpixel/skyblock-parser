@@ -215,10 +215,13 @@ class Player {
       };
       const collection_tiers = getUnlockedTier(unlocked_coll_tiers);
       const skills = getSkills(/^experience_skill_/);
+      var averageSkillLevel =0.0; //define variable before forEach loop so it can be used out the loop scope
       Object.entries(skills).forEach(([key, value]) => {
         skills[key] = util.getLevelByXp(value, key);
+        if (!["runecrafting", "carpentry"].includes(key)) { //array of skills that shouldn't be used in ASL sum
+            averageSkillLevel += parseFloat(skills[key]["floatLevel"]) || 0; //Handle things that can't be parsed as a float
+        }
       });
-
       this.last_save = last_save;
       this.first_join = first_join;
       this.coin_purse = Math.round(coin_purse);
@@ -227,6 +230,7 @@ class Player {
       this.fairy_exchanges = fairy_exchanges;
       this.pets = pets;
       this.skills = skills;
+      this.averageSkillLevel = parseFloat((averageSkillLevel/8).toFixed(2)); //add averageSkillLevel to 'this' while also getting the average to 2 decimal places and making it back to a float
       this.collection = collection;
       this.collection_tiers = collection_tiers;
       this.collections_unlocked = Object.keys(collection_tiers).length;
