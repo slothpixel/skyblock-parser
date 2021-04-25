@@ -37,9 +37,9 @@ async function getInventory({ data = '' }, active = false) {
 function getTotalDragonKills(json){
 totalKills = 0;
 for (let [key, value] of Object.entries(json)) {
-      totalKills +=value
-    }
-  return totalKills
+    totalKills += value
+  }
+return totalKills
 }
 
 // Process the stats object
