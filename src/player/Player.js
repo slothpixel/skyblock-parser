@@ -34,9 +34,18 @@ async function getInventory({ data = '' }, active = false) {
   return Promise.all(i.map(async (item) => new Item(item, active)));
 }
 
+function getTotalDragonKills(json){
+totalKills = 0;
+for (let [key, value] of Object.entries(json)) {
+      totalKills +=value
+    }
+  return totalKills
+}
+
 // Process the stats object
 function processStats({
   kills = 0,
+  total_dragon_kills = 0,
   deaths = 0,
   ender_crystals_destroyed = 0,
   highest_critical_damage = 0,
@@ -87,6 +96,7 @@ function processStats({
     total_kills: kills,
     total_deaths: deaths,
     kills: getStats(/^kills_/),
+    total_dragon_kills: getTotalDragonKills(getStats(/^kills_(.*)_dragon/,(key) => key.replace(/^kills_(.*)_dragon/, '$1'))),
     deaths: getStats(/^deaths_/),
     highest_critical_damage: Math.round(highest_critical_damage),
     ender_crystals_destroyed,
