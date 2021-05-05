@@ -12,6 +12,8 @@ class Profile {
       if (!profile.profile_id) throw new Error('Invalid skyblock profile');
       this.id = profile.profile_id;
       this.members = {};
+      this.game_mode = profile.game_mode || '';
+      this.cute_name = profile.cute_name || '';
       const banking = profile.banking || {};
       this.community_upgrades = profile.community_upgrades || {};
       await Promise.all(Object.keys(profile.members)
