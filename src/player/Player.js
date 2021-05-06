@@ -244,7 +244,7 @@ class Player {
       this.fairy_exchanges = fairy_exchanges;
       this.pets = pets;
       this.skills = skills;
-      this.average_Skill_Level = parseFloat((averageSkillLevel / 8).toFixed(2));
+      this.average_skill_level = parseFloat((averageSkillLevel / 8).toFixed(2));
       // add average_skill_level to 'this' while also getting the average to 2 decimal places
       this.collection = collection;
       this.collection_tiers = collection_tiers;
