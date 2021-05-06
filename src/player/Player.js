@@ -95,7 +95,7 @@ function processStats({
     total_kills: kills,
     total_deaths: deaths,
     kills: getStats(/^kills_/),
-    total_dragon_kills: getTotalDragonKills(getStats(/^kills_(.*)_dragon/, (key) => key.replace(/^kills_(.*)_dragon/, '$1'))),
+    total_dragon_kills: Number(getTotalDragonKills(getStats(/^kills_(.*)_dragon/, (key) => key.replace(/^kills_(.*)_dragon/, '$1')))),
     deaths: getStats(/^deaths_/),
     highest_critical_damage: Math.round(highest_critical_damage),
     ender_crystals_destroyed,
