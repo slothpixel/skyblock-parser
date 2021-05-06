@@ -34,18 +34,17 @@ async function getInventory({ data = '' }, active = false) {
   return Promise.all(i.map(async (item) => new Item(item, active)));
 }
 
-function getTotalDragonKills(json){
-totalKills = 0;
-for (let [key, value] of Object.entries(json)) {
-    totalKills += value
-  }
-return totalKills
+function getTotalDragonKills(json) {
+  let totalKills = 0;
+  Object.entries(json).forEach(
+    (stat) => { totalKills += stat[1]; },
+  );
+  return totalKills;
 }
 
 // Process the stats object
 function processStats({
   kills = 0,
-  total_dragon_kills = 0,
   deaths = 0,
   ender_crystals_destroyed = 0,
   highest_critical_damage = 0,
@@ -96,7 +95,7 @@ function processStats({
     total_kills: kills,
     total_deaths: deaths,
     kills: getStats(/^kills_/),
-    total_dragon_kills: getTotalDragonKills(getStats(/^kills_(.*)_dragon/,(key) => key.replace(/^kills_(.*)_dragon/, '$1'))),
+    total_dragon_kills: getTotalDragonKills(getStats(/^kills_(.*)_dragon/, (key) => key.replace(/^kills_(.*)_dragon/, '$1'))),
     deaths: getStats(/^deaths_/),
     highest_critical_damage: Math.round(highest_critical_damage),
     ender_crystals_destroyed,
@@ -156,6 +155,7 @@ class Player {
         ender_chest_contents = {},
         candy_inventory_contents = {},
         wardrobe_contents = {},
+        personal_vault_contents = {},
         // Fairy souls
         fairy_souls_collected = 0,
         fairy_souls = 0,
@@ -181,6 +181,7 @@ class Player {
       this.ender_chest = await getInventory(ender_chest_contents);
       this.candy_bag = await getInventory(candy_inventory_contents);
       this.wardrobe = await getInventory(wardrobe_contents);
+      this.personal_vault = await getInventory(personal_vault_contents);
 
       const getUnlockedTier = (array) => {
         const o = {};
@@ -225,13 +226,16 @@ class Player {
       };
       const collection_tiers = getUnlockedTier(unlocked_coll_tiers);
       const skills = getSkills(/^experience_skill_/);
-      var averageSkillLevel =0.0; //define variable before forEach loop so it can be used out the loop scope
+      let averageSkillLevel = 0.0;
+      // define variable before forEach loop so it can be used out the loop scope
       Object.entries(skills).forEach(([key, value]) => {
         skills[key] = util.getLevelByXp(value, key);
-        if (!["runecrafting", "carpentry"].includes(key)) { //array of skills that shouldn't be used in ASL sum
-            averageSkillLevel += parseFloat(skills[key]["floatLevel"]) || 0; //Handle things that can't be parsed as a float
+        if (!['runecrafting', 'carpentry'].includes(key)) { // array of skills that shouldn't be used in ASL sum
+          averageSkillLevel += parseFloat(skills[key].floatLevel) || 0;
+          // Handle things that can't be parsed as a float
         }
       });
+
       this.last_save = last_save;
       this.first_join = first_join;
       this.coin_purse = Math.round(coin_purse);
@@ -240,7 +244,8 @@ class Player {
       this.fairy_exchanges = fairy_exchanges;
       this.pets = pets;
       this.skills = skills;
-      this.averageSkillLevel = parseFloat((averageSkillLevel/8).toFixed(2)); //add averageSkillLevel to 'this' while also getting the average to 2 decimal places and making it back to a float
+      this.averageSkillLevel = parseFloat((averageSkillLevel / 8).toFixed(2));
+      // add averageSkillLevel to 'this' while also getting the average to 2 decimal places
       this.collection = collection;
       this.collection_tiers = collection_tiers;
       this.collections_unlocked = Object.keys(collection_tiers).length;
