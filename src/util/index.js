@@ -173,10 +173,11 @@ function getLevelByXp(xp = 0, type) {
   const xpCurrent = Math.floor(xp - xpTotal);
   if (level < maxLevel) xpForNext = Math.ceil(xpTable[level + 1]);
   const progress = Number(Math.max(0, Math.min(xpCurrent / xpForNext, 1)).toFixed(2));
-
+  const floatLevel = level + Number(Math.max(0, Math.min(xpCurrent / xpForNext, 1))) || level; //Makes calculating weights easier for devs
   return {
     xp,
     level,
+    floatLevel,
     maxLevel,
     xpCurrent,
     xpForNext,

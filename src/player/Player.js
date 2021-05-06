@@ -34,6 +34,14 @@ async function getInventory({ data = '' }, active = false) {
   return Promise.all(i.map(async (item) => new Item(item, active)));
 }
 
+function getTotalDragonKills(json) {
+  let totalKills = 0;
+  Object.entries(json).forEach(
+    (stat) => { totalKills += stat[1]; },
+  );
+  return totalKills;
+}
+
 // Process the stats object
 function processStats({
   kills = 0,
@@ -87,6 +95,7 @@ function processStats({
     total_kills: kills,
     total_deaths: deaths,
     kills: getStats(/^kills_/),
+    total_dragon_kills: Number(getTotalDragonKills(getStats(/^kills_(.*)_dragon/, (key) => key.replace(/^kills_(.*)_dragon/, '$1')))),
     deaths: getStats(/^deaths_/),
     highest_critical_damage: Math.round(highest_critical_damage),
     ender_crystals_destroyed,
@@ -217,8 +226,14 @@ class Player {
       };
       const collection_tiers = getUnlockedTier(unlocked_coll_tiers);
       const skills = getSkills(/^experience_skill_/);
+      let averageSkillLevel = 0.0;
+      // define variabe before forEach loop so it can be used out the loop scope
       Object.entries(skills).forEach(([key, value]) => {
         skills[key] = util.getLevelByXp(value, key);
+        if (!['runecrafting', 'carpentry'].includes(key)) { // array of skills that shouldn't be used in ASL sum
+          averageSkillLevel += parseFloat(skills[key].floatLevel) || 0;
+          // Handle things that can't be parsed as a float
+        }
       });
 
       this.last_save = last_save;
@@ -229,6 +244,8 @@ class Player {
       this.fairy_exchanges = fairy_exchanges;
       this.pets = pets;
       this.skills = skills;
+      this.average_skill_level = parseFloat((averageSkillLevel / 8).toFixed(2));
+      // add average_skill_level to 'this' while also getting the average to 2 decimal places
       this.collection = collection;
       this.collection_tiers = collection_tiers;
       this.collections_unlocked = Object.keys(collection_tiers).length;
