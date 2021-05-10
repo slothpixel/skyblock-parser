@@ -156,6 +156,8 @@ class Player {
         candy_inventory_contents = {},
         wardrobe_contents = {},
         personal_vault_contents = {},
+        backpack_contents = {},
+        backpack_icons = {},
         // Fairy souls
         fairy_souls_collected = 0,
         fairy_souls = 0,
@@ -182,6 +184,10 @@ class Player {
       this.candy_bag = await getInventory(candy_inventory_contents);
       this.wardrobe = await getInventory(wardrobe_contents);
       this.personal_vault = await getInventory(personal_vault_contents);
+      this.backpack = await Promise.all(Object.keys(backpack_contents)
+        .map(async (slot) => getInventory(backpack_contents[slot])));
+      this.backpack_icons = await Promise.all(Object.keys(backpack_icons)
+        .map(async (slot) => getInventory(backpack_icons[slot])));
 
       const getUnlockedTier = (array) => {
         const o = {};
