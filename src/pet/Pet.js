@@ -49,12 +49,19 @@ class Pet {
 
     let nameString = `[Lvl ${level}] §${rarityColors[rarityL]}${this.name || type}`;
     let typeString = `§8${capitalizeFirstLetter(petType)} `;
-    typeString += [
+
+    if ([
       'HORSE',
       'SKELETON_HORSE',
       'PIG',
       'ROCK',
-    ].indexOf(type) === -1 ? 'Pet' : 'Mount';
+    ].includes(type)) {
+      typeString += 'Mount';
+    } else if (['RAT'].includes(type)) {
+      typeString += 'Morph';
+    } else {
+      typeString += 'Pet';
+    }
 
     if (skin && skin in (petSkins[type] || {})) {
       nameString += ' ✦';
