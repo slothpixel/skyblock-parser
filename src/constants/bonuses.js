@@ -163,20 +163,6 @@ module.exports = {
         speed: 1,
       },
     },
-    enderman_slayer: {
-      1: {
-        health: 1,
-      },
-      2: {
-        intelligence: 1,
-      },
-      3: {
-        health: 2,
-      },
-      4: {
-        intelligence: 2,
-      },
-    },
 
     enchantments: {
       sharpness: {
