@@ -254,7 +254,6 @@ class Player {
         zombie: getSlayer(slayer_bosses.zombie || {}, 'zombie'),
         spider: getSlayer(slayer_bosses.spider || {}, 'spider'),
         wolf: getSlayer(slayer_bosses.wolf || {}, 'wolf'),
-        enderman: getSlayer(slayer_bosses.enderman || {}, 'enderman'),
       };
 
       const highestRarity = {};
