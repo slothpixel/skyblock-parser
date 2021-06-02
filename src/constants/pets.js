@@ -734,6 +734,9 @@ module.exports = {
         4: {
           ability: 0.25,
         },
+        5: {
+          ability: 0.4,
+        },
       },
       abilities: {
         0: [{
@@ -749,6 +752,10 @@ module.exports = {
         4: [{
           name: 'Zealot Madness',
           desc: ['§7Increases your odds to find a special Zealot by §a%ability%%.'],
+        }],
+        5: [{
+          name: 'Enderman Slayer',
+          desc: ['§7Gain +§a%ability%% §7more combat xp from endermen'],
         }],
       },
     },
