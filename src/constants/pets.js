@@ -2475,6 +2475,10 @@ module.exports = {
         name: 'Golden',
         head: 'e9281c4d87d68526b0749d4361e6ef786c8a35717aa053da704b1d53410d37a6',
       },
+      MONKEY_GORILLA: {
+        name: 'Gorilla',
+        head: 'c3eb3e37e9873bfc176b9ed8ef4fbef833de144546bfaefdf24863c3eb87bb86',
+      },
     },
     SKELETON_HORSE: {
       HORSE_ZOMBIE: {
@@ -2506,6 +2510,16 @@ module.exports = {
       CHICKEN_BABY_CHICK: {
         name: 'Baby Chick',
         head: '1bde55ed54cb5c87661b86c349186a9d5baffb3cb934b449a2d329e399d34bf',
+      },
+    },
+    BLACK_CAT: {
+      BLACK_CAT_IVORY: {
+        name: 'Ivory',
+        head: 'f51b17d7ded6c7e8f3b2dac12378a6fc4e9228b911986f64c8af45837ae6d9e1',
+      },
+      BLACK_CAT_ONYX: {
+        name: 'Onyx',
+        head: 'be924115d3a8bbacfd4fafb6cc70f99a2f7580e4583a50fa9b9c285a98ac0c56',
       },
     },
   },
