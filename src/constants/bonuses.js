@@ -176,6 +176,18 @@ module.exports = {
       4: {
         intelligence: 2,
       },
+      5: {
+        health: 3,
+      },
+      6: {
+        intelligence: 3,
+      },
+      7: {
+        health: 4,
+      },
+      8: {
+        intelligence: 4,
+      },
     },
 
     enchantments: {
