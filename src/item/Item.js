@@ -32,6 +32,7 @@ const attributeSchema = {
   baseStatBoostPercentage: 'tag.ExtraAttributes.baseStatBoostPercentage',
   dungeon_floor: 'tag.ExtraAttributes.item_tier',
   cake_year: 'tag.ExtraAttributes.new_years_cake',
+  wood_singularity_count: 'tag.ExtraAttributes.wood_singularity_count',
   texture: 'tag.SkullOwner.Properties.textures',
 };
 
