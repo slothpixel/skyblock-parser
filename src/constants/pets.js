@@ -2313,6 +2313,16 @@ module.exports = {
         name: 'Spooky',
         head: 'ea84cc8818c293484fdaafc8fa2f0bf39e55733a247d68023df2c6c6b9b671d0',
       },
+      ENDERMAN_SLAYER: {
+        name: 'Void Conqueror',
+        head: '8fff41e1afc597b14f77b8e44e2a134dabe161a1526ade80e6290f2df331dc11',
+      },
+    },
+    ENDERMITE: {
+      ENDERMITE_RADIANT: {
+        name: 'Radiant',
+        head: '3840ad985c0b08811ab0a137ca736119d079dbf2143462145eb62b6ecbd2d7cc',
+      },
     },
     GUARDIAN: {
       GUARDIAN: {
