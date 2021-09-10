@@ -286,18 +286,22 @@ class Player {
     const bonus = { ...constants.statTemplate };
     const skillStats = constants.bonusStats[`${skill}_skill`];
     const { level, maxLevel } = this.skills[skill];
-    const steps = Object.keys(skillStats).sort((a, b) => a - b).map((a) => Number(a));
+    try {
+      const steps = Object.keys(skillStats).sort((a, b) => a - b).map((a) => Number(a));
 
-    for (let x = 1; x <= maxLevel; x += 1) {
-      if (level < x) break;
+      for (let x = 1; x <= maxLevel; x += 1) {
+        if (level < x) break;
 
-      const skillStep = steps.slice().reverse().find((a) => a <= x);
-      const skillBonus = skillStats[skillStep];
-      Object.keys(skillBonus).forEach((type) => {
-        bonus[type] += skillBonus[type];
-      });
+        const skillStep = steps.slice().reverse().find((a) => a <= x);
+        const skillBonus = skillStats[skillStep];
+        Object.keys(skillBonus).forEach((type) => {
+          bonus[type] += skillBonus[type];
+        });
+      }
+      return util.removeZeroes(bonus);
+    } catch {
+      return {};
     }
-    return util.removeZeroes(bonus);
   }
 
   getFairyBonus() {
