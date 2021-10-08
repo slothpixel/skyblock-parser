@@ -141,6 +141,9 @@ function getLevelByXp(xp = 0, type) {
     case 'runecrafting':
       xpTable = constants.runecraftingXp;
       break;
+    case 'social':
+      xpTable = constants.runecraftingXp;
+      break;
     default:
       xpTable = constants.levelingXp;
   }

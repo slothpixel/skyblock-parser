@@ -26,6 +26,7 @@ const baseStats = {
   mining_fortune: 0,
   farming_fortune: 0,
   foraging_fortune: 0,
+  pristine:0,
 };
 
 async function getInventory({ data = '' }, active = false) {
@@ -162,6 +163,25 @@ class Player {
         fairy_souls_collected = 0,
         fairy_souls = 0,
         fairy_exchanges = 0,
+        //dungeons data for layout
+        dungeons = {},
+        essence_undead=0,
+        essence_diamond=0,
+        essence_dragon=0,
+        essence_gold=0,
+        essence_ice=0,
+        essence_wither=0,
+        essence_spider=0,
+        perks = {},
+        //potion data
+        active_effects: active_potions = [],
+        paused_effects: paused_potions = [],
+        disabled_potion_effects: disabled_potions = [],
+        temp_stat_buffs : cake_soul_buffs = [],
+        //mining data
+        mining_core = {},
+        forge = {},
+
         ...rest
       } = data;
 
@@ -189,6 +209,25 @@ class Player {
       this.backpack_icons = await Promise.all(Object.keys(backpack_icons)
         .map(async (slot) => getInventory(backpack_icons[slot])));
 
+      //relocate bag types to new key
+      this.player_inventories = {
+        inventory : this.inventory,
+        armor : this.armor,
+        ender_chest : this.ender_chest,
+        personal_vault : this.personal_vault,
+        backpack_data: {
+          backpacks:this.backpack,
+          backpack_icons :this.backpack_icons
+        },
+      }
+      //relocate player inventory types to new key
+      this.player_bags = {
+        talisman_bag : this.talisman_bag,
+        fishing_bag : this.fishing_bag,
+        potion_bag : this.potion_bag,
+        candy_bag : this.candy_bag,
+        quiver: this.quiver,
+      }
       const getUnlockedTier = (array) => {
         const o = {};
         array.forEach((gen) => {
@@ -243,6 +282,29 @@ class Player {
       });
 
       this.last_save = last_save;
+      dungeons["essence_unlocks"] = perks
+      dungeons["essences"] = {
+        essence_undead,
+        essence_diamond,
+        essence_dragon,
+        essence_gold,
+        essence_ice,
+        essence_wither,
+        essence_spider,
+      }
+      this.dungeons = dungeons
+      this.appendDungeonData()
+      this.potion_data = {
+        "active_potions":active_potions,
+        "paused_potions" :paused_potions,
+        "disabled_potions": disabled_potions,
+        "cake_buffs": cake_soul_buffs,
+      }
+      this.HOTM_Data = {
+        "mining_core":mining_core,
+        "forge":forge
+      }
+      
       this.first_join = first_join;
       this.coin_purse = Math.round(coin_purse);
       this.fairy_souls_collected = fairy_souls_collected;
@@ -252,9 +314,11 @@ class Player {
       this.skills = skills;
       this.average_skill_level = parseFloat((averageSkillLevel / 8).toFixed(2));
       // add average_skill_level to 'this' while also getting the average to 2 decimal places
-      this.collection = collection;
-      this.collection_tiers = collection_tiers;
-      this.collections_unlocked = Object.keys(collection_tiers).length;
+      this.collection_data = {
+        "collection_totals": collection,
+        "collection_tiers":collection_tiers,
+        "collections_unlocked":Object.keys(collection_tiers).length,
+      }
       this.minions = getUnlockedTier(crafted_generators);
       this.slayer = {
         zombie: getSlayer(slayer_bosses.zombie || {}, 'zombie'),
@@ -277,11 +341,96 @@ class Player {
 
       this.bonuses = this.getBonuses();
       this.applyBonuses();
+      this.getPristineStats()
       this.attributes.effective_health = this.getEHP();
+
+      //cleanup of relocated keys:
+      this.deleteObjectKeys(this, {
+        player_bags:["quiver","fishing_bag","potion_bag","talisman_bag","candy_bag"],
+        player_inventories:["inventory","armor","ender_chest","personal_vault","backpack","backpack_icons"],
+      });
+
       return this;
     })();
   }
+  
+getPristineStats(){
+  //check if actibe armour has any gems that are topaz
+    if (this.armor.length < 1) return;
+    const gemstones = { "TOPAZ": { "ROUGH": 0.4, "FLAWED": 0.8, "FINE": 1.2, "FLAWLESS": 1.6, "PERFECT": 2 } }
+    for (let i = 0; i < this.armor.length; i++) {
+        let armour_Piece = this.armor[i]
 
+        let hasGems = armour_Piece.attributes?.gems
+        if (hasGems) {
+            let gem_Keys = Object.keys(hasGems)
+            for (let t = 0; t < gem_Keys.length; t++) {
+                if (gem_Keys[t].includes("TOPAZ_")) {
+
+                    this.attributes.pristine += gemstones.TOPAZ[hasGems[gem_Keys[t]]]
+                } else if (gem_Keys[t].match(/UNIVERSAL_\d_gem/g) && hasGems[gem_Keys[t]].includes("TOPAZ")) {
+                    this.attributes.pristine += gemstones.TOPAZ[`${hasGems[gem_Keys[t].replace(/_gem/, "")]}`]
+                }
+            }
+        }
+    }
+    //check for mining tools with pristine stat on hotbar
+
+    var pristine_values = [];
+    let temp_inv = this.inventory
+    for (let i = 0; i < 8; i++) {
+        if (["pickaxe", "drill","gauntlet"].includes(temp_inv[`${i}`]?.type)) {
+            var item_json = temp_inv[i]
+            item_json["pristine"] = 0
+            if (item_json?.attributes?.gems && item_json?.attributes?.enchantments) {
+                let gem_location = item_json.attributes?.gems
+                let enchants_locations = item_json.attributes?.enchantments
+                let gem_Keys = Object.keys(gem_location)
+                for (let t = 0; t < gem_Keys.length; t++) {
+                    if (gem_Keys[t].includes("TOPAZ_")) {
+                        item_json["pristine"] += gemstones.TOPAZ[gem_location[gem_Keys[t]]]
+                    } else if (gem_Keys[t].match(/UNIVERSAL_\d_gem/g) && gem_location[gem_Keys[t]].includes("TOPAZ")) {
+                        item_json["pristine"] += gemstones.TOPAZ[`${gem_location[gem_Keys[t].replace(/_gem/, "")]}`]
+                    }
+                }
+                if (enchants_locations["pristine"]) {
+                    item_json["pristine"] += enchants_locations["pristine"]
+                }
+                pristine_values.push(item_json["pristine"])
+            }
+        }
+    }
+    if(pristine_values.length > 1){
+      pristine_values.sort((a, b) => a- b)
+      this.attributes.pristine += pristine_values[0]
+    }
+
+    //reset array 
+    pristine_values = [];
+    //check if player has power artifact
+    this.active_accessories.forEach(object =>{
+      if(object.attributes.id == "POWER_ARTIFACT"){
+        let gemstonevalue = gemstones.TOPAZ[object.attributes?.gems?.TOPAZ_0]
+        if(gemstonevalue){
+          pristine_values.push(gemstonevalue)
+        }else{
+          pristine_values.push(0)
+        }
+      }
+    })
+    if(pristine_values.length > 1){
+      pristine_values.sort((a, b) => a- b)
+      this.attributes.pristine += pristine_values[0]
+    }else{
+      this.attributes.pristine += pristine_values[0]
+    }
+
+    if(this.active_pet?.name == "Bal" && this.active_pet?.rarity == "LEGENDARY"){
+      let level = this.active_pet.level;
+      let multiplier = 0.15;
+      this.attributes.pristine = this.attributes.pristine *= (1+Math.floor(level * multiplier))
+    }
+}
   getSkillBonus(skill) {
     const bonus = { ...constants.statTemplate };
     const skillStats = constants.bonusStats[`${skill}_skill`];
@@ -531,6 +680,59 @@ class Player {
   getEHP() {
     if (this.attributes.defense <= 0) return this.attributes.health;
     return Math.round(this.attributes.health * (1 + this.attributes.defense / 100));
+  }
+
+  deleteObjectKeys(object_location, key_object){
+    if(!object_location) return `This Object location doesn't exist: ${String(object_location)} `
+    Object.keys(key_object).forEach(key => {
+      let key_array = key_object[key]
+      for(let i=0; i < key_array.length; i++){
+      try{
+        delete object_location[key_array[i]]
+      }
+      catch(err){
+      }
+    }
+    })
+  }
+
+  calculateLevel(experience) {
+        let level = 0;
+        let XpValues = constants.catacombsXP;
+
+        for (let toRemove of XpValues) {
+          experience -= toRemove;
+          if (experience < 0) {
+            return level + (1 - (experience * -1) / toRemove);
+          }
+          level++;
+        }
+
+        return Math.min(level, 50);
+      }
+  addLevelsToLocation(directive){
+      let location = directive
+      let location_keys = Object.keys(location)
+
+      for (var i = 0; i < location_keys.length; i++) {
+        let key = location[location_keys[i]]
+        if(key?.experience){
+          let floatLevel = this.calculateLevel(key.experience)
+          let level = Math.floor(floatLevel)
+
+          key.floatLevel = floatLevel
+          key.level = level
+        }
+      }
+    }
+
+  appendDungeonData(){ 
+    if(this.dungeons?.dungeon_types){
+      this.addLevelsToLocation(this.dungeons.dungeon_types)
+    }
+    if(this.dungeons?.player_classes){
+      this.addLevelsToLocation(this.dungeons.player_classes)
+    }
   }
 }
 

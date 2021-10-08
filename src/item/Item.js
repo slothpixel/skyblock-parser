@@ -23,6 +23,7 @@ const attributeSchema = {
   modifier: 'tag.ExtraAttributes.modifier',
   enchantments: 'tag.ExtraAttributes.enchantments',
   hot_potato_count: 'tag.ExtraAttributes.hot_potato_count',
+  gems: 'tag.ExtraAttributes.gems',
   origin: 'tag.ExtraAttributes.originTag',
   id: 'tag.ExtraAttributes.id',
   uuid: 'tag.ExtraAttributes.uuid',

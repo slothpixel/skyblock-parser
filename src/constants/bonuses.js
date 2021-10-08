@@ -189,7 +189,15 @@ module.exports = {
         intelligence: 4,
       },
     },
-
+    gemstones:{
+      TOPAZ:{
+        "ROUGH":0.4,
+        "FLAWED":0.8,
+        "FINE":1.2,
+        "FLAWLESS":1.6,
+        "PERFECT":2,
+      },
+    },
     enchantments: {
       sharpness: {
         1: {
