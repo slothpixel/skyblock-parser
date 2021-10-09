@@ -159,9 +159,11 @@ class Player {
         personal_vault_contents = {},
         backpack_contents = {},
         backpack_icons = {},
+        // Fairy souls
         fairy_souls_collected = 0,
         fairy_souls = 0,
         fairy_exchanges = 0,
+        // dungeons data for layout
         dungeons = {},
         essence_undead = 0,
         essence_diamond = 0,
@@ -171,10 +173,12 @@ class Player {
         essence_wither = 0,
         essence_spider = 0,
         perks = {},
+        // potion data
         active_effects: active_potions = [],
         paused_effects: paused_potions = [],
         disabled_potion_effects: disabled_potions = [],
         temp_stat_buffs: cake_soul_buffs = [],
+        // mining data
         mining_core = {},
         forge = {},
 
@@ -204,7 +208,7 @@ class Player {
         .map(async (slot) => getInventory(backpack_contents[slot])));
       this.backpack_icons = await Promise.all(Object.keys(backpack_icons)
         .map(async (slot) => getInventory(backpack_icons[slot])));
-
+      // relocate bag types to new key
       this.player_inventories = {
         inventory: this.inventory,
         armor: this.armor,
@@ -215,6 +219,8 @@ class Player {
           backpack_icons: this.backpack_icons,
         },
       };
+      // relocate player inventory types to new key
+
       this.player_bags = {
         talisman_bag: this.talisman_bag,
         fishing_bag: this.fishing_bag,
