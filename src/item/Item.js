@@ -8,6 +8,8 @@ const rarityMap = {
   5: 'epic',
   6: 'legendary',
   d: 'mythic',
+  b: 'divine',
+  4: 'supreme',
   c: 'special',
 };
 

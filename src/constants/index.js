@@ -12,6 +12,8 @@ const rarityColors = {
   epic: 5,
   legendary: 6,
   mythic: 'd',
+  divine: 'b',
+  supreme: 4,
   special: 'c',
 };
 const symbols = {
