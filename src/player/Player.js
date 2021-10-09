@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable camelcase,no-param-reassign */
 const util = require('../util');
 const constants = require('../constants');
@@ -26,7 +27,7 @@ const baseStats = {
   mining_fortune: 0,
   farming_fortune: 0,
   foraging_fortune: 0,
-  pristine:0,
+  pristine: 0,
 };
 
 async function getInventory({ data = '' }, active = false) {
@@ -146,7 +147,6 @@ class Player {
         slayer_bosses = {},
         unlocked_coll_tiers = [],
         collection = {},
-        // Inventories
         inv_armor = {},
         inv_contents = {},
         fishing_bag = {},
@@ -159,26 +159,22 @@ class Player {
         personal_vault_contents = {},
         backpack_contents = {},
         backpack_icons = {},
-        // Fairy souls
         fairy_souls_collected = 0,
         fairy_souls = 0,
         fairy_exchanges = 0,
-        //dungeons data for layout
         dungeons = {},
-        essence_undead=0,
-        essence_diamond=0,
-        essence_dragon=0,
-        essence_gold=0,
-        essence_ice=0,
-        essence_wither=0,
-        essence_spider=0,
+        essence_undead = 0,
+        essence_diamond = 0,
+        essence_dragon = 0,
+        essence_gold = 0,
+        essence_ice = 0,
+        essence_wither = 0,
+        essence_spider = 0,
         perks = {},
-        //potion data
         active_effects: active_potions = [],
         paused_effects: paused_potions = [],
         disabled_potion_effects: disabled_potions = [],
-        temp_stat_buffs : cake_soul_buffs = [],
-        //mining data
+        temp_stat_buffs: cake_soul_buffs = [],
         mining_core = {},
         forge = {},
 
@@ -209,25 +205,23 @@ class Player {
       this.backpack_icons = await Promise.all(Object.keys(backpack_icons)
         .map(async (slot) => getInventory(backpack_icons[slot])));
 
-      //relocate bag types to new key
       this.player_inventories = {
-        inventory : this.inventory,
-        armor : this.armor,
-        ender_chest : this.ender_chest,
-        personal_vault : this.personal_vault,
+        inventory: this.inventory,
+        armor: this.armor,
+        ender_chest: this.ender_chest,
+        personal_vault: this.personal_vault,
         backpack_data: {
-          backpacks:this.backpack,
-          backpack_icons :this.backpack_icons
+          backpacks: this.backpack,
+          backpack_icons: this.backpack_icons,
         },
-      }
-      //relocate player inventory types to new key
+      };
       this.player_bags = {
-        talisman_bag : this.talisman_bag,
-        fishing_bag : this.fishing_bag,
-        potion_bag : this.potion_bag,
-        candy_bag : this.candy_bag,
+        talisman_bag: this.talisman_bag,
+        fishing_bag: this.fishing_bag,
+        potion_bag: this.potion_bag,
+        candy_bag: this.candy_bag,
         quiver: this.quiver,
-      }
+      };
       const getUnlockedTier = (array) => {
         const o = {};
         array.forEach((gen) => {
@@ -282,8 +276,8 @@ class Player {
       });
 
       this.last_save = last_save;
-      dungeons["essence_unlocks"] = perks
-      dungeons["essences"] = {
+      dungeons.essence_unlocks = perks;
+      dungeons.essences = {
         essence_undead,
         essence_diamond,
         essence_dragon,
@@ -291,20 +285,20 @@ class Player {
         essence_ice,
         essence_wither,
         essence_spider,
-      }
-      this.dungeons = dungeons
-      this.appendDungeonData()
+      };
+      this.dungeons = dungeons;
+      this.appendDungeonData();
       this.potion_data = {
-        "active_potions":active_potions,
-        "paused_potions" :paused_potions,
-        "disabled_potions": disabled_potions,
-        "cake_buffs": cake_soul_buffs,
-      }
+        active_potions,
+        paused_potions,
+        disabled_potions,
+        cake_buffs: cake_soul_buffs,
+      };
       this.HOTM_Data = {
-        "mining_core":mining_core,
-        "forge":forge
-      }
-      
+        mining_core,
+        forge,
+      };
+
       this.first_join = first_join;
       this.coin_purse = Math.round(coin_purse);
       this.fairy_souls_collected = fairy_souls_collected;
@@ -315,10 +309,10 @@ class Player {
       this.average_skill_level = parseFloat((averageSkillLevel / 8).toFixed(2));
       // add average_skill_level to 'this' while also getting the average to 2 decimal places
       this.collection_data = {
-        "collection_totals": collection,
-        "collection_tiers":collection_tiers,
-        "collections_unlocked":Object.keys(collection_tiers).length,
-      }
+        collection_totals: collection,
+        collection_tiers,
+        collections_unlocked: Object.keys(collection_tiers).length,
+      };
       this.minions = getUnlockedTier(crafted_generators);
       this.slayer = {
         zombie: getSlayer(slayer_bosses.zombie || {}, 'zombie'),
@@ -341,96 +335,102 @@ class Player {
 
       this.bonuses = this.getBonuses();
       this.applyBonuses();
-      this.getPristineStats()
+      this.getPristineStats();
       this.attributes.effective_health = this.getEHP();
 
-      //cleanup of relocated keys:
+      // cleanup of relocated keys:
       this.deleteObjectKeys(this, {
-        player_bags:["quiver","fishing_bag","potion_bag","talisman_bag","candy_bag"],
-        player_inventories:["inventory","armor","ender_chest","personal_vault","backpack","backpack_icons"],
+        player_bags: ['quiver', 'fishing_bag', 'potion_bag', 'talisman_bag', 'candy_bag'],
+        player_inventories: ['inventory', 'armor', 'ender_chest', 'personal_vault', 'backpack', 'backpack_icons'],
       });
 
       return this;
     })();
   }
-  
-getPristineStats(){
-  //check if actibe armour has any gems that are topaz
+
+  getPristineStats() {
+    // check if actibe armour has any gems that are topaz
     if (this.armor.length < 1) return;
-    const gemstones = { "TOPAZ": { "ROUGH": 0.4, "FLAWED": 0.8, "FINE": 1.2, "FLAWLESS": 1.6, "PERFECT": 2 } }
+    const gemstones = {
+      TOPAZ: {
+        ROUGH: 0.4, FLAWED: 0.8, FINE: 1.2, FLAWLESS: 1.6, PERFECT: 2,
+      },
+    };
     for (let i = 0; i < this.armor.length; i++) {
-        let armour_Piece = this.armor[i]
+      const armour_Piece = this.armor[i];
 
-        let hasGems = armour_Piece.attributes?.gems
-        if (hasGems) {
-            let gem_Keys = Object.keys(hasGems)
-            for (let t = 0; t < gem_Keys.length; t++) {
-                if (gem_Keys[t].includes("TOPAZ_")) {
-
-                    this.attributes.pristine += gemstones.TOPAZ[hasGems[gem_Keys[t]]]
-                } else if (gem_Keys[t].match(/UNIVERSAL_\d_gem/g) && hasGems[gem_Keys[t]].includes("TOPAZ")) {
-                    this.attributes.pristine += gemstones.TOPAZ[`${hasGems[gem_Keys[t].replace(/_gem/, "")]}`]
-                }
-            }
-        }
-    }
-    //check for mining tools with pristine stat on hotbar
-
-    var pristine_values = [];
-    let temp_inv = this.inventory
-    for (let i = 0; i < 8; i++) {
-        if (["pickaxe", "drill","gauntlet"].includes(temp_inv[`${i}`]?.type)) {
-            var item_json = temp_inv[i]
-            item_json["pristine"] = 0
-            if (item_json?.attributes?.gems && item_json?.attributes?.enchantments) {
-                let gem_location = item_json.attributes?.gems
-                let enchants_locations = item_json.attributes?.enchantments
-                let gem_Keys = Object.keys(gem_location)
-                for (let t = 0; t < gem_Keys.length; t++) {
-                    if (gem_Keys[t].includes("TOPAZ_")) {
-                        item_json["pristine"] += gemstones.TOPAZ[gem_location[gem_Keys[t]]]
-                    } else if (gem_Keys[t].match(/UNIVERSAL_\d_gem/g) && gem_location[gem_Keys[t]].includes("TOPAZ")) {
-                        item_json["pristine"] += gemstones.TOPAZ[`${gem_location[gem_Keys[t].replace(/_gem/, "")]}`]
-                    }
-                }
-                if (enchants_locations["pristine"]) {
-                    item_json["pristine"] += enchants_locations["pristine"]
-                }
-                pristine_values.push(item_json["pristine"])
-            }
-        }
-    }
-    if(pristine_values.length > 1){
-      pristine_values.sort((a, b) => a- b)
-      this.attributes.pristine += pristine_values[0]
-    }
-
-    //reset array 
-    pristine_values = [];
-    //check if player has power artifact
-    this.active_accessories.forEach(object =>{
-      if(object.attributes.id == "POWER_ARTIFACT"){
-        let gemstonevalue = gemstones.TOPAZ[object.attributes?.gems?.TOPAZ_0]
-        if(gemstonevalue){
-          pristine_values.push(gemstonevalue)
-        }else{
-          pristine_values.push(0)
+      const hasGems = armour_Piece.attributes?.gems;
+      if (hasGems) {
+        const gem_Keys = Object.keys(hasGems);
+        for (let t = 0; t < gem_Keys.length; t++) {
+          if (gem_Keys[t].includes('TOPAZ_')) {
+            this.attributes.pristine += gemstones.TOPAZ[hasGems[gem_Keys[t]]];
+          } else if (gem_Keys[t].match(/UNIVERSAL_\d_gem/g) && hasGems[gem_Keys[t]].includes('TOPAZ')) {
+            this.attributes.pristine += gemstones.TOPAZ[`${hasGems[gem_Keys[t].replace(/_gem/, '')]}`];
+          }
         }
       }
-    })
-    if(pristine_values.length > 1){
-      pristine_values.sort((a, b) => a- b)
-      this.attributes.pristine += pristine_values[0]
-    }else{
-      this.attributes.pristine += pristine_values[0]
+    }
+    // check for mining tools with pristine stat on hotbar
+
+    let pristine_values = [];
+    const temp_inv = this.inventory;
+    for (let i = 0; i < 8; i++) {
+      if (['pickaxe', 'drill', 'gauntlet'].includes(temp_inv[`${i}`].type)) {
+        const item_json = temp_inv[i];
+        item_json.pristine = 0;
+        if (item_json?.attributes?.gems && item_json?.attributes?.enchantments) {
+          const gem_location = item_json.attributes?.gems;
+          const enchants_locations = item_json.attributes?.enchantments;
+          const gem_Keys = Object.keys(gem_location);
+          for (let t = 0; t < gem_Keys.length; t++) {
+            if (gem_Keys[t].includes('TOPAZ_')) {
+              item_json.pristine += gemstones.TOPAZ[gem_location[gem_Keys[t]]];
+            } else if (gem_Keys[t].match(/UNIVERSAL_\d_gem/g) && gem_location[gem_Keys[t]].includes('TOPAZ')) {
+              item_json.pristine += gemstones.TOPAZ[`${gem_location[gem_Keys[t].replace(/_gem/, '')]}`];
+            }
+          }
+          if (enchants_locations.pristine) {
+            item_json.pristine += enchants_locations.pristine;
+          }
+          pristine_values.push(item_json.pristine);
+        }
+      }
+    }
+    if (pristine_values.length > 1) {
+      pristine_values.sort((a, b) => a - b);
+      this.attributes.pristine += pristine_values[0];
     }
 
-    if(this.active_pet?.name == "Bal" && this.active_pet?.rarity == "LEGENDARY"){
-      let level = this.active_pet.level;
-      let multiplier = 0.15;
-      this.attributes.pristine = this.attributes.pristine *= (1+Math.floor(level * multiplier))
+    // reset array
+    pristine_values = [];
+    // check if player has power artifact
+    this.active_accessories.forEach((object) => {
+      if (object.attributes.id === 'POWER_ARTIFACT') {
+        const gemstonevalue = gemstones.TOPAZ[object.attributes?.gems?.TOPAZ_0];
+        if (gemstonevalue) {
+          pristine_values.push(gemstonevalue);
+        } else {
+          pristine_values.push(0);
+        }
+      }
+    });
+    if (pristine_values.length > 1) {
+      pristine_values.sort((a, b) => a - b);
+      this.attributes.pristine += pristine_values[0];
+    } else {
+      this.attributes.pristine += pristine_values[0];
     }
-}
+
+    if (this.active_pet?.name === 'Bal' && this.active_pet?.rarity === 'LEGENDARY') {
+      const { level } = this.active_pet;
+      const multiplier = 0.15;
+      const pristineMulti = 1 + Math.floor(level * multiplier);
+      const newPristine = this.attributes.pristine * pristineMulti;
+      this.attributes.pristine = newPristine;
+    }
+  }
+
   getSkillBonus(skill) {
     const bonus = { ...constants.statTemplate };
     const skillStats = constants.bonusStats[`${skill}_skill`];
@@ -682,56 +682,64 @@ getPristineStats(){
     return Math.round(this.attributes.health * (1 + this.attributes.defense / 100));
   }
 
-  deleteObjectKeys(object_location, key_object){
-    if(!object_location) return `This Object location doesn't exist: ${String(object_location)} `
-    Object.keys(key_object).forEach(key => {
-      let key_array = key_object[key]
-      for(let i=0; i < key_array.length; i++){
-      try{
-        delete object_location[key_array[i]]
+  //  eslint-disable-next-line class-methods-use-this
+  deleteObjectKeys(object_location, key_object) {
+    Object.keys(key_object).forEach((key) => {
+      const key_array = key_object[key];
+      for (let i = 0; i < key_array.length; i++) {
+        try {
+          delete object_location[key_array[i]];
+        // eslint-disable-next-line no-empty
+        } catch (err) {
+        }
       }
-      catch(err){
-      }
-    }
-    })
+    });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   calculateLevel(experience) {
-        let level = 0;
-        let XpValues = constants.catacombsXP;
-
-        for (let toRemove of XpValues) {
-          experience -= toRemove;
-          if (experience < 0) {
-            return level + (1 - (experience * -1) / toRemove);
-          }
-          level++;
-        }
-
-        return Math.min(level, 50);
+    let level = 0;
+    const XpValues = [
+      50, 75, 110, 160, 230, 330, 470, 670, 950, 1340, 1890, 2665, 3760, 5260, 7380, 10300, 14400,
+      20000, 27600, 38000, 52500, 71500, 97000, 132000, 180000, 243000, 328000, 445000, 600000,
+      800000, 1065000, 1410000, 1900000, 2500000, 3300000, 4300000, 5600000, 7200000, 9200000,
+      12000000, 15000000, 19000000, 24000000, 30000000, 38000000, 48000000, 60000000, 75000000,
+      93000000, 116250000,
+    ];
+    for (let i = 0; i < XpValues.length; i++) {
+      experience -= XpValues[i];
+      if (experience < 0) {
+        level += (1 - (experience * -1) / XpValues[i]);
+        break;
       }
-  addLevelsToLocation(directive){
-      let location = directive
-      let location_keys = Object.keys(location)
-
-      for (var i = 0; i < location_keys.length; i++) {
-        let key = location[location_keys[i]]
-        if(key?.experience){
-          let floatLevel = this.calculateLevel(key.experience)
-          let level = Math.floor(floatLevel)
-
-          key.floatLevel = floatLevel
-          key.level = level
-        }
-      }
+      level++;
     }
 
-  appendDungeonData(){ 
-    if(this.dungeons?.dungeon_types){
-      this.addLevelsToLocation(this.dungeons.dungeon_types)
+    return Math.min(level, 50);
+  }
+
+  addLevelsToLocation(directive) {
+    const location = directive;
+    const location_keys = Object.keys(location);
+
+    for (let i = 0; i < location_keys.length; i++) {
+      const key = location[location_keys[i]];
+      if (key?.experience) {
+        const floatLevel = this.calculateLevel(key.experience);
+        const level = Math.floor(floatLevel);
+
+        key.floatLevel = floatLevel;
+        key.level = level;
+      }
     }
-    if(this.dungeons?.player_classes){
-      this.addLevelsToLocation(this.dungeons.player_classes)
+  }
+
+  appendDungeonData() {
+    if (this.dungeons?.dungeon_types) {
+      this.addLevelsToLocation(this.dungeons.dungeon_types);
+    }
+    if (this.dungeons?.player_classes) {
+      this.addLevelsToLocation(this.dungeons.player_classes);
     }
   }
 }

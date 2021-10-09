@@ -2114,32 +2114,33 @@ module.exports = {
         2: {
           ability: [0.1, 0.1],
         },
-        3: {ability: [0.15],
-        4: {},
-      },
-      abilities: {
-        0: [{
-          name: 'Protective Skin',
-          desc: ['§7Gives Heat immunity'],
-        }],
-        1: [],
-        2: [{
-          name: 'Fire Whip',
-          desc: ['§7Every 5s while in combat the Balrog will strike nearby enemies with his fire whip dealing §a%ability%% of your damage as True Damage'],
-          descFn: (level, multiplier) => Math.floor(level * multiplier),
-          func: () => ([]), // TODO
-        }],
-        3: [{
-          name: 'Made of Lava',
-          desc: ['§7Gain §a%ability%% on ALL stats when inside the Magma Fields'],
-          descFn: (level, multiplier) => Math.floor(level * multiplier),
-          func: () => ([]), // TODO
-        }],
-        4: [],
+        3: {
+          ability: [0.15],
+          4: {},
+        },
+        abilities: {
+          0: [{
+            name: 'Protective Skin',
+            desc: ['§7Gives Heat immunity'],
+          }],
+          1: [],
+          2: [{
+            name: 'Fire Whip',
+            desc: ['§7Every 5s while in combat the Balrog will strike nearby enemies with his fire whip dealing §a%ability%% of your damage as True Damage'],
+            descFn: (level, multiplier) => Math.floor(level * multiplier),
+            func: () => ([]), // TODO
+          }],
+          3: [{
+            name: 'Made of Lava',
+            desc: ['§7Gain §a%ability%% on ALL stats when inside the Magma Fields'],
+            descFn: (level, multiplier) => Math.floor(level * multiplier),
+            func: () => ([]), // TODO
+          }],
+          4: [],
+        },
       },
     },
   },
-},
 
   petData: {
     BAT: {
