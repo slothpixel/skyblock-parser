@@ -300,7 +300,7 @@ class Player {
         disabled_potions,
         cake_buffs: cake_soul_buffs,
       };
-      this.HOTM_Data = {
+      this.hotm_data = {
         mining_core,
         forge,
       };
@@ -355,24 +355,20 @@ class Player {
   }
 
   getPristineStats() {
+    const { gemstones } = constants.bonusStats;
     // check if actibe armour has any gems that are topaz
     if (this.armor.length < 1) return;
-    const gemstones = {
-      TOPAZ: {
-        ROUGH: 0.4, FLAWED: 0.8, FINE: 1.2, FLAWLESS: 1.6, PERFECT: 2,
-      },
-    };
     for (let i = 0; i < this.armor.length; i++) {
-      const armour_Piece = this.armor[i];
+      const armourPiece = this.armor[i];
 
-      const hasGems = armour_Piece.attributes?.gems;
+      const hasGems = armourPiece.attributes?.gems;
       if (hasGems) {
-        const gem_Keys = Object.keys(hasGems);
-        for (let t = 0; t < gem_Keys.length; t++) {
-          if (gem_Keys[t].includes('TOPAZ_')) {
-            this.attributes.pristine += gemstones.TOPAZ[hasGems[gem_Keys[t]]];
-          } else if (gem_Keys[t].match(/UNIVERSAL_\d_gem/g) && hasGems[gem_Keys[t]].includes('TOPAZ')) {
-            this.attributes.pristine += gemstones.TOPAZ[`${hasGems[gem_Keys[t].replace(/_gem/, '')]}`];
+        const gemKeys = Object.keys(hasGems);
+        for (let t = 0; t < gemKeys.length; t++) {
+          if (gemKeys[t].includes('TOPAZ_')) {
+            this.attributes.pristine += gemstones.TOPAZ[hasGems[gemKeys[t]]];
+          } else if (gemKeys[t].match(/UNIVERSAL_\d_gem/g) && hasGems[gemKeys[t]].includes('TOPAZ')) {
+            this.attributes.pristine += gemstones.TOPAZ[`${hasGems[gemKeys[t].replace(/_gem/, '')]}`];
           }
         }
       }
@@ -382,7 +378,9 @@ class Player {
     let pristine_values = [];
     const temp_inv = this.inventory;
     for (let i = 0; i < 8; i++) {
-      if (['pickaxe', 'drill', 'gauntlet'].includes(temp_inv[`${i}`].type)) {
+      const item = temp_inv[`${i}`];
+      const itemType = item?.type;
+      if (['pickaxe', 'drill', 'gauntlet'].includes(itemType)) {
         const item_json = temp_inv[i];
         item_json.pristine = 0;
         if (item_json?.attributes?.gems && item_json?.attributes?.enchantments) {
@@ -413,9 +411,9 @@ class Player {
     // check if player has power artifact
     this.active_accessories.forEach((object) => {
       if (object.attributes.id === 'POWER_ARTIFACT') {
-        const gemstonevalue = gemstones.TOPAZ[object.attributes?.gems?.TOPAZ_0];
-        if (gemstonevalue) {
-          pristine_values.push(gemstonevalue);
+        const gemstoneValue = gemstones.TOPAZ[object.attributes?.gems?.TOPAZ_0];
+        if (gemstoneValue) {
+          pristine_values.push(gemstoneValue);
         } else {
           pristine_values.push(0);
         }
@@ -703,35 +701,19 @@ class Player {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  calculateLevel(experience) {
-    let level = 0;
-    const XpValues = [
-      50, 75, 110, 160, 230, 330, 470, 670, 950, 1340, 1890, 2665, 3760, 5260, 7380, 10300, 14400,
-      20000, 27600, 38000, 52500, 71500, 97000, 132000, 180000, 243000, 328000, 445000, 600000,
-      800000, 1065000, 1410000, 1900000, 2500000, 3300000, 4300000, 5600000, 7200000, 9200000,
-      12000000, 15000000, 19000000, 24000000, 30000000, 38000000, 48000000, 60000000, 75000000,
-      93000000, 116250000,
-    ];
-    for (let i = 0; i < XpValues.length; i++) {
-      experience -= XpValues[i];
-      if (experience < 0) {
-        level += (1 - (experience * -1) / XpValues[i]);
-        break;
-      }
-      level++;
-    }
-
-    return Math.min(level, 50);
-  }
-
-  addLevelsToLocation(directive) {
+  addLevelsToDungeonsLocation(directive) {
+    /*
+      This function takes in a location from the this object and loops
+      over the location given to see if the location has an experience key.
+      If it does, it will then calculate the floatLevel and level and add it to the key.
+    */
     const location = directive;
     const location_keys = Object.keys(location);
 
     for (let i = 0; i < location_keys.length; i++) {
       const key = location[location_keys[i]];
       if (key?.experience) {
-        const floatLevel = this.calculateLevel(key.experience);
+        const floatLevel = util.calculateCatacombsLevel(key.experience);
         const level = Math.floor(floatLevel);
 
         key.floatLevel = floatLevel;
@@ -742,10 +724,10 @@ class Player {
 
   appendDungeonData() {
     if (this.dungeons?.dungeon_types) {
-      this.addLevelsToLocation(this.dungeons.dungeon_types);
+      this.addLevelsToDungeonsLocation(this.dungeons.dungeon_types);
     }
     if (this.dungeons?.player_classes) {
-      this.addLevelsToLocation(this.dungeons.player_classes);
+      this.addLevelsToDungeonsLocation(this.dungeons.player_classes);
     }
   }
 }
