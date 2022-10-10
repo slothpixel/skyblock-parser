@@ -141,6 +141,9 @@ function getLevelByXp(xp = 0, type) {
     case 'runecrafting':
       xpTable = constants.runecraftingXp;
       break;
+    case 'social':
+      xpTable = constants.socialXp;
+      break;
     default:
       xpTable = constants.levelingXp;
   }
@@ -173,7 +176,8 @@ function getLevelByXp(xp = 0, type) {
   const xpCurrent = Math.floor(xp - xpTotal);
   if (level < maxLevel) xpForNext = Math.ceil(xpTable[level + 1]);
   const progress = Number(Math.max(0, Math.min(xpCurrent / xpForNext, 1)).toFixed(2));
-  const floatLevel = level + Number(Math.max(0, Math.min(xpCurrent / xpForNext, 1))) || level; //Makes calculating weights easier for devs
+  // Makes calculating weights easier for devs
+  const floatLevel = level + Number(Math.max(0, Math.min(xpCurrent / xpForNext, 1))) || level;
   return {
     xp,
     level,
@@ -272,6 +276,27 @@ function getBonusStat(level, skill, max, incrementation) {
   return bonus;
 }
 
+function calculateCatacombsLevel(experience) {
+  let level = 0;
+  const XpValues = [
+    50, 75, 110, 160, 230, 330, 470, 670, 950, 1340, 1890, 2665, 3760, 5260, 7380, 10300, 14400,
+    20000, 27600, 38000, 52500, 71500, 97000, 132000, 180000, 243000, 328000, 445000, 600000,
+    800000, 1065000, 1410000, 1900000, 2500000, 3300000, 4300000, 5600000, 7200000, 9200000,
+    12000000, 15000000, 19000000, 24000000, 30000000, 38000000, 48000000, 60000000, 75000000,
+    93000000, 116250000,
+  ];
+  for (let i = 0; i < XpValues.length; i += 1) {
+    experience -= XpValues[i];
+    if (experience < 0) {
+      level += (1 - (experience * -1) / XpValues[i]);
+      break;
+    }
+    level += 1;
+  }
+
+  return Math.min(level, 50);
+}
+
 module.exports = {
   removeFormatting,
   capitalizeFirstLetter,
@@ -287,4 +312,5 @@ module.exports = {
   getSlayerLevel,
   getPetLevel,
   getBonusStat,
+  calculateCatacombsLevel,
 };
