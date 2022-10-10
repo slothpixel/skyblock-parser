@@ -14,6 +14,7 @@ class Profile {
       this.members = {};
       this.game_mode = profile.game_mode || '';
       this.cute_name = profile.cute_name || '';
+      this.selected = profile.selected || false;
       const banking = profile.banking || {};
       this.community_upgrades = profile.community_upgrades || {};
       await Promise.all(Object.keys(profile.members)
